@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:elbeesee:helloworld</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>elbeesee / helloworld</name>
+			<description>elbeesee / helloworld</description>
+		</info>
+	</meta>
+	
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace 
+		name="elbeesee helloworld"
+		public="true"
+		uri="urn:com:elbeesee:helloworld">
+		
+		<literal type="string" uri="res:/elbeesee/helloworld-literal">Hello World</literal>
+		
+		<accessor>
+			<id>com:elbeesee:helloworld:accessor</id>
+			<class>com.elbeesee.helloworld.HelloWorldAccessor</class>
+			<grammar>res:/elbeesee/helloworld-accessor</grammar>
+		</accessor>
+		
+		<import>
+			<uri>urn:com:elbeesee:helloworld:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="elbeesee helloworld import"
+		public="false"
+		uri="urn:com:elbeesee:helloworld:import">
+	</rootspace>
+</module>
