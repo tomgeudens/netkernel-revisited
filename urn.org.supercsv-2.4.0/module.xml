@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:org:supercsv</uri>
+			<version>2.4.0</version>
+		</identity>
+		<info>
+			<name>supercsv</name>
+			<description>supercsv library</description>
+		</info>
+	</meta>
+	
+	<system>
+		<dynamic/>
+		<classloader>
+			<exports>
+				<match>org\.supercsv\..*</match>
+			</exports>
+		</classloader>
+	</system>
+	
+	<rootspace
+		name="supercsv"
+		public="true"
+		uri="urn:org:supercsv">
+	</rootspace>
+</module>
