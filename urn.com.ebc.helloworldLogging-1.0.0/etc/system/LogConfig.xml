@@ -1,0 +1,17 @@
+<!DOCTYPE log>
+<log>
+	<id>urn:com:ebc:helloworldLogging:log</id>
+	<name>Hello World Application Log</name>
+	<handlers>
+		<handler>
+			<instance>
+				<class>org.netkernel.layer0.logging.LogFileHandler</class>
+				<string>C:/nkwork/log/helloworld.%g.log</string>
+				<int>50000000</int>
+				<int>3</int>
+				<boolean>true</boolean>
+			</instance>
+			<formatterClass>org.netkernel.layer0.logging.ConsoleFormatter</formatterClass>
+		</handler>
+	</handlers>
+</log>

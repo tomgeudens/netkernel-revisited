@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:helloworldLogging</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / helloworldLogging</name>
+			<description>elephant bird consulting / helloworld with logging</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc helloworldLogging"
+		public="true"
+		uri="urn:com:ebc:helloworldLogging">
+		
+		<fileset>
+			<regex>res:/etc/system/(LogConfig|SimpleDynamicImportHook).xml</regex>
+		</fileset>
+		
+		<fileset>
+			<regex>res:/ebc/helloworldLogging-fileset</regex>
+			<rewrite>res:/resources/txt/helloworld.txt</rewrite>
+		</fileset>
+		
+		<literal type="string" uri="res:/ebc/helloworldLogging-literal">Hello World !</literal>
+		
+		<accessor>
+			<id>com:ebc:helloworldLogging:java:accessor</id>
+			<class>com.ebc.helloworldLogging.HelloWorldAccessor</class>
+			<grammar>res:/ebc/helloworldLogging-java-accessor</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:ebc:helloworldLogging:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/helloworld.groovy</script>
+			<grammar>res:/ebc/helloworldLogging-groovy-accessor</grammar>
+		</accessor>
+		
+		<import>
+			<uri>urn:com:ebc:helloworldlogging:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc helloworldLogging import"
+		public="false"
+		uri="urn:com:ebc:helloworldlogging:import">
+		
+		<fileset>
+			<!-- groovy scripts -->
+			<regex>res:/resources/groovy/.*</regex>
+		</fileset>
+		
+		<import>
+			<!-- contains GroovyPrototype -->
+			<uri>urn:org:netkernel:lang:groovy</uri>
+		</import>
+	</rootspace>
+</module>
