@@ -1,4 +1,4 @@
-package com.elbeesee.helloworld;
+package com.ebc.helloworld;
 
 /**
  * 
