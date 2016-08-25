@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
 <module version="2.0">
 	<meta>
 		<identity>
@@ -20,12 +21,17 @@
 		public="true"
 		uri="urn:com:ebc:helloworld">
 		
-		<literal type="string" uri="res:/ebc/helloworld-literal">Hello World</literal>
+		<fileset>
+			<regex>res:/ebc/helloworld-fileset</regex>
+			<rewrite>res:/resources/txt/helloworld.txt</rewrite>
+		</fileset>
+
+		<literal type="string" uri="res:/ebc/helloworld-literal">Hello World !</literal>
 		
 		<accessor>
-			<id>com:ebc:helloworld:accessor</id>
+			<id>com:ebc:helloworld:java:accessor</id>
 			<class>com.ebc.helloworld.HelloWorldAccessor</class>
-			<grammar>res:/ebc/helloworld-accessor</grammar>
+			<grammar>res:/ebc/helloworld-java-accessor</grammar>
 		</accessor>
 		
 		<import>

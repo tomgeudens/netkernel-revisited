@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:helloworldFEF</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / helloworldFEF</name>
+			<description>elephant bird consulting / helloworld frontend fulcrum</description>
+		</info>
+	</meta>
+	
+	<system>
+		<dynamic/>
+	</system>
+
+	<rootspace
+		name="ebc helloworldFEF"
+		public="true"
+		uri="urn:com:ebc:helloworldFEF">
+		
+		<literal type="xml" uri="res:/etc/system/SimpleDynamicImportHook.xml">
+			<connection>
+				<type>HTTPFulcrum</type>
+			</connection>
+		</literal>
+		
+		<fileset>
+			<regex>res:/ebc/helloworldFEF-fileset</regex>
+			<rewrite>res:/resources/txt/helloworld.txt</rewrite>
+		</fileset>
+		
+		<literal type="string" uri="res:/ebc/helloworldFEF-literal">Hello World !</literal>
+		
+		<accessor>
+			<id>com:ebc:helloworldFEF:java:accessor</id>
+			<class>com.ebc.helloworldFEF.HelloWorldAccessor</class>
+			<grammar>res:/ebc/helloworldFEF-java-accessor</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:ebc:helloworldFEF:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/helloworld.groovy</script>
+			<grammar>res:/ebc/helloworldFEF-groovy-accessor</grammar>
+		</accessor>
+		
+		<import>
+			<uri>urn:com:ebc:helloworldFEF:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc helloworldFEF import"
+		public="false"
+		uri="urn:com:ebc:helloworldFEF:import">
+		
+		<fileset>
+			<!-- groovy scripts -->
+			<regex>res:/resources/groovy/.*</regex>
+		</fileset>
+		
+		<import>
+		    <!-- contains GroovyPrototype -->
+			<uri>urn:org:netkernel:lang:groovy</uri>
+		</import>
+	</rootspace>
+</module>

@@ -1,4 +1,4 @@
-package com.ebc.helloworld;
+package com.ebc.helloworldFEF;
 
 /**
  * 
@@ -30,7 +30,7 @@ public class HelloWorldAccessor extends StandardAccessorImpl {
 		this.declareThreadSafe();
 		this.declareSourceRepresentation(String.class);
 	}
-	
+
 	public void onSource(INKFRequestContext aContext) throws Exception {
 		aContext.createResponseFrom("Hello World !");
 	}
