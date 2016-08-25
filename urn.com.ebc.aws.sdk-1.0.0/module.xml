@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:aws:sdk</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / aws / sdk</name>
+			<description>elephant bird consulting / amazon web services / sdk</description>
+		</info>
+	</meta>
+	
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc aws sdk"
+		public="true"
+		uri="urn:com:ebc:aws:sdk">
+		
+		<literal type="xml" uri="res:/etc/system/SimpleDynamicImportHook.xml">
+			<connection>
+				<type>HTTPFulcrum</type>
+			</connection>
+		</literal>
+		
+		<mapper>
+			<config>
+				<endpoint>
+					<grammar>
+						<simple>res:/ebc/aws-local/baseurl/{service}-{region}</simple>
+					</grammar>
+					
+					<request>
+						<identifier>active:xsltc</identifier>
+						<argument name="operand">res:/resources/xml/regions.xml</argument>
+						<argument name="operator">res:/resources/xsl/regions.xsl</argument>
+						<argument method="as-string" name="region">[[arg:region]]</argument>
+						<argument method="as-string" name="service">[[arg:service]]</argument>
+						<representation>java.lang.String</representation>
+					</request>
+				</endpoint>
+
+				<endpoint>
+					<grammar>
+						<simple>res:/ebc/aws/baseurl/{service}-{region}</simple>
+					</grammar>
+					
+					<request>
+						<identifier>active:xsltc</identifier>
+						<argument name="operand">http://raw.githubusercontent.com/amazonwebservices/aws-toolkit-for-eclipse/master/com.amazonaws.eclipse.core/etc/regions.xml</argument>
+						<argument name="operator">res:/resources/xsl/regions.xsl</argument>
+						<argument method="as-string" name="region">[[arg:region]]</argument>
+						<argument method="as-string" name="service">[[arg:service]]</argument>
+						<representation>java.lang.String</representation>
+					</request>
+				</endpoint>
+			</config>
+			
+			<space>
+				<import>
+					<uri>urn:com:ebc:aws:sdk:import</uri>
+					<private/>
+				</import>
+			</space>
+		</mapper>
+	</rootspace>
+	
+	<rootspace
+		name="ebc aws sdk import"
+		public="false"
+		uri="urn:com:ebc:aws:sdk:import">
+		
+		<fileset>
+			<!-- xml and xsl files -->
+			<regex>res:/resources/(xml|xsl)/.*</regex>
+		</fileset>
+		
+		<import>
+			<!-- contains active:xsltc -->
+			<uri>urn:org:netkernel:xml:core</uri>
+		</import>
+		
+		<import>
+			<!-- contains http:// scheme -->
+			<uri>urn:org:netkernel:client:http</uri>
+		</import>
+	</rootspace>
+</module>
