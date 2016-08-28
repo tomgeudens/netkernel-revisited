@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:supercsv</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / supercsv</name>
+			<description>elephant bird consulting / supercsv</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc supercsv"
+		public="true"
+		uri="urn:com:ebc:supercsv">
+		
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+		
+		<accessor>
+			<id>com:ebc:supercsv:java:csvfreemarker:accessor</id>
+			<class>com.ebc.supercsv.CSVFreemarkerAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:csvfreemarker</identifier>
+					<argument name="in" desc="input csv file" max="1" min="1"/>
+					<argument name="out" desc="output file" max="1" min="1"/>
+					<argument name="template" desc="freemarker template file" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:ebc:supercsv:java:csvfreemarkerasync:accessor</id>
+			<class>com.ebc.supercsv.CSVFreemarkerAsyncAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:csvfreemarkerasync</identifier>
+					<argument name="in" desc="input csv file" max="1" min="1"/>
+					<argument name="out" desc="output file" max="1" min="1"/>
+					<argument name="template" desc="freemarker template file" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<import>
+			<uri>urn:com:ebc:supercsv:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc supercsv import"
+		public="false"
+		uri="urn:com:ebc:supercsv:import">
+		
+		<import>
+			<uri>urn:org:netkernel:lang:freemarker</uri>
+		</import>
+		
+		<import>
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+		
+		<import>
+			<uri>urn:org:supercsv</uri>
+			<version-min>2.4.0</version-min>
+		</import>
+		
+	</rootspace>
+</module>
