@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:triplestore:utility</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / triplestore / utility</name>
+			<description>elephant bird consulting / triplestore / utility</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc triplestore utility"
+		public="true"
+		uri="urn:com:ebc:triplestore:utility">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+		
+		<accessor>
+			<id>com:ebc:triplestore:utility:java:rdfxmltransform:accessor</id>
+			<class>com.ebc.triplestore.utility.RDFXMLTransformAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:rdfxml2rdfxml</identifier>
+					<identifier>active:rdfxml2turtle</identifier>
+					<identifier>active:rdfxml2ntriple</identifier>
+					<identifier>active:rdfxml2jsonld</identifier>
+					<argument name="operand" desc="incoming rdfxml" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<import>
+			<uri>urn:com:ebc:triplestore:utility:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc triplestore utility import"
+		public="false"
+		uri="urn:com:ebc:triplestore:utility:import">
+		
+		<import>
+			<!-- contains                                                 -->
+			<!-- active:jRDFParseXML, active:jRDFModelIsEmpty,            -->
+			<!-- active:jRDFSerializeXML, active:jRDFSerializeTURTLE,     -->
+			<!-- active:jRDFSerializeN-TRIPLE, active:jRDFSerializeJSONLD -->
+			<uri>urn:org:netkernel:rdf:jena</uri>
+		</import>
+	</rootspace>
+</module>
