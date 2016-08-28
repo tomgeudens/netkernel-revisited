@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:triplestore:httpclient</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / triplestore / httpclient</name>
+			<description>elephant bird consulting / triplestore / httpclient</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc triplestore httpclient"
+		public="true"
+		uri="urn:com:ebc:triplestore:httpclient">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+
+		<accessor>
+			<id>com:ebc:triplestore:httpclient:java:sparql:accessor</id>
+			<class>com.ebc.triplestore.httpclient.SPARQLAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:sparql</identifier>
+					<argument name="database" desc="database name or url" max="1" min="1"/>
+					<argument name="query" desc="query" max="1" min="1"/>
+					<argument name="accept" desc="expected mimetype of html response" max="1" min="1"/>
+					<argument name="expiry" desc="expiry" max="1" min="1"/>
+					<argument name="credentials" desc="http credentials" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<import>
+			<uri>urn:com:ebc:triplestore:httpclient:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc triplestore httpclient import"
+		public="false"
+		uri="urn:com:ebc:triplestore:httpclient:import">
+		
+		<import>
+			<!-- http:// scheme -->
+			<uri>urn:org:netkernel:client:http</uri>
+		</import>
+	</rootspace>
+</module>
