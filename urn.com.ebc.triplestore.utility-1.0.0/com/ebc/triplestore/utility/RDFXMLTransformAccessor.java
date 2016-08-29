@@ -31,6 +31,7 @@ public class RDFXMLTransformAccessor extends StandardAccessorImpl {
 
 	public RDFXMLTransformAccessor() {
 		this.declareThreadSafe();
+		this.declareSupportedVerbs(INKFRequestReadOnly.VERB_SOURCE);
 		this.declareSourceRepresentation(IReadableBinaryStreamRepresentation.class);
 	}
 	

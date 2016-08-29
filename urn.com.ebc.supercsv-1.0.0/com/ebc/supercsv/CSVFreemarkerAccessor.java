@@ -43,6 +43,7 @@ public class CSVFreemarkerAccessor extends StandardAccessorImpl {
 	
 	public CSVFreemarkerAccessor() {
 		this.declareThreadSafe();
+		this.declareSupportedVerbs(INKFRequestReadOnly.VERB_SOURCE);
 		this.declareArgument(new SourcedArgumentMetaImpl("in", null, null, new Class[] {String.class}));
 		this.declareArgument(new SourcedArgumentMetaImpl("out", null, null, new Class[] {String.class}));
 		this.declareArgument(new SourcedArgumentMetaImpl("template", null, null, new Class[] {String.class}));

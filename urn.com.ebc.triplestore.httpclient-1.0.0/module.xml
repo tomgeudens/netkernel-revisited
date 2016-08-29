@@ -26,6 +26,22 @@
 		</fileset>
 
 		<accessor>
+			<id>com:ebc:triplestore:httpclient:java:keywordsearchjena:accessor</id>
+			<class>com.ebc.triplestore.httpclient.KeywordSearchJenaAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:keywordsearchjena</identifier>
+					<argument name="database" desc="database name or url" max="1" min="1"/>
+					<argument name="search" desc="keywords" max="1" min="1"/>
+					<argument name="limit" desc="limit on the results of the search" max="1" min="0"/>
+					<argument name="accept" desc="expected mimetype of response" max="1" min="1"/>
+					<argument name="expiry" desc="expiry of the response in milliseconds" max="1" min="1"/>
+					<argument name="credentials" desc="http credentials" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
 			<id>com:ebc:triplestore:httpclient:java:sparql:accessor</id>
 			<class>com.ebc.triplestore.httpclient.SPARQLAccessor</class>
 			<grammar>
@@ -33,8 +49,8 @@
 					<identifier>active:sparql</identifier>
 					<argument name="database" desc="database name or url" max="1" min="1"/>
 					<argument name="query" desc="query" max="1" min="1"/>
-					<argument name="accept" desc="expected mimetype of html response" max="1" min="1"/>
-					<argument name="expiry" desc="expiry" max="1" min="1"/>
+					<argument name="accept" desc="expected mimetype of response" max="1" min="1"/>
+					<argument name="expiry" desc="expiry of the response in milliseconds" max="1" min="1"/>
 					<argument name="credentials" desc="http credentials" max="1" min="1"/>
 				</active>
 			</grammar>
@@ -51,9 +67,29 @@
 		public="false"
 		uri="urn:com:ebc:triplestore:httpclient:import">
 		
+		<literal type="hds" uri="res:/resources/cfg/http.cfg">
+			<config>
+				<expectContinue>false</expectContinue>
+				<followRedirects>false</followRedirects>
+				<timeout>1800000</timeout> <!-- milliseconds, equals 30 minutes -->
+			</config>
+		</literal>
+		
+		<fileset>
+			<!-- freemarker resources -->
+			<regex>res:/resources/freemarker/.*</regex>
+		</fileset>
+		
 		<import>
-			<!-- http:// scheme -->
+			<!-- contains                               -->
+			<!-- http:// scheme                         -->
+			<!-- active:httpState, active:httpAsyncPost -->
 			<uri>urn:org:netkernel:client:http</uri>
+		</import>
+		
+		<import>
+			<!-- active:freemarker -->
+			<uri>urn:org:netkernel:lang:freemarker</uri>
 		</import>
 	</rootspace>
 </module>

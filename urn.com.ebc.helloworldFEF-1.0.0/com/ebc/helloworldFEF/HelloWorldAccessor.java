@@ -28,6 +28,7 @@ public class HelloWorldAccessor extends StandardAccessorImpl {
 
 	public HelloWorldAccessor() {
 		this.declareThreadSafe();
+		this.declareSupportedVerbs(INKFRequestReadOnly.VERB_SOURCE);
 		this.declareSourceRepresentation(String.class);
 	}
 
