@@ -1,0 +1,53 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX hydra: <http://www.w3.org/ns/hydra/core#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+CONSTRUCT {
+ <${url}${query}> rdf:type hydra:Collection, hydra:PagedCollection .
+ <${url}${query}> dcterms:source <${dataset}> .
+ <${url}${query}> hydra:entrypoint <${dataset}> .
+<#if next??>
+ <${url}${query}> hydra:nextPage <${next}> .
+</#if>
+<#if previous??>
+ <${url}${query}> hydra:previousPage <${previous}> .
+</#if>
+ <${url}${query}> void:triples ${count} .
+ <${url}${query}> hydra:totalItems ${count} .
+ <${url}${query}> hydra:itemsPerPage ${limit} .
+ <${url}${query}> void:feature <http://www.w3.org/ns/formats/RDF_XML> .
+ <${url}${query}> void:feature <http://www.w3.org/ns/formats/Turtle> .
+ <${url}${query}> void:feature <http://www.w3.org/ns/formats/N-Triples> .
+ <${url}${query}> void:feature <http://www.w3.org/ns/formats/JSON-LD> .
+ <${url}${query}> void:vocabulary <http://purl.org/dc/terms/> .
+ <${url}${query}> void:vocabulary <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+ <${url}${query}> void:vocabulary <http://rdfs.org/ns/void#> .
+ <${url}${query}> void:vocabulary <http://www.w3.org/ns/hydra/core#> .
+ <${dataset}> void:subset <${url}${query}> .
+ <${dataset}> hydra:search ?tripplePattern .
+ ?tripplePattern hydra:template "${url}{?subject,predicate,object,offset,limit}" .
+ ?tripplePattern hydra:mapping ?trippleSubject,?tripplePredicate,?trippleObject .
+ ?trippleSubject hydra:variable "subject" .
+ ?trippleSubject hydra:property rdf:subject .
+ ?tripplePredicate hydra:variable "predicate" .
+ ?tripplePredicate hydra:property rdf:predicate .
+ ?trippleObject hydra:variable "object" .
+ ?trippleObject hydra:property rdf:object . 
+ ${subject} ${predicate} ${object} .
+}
+WHERE { 
+ OPTIONAL {SELECT *
+  WHERE {
+  	${subject} ${predicate} ${object} .
+  }
+  OFFSET ${offset}
+  LIMIT ${limit}
+ }
+ { 
+ 	BIND(UUID() as ?tripplePattern)
+ 	BIND(UUID() as ?trippleSubject)
+ 	BIND(UUID() as ?tripplePredicate)
+ 	BIND(UUID() as ?trippleObject)
+ }
+}

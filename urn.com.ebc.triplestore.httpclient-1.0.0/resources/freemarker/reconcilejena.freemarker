@@ -1,0 +1,14 @@
+PREFIX text: <http://jena.apache.org/text#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+
+SELECT distinct ?id ?type ?score ?label
+{ 
+  ?id rdf:type ?type .
+  (?id ?score) text:query ('${search}' ${limit}) .
+  ?id (rdfs:label|skos:prefLabel|skos:altLabel) ?label .
+  ${typefilterclause}
+}
+ORDER BY DESC(?score)

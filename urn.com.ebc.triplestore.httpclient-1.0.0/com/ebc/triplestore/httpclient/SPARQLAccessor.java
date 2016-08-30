@@ -152,6 +152,5 @@ public class SPARQLAccessor extends StandardAccessorImpl {
 		double vElapsedSeconds = (double)vElapsed / 1000000000.0;
 		aContext.logRaw(INKFLocale.LEVEL_INFO, "SPARQLAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
 		//
-
 	}
 }

@@ -26,17 +26,57 @@
 		</fileset>
 
 		<accessor>
+			<id>com:ebc:triplestore:httpclient:java:fragments:accessor</id>
+			<class>com.ebc.triplestore.httpclient.FragmentsAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:fragments</identifier>
+					<argument name="database" desc="database name or url" max="1" min="1"/>
+					<argument name="accept" desc="expected mimetype of response" max="1" min="1"/>
+					<argument name="expiry" desc="expiry of the response in milliseconds" max="1" min="1"/>
+					<argument name="credentials" desc="http credentials" max="1" min="1"/>
+					<argument name="subject" desc="subject" max="1" min="0"/>
+					<argument name="predicate" desc="predicate" max="1" min="0"/>
+					<argument name="object" desc="object" max="1" min="0"/>
+					<argument name="limit" desc="limit on the results of the query" max="1" min="0"/>
+					<argument name="offset" desc="starting point in the query resultset" max="1" min="0"/>
+					<argument name="dataset" desc="dataset that we are querying" max="1" min="0"/>
+					<argument name="url" desc="requested url" max="1" min="0"/>
+					<argument name="query" desc="query" max="1" min="0"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:ebc:triplestore:httpclient:java:reconcilejena:accessor</id>
+			<class>com.ebc.triplestore.httpclient.ReconcileJenaAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:reconcilejena</identifier>
+					<argument name="database" desc="database name or url" max="1" min="1"/>
+					<argument name="accept" desc="expected mimetype of response" max="1" min="1"/>
+					<argument name="expiry" desc="expiry of the response in milliseconds" max="1" min="1"/>
+					<argument name="credentials" desc="http credentials" max="1" min="1"/>
+					<argument name="search" desc="keywords" max="1" min="1"/>
+					<argument name="baseurl" desc="baseurl" max="1" min="1"/>
+					<argument name="limit" desc="limit on the results of the search" max="1" min="0"/>
+					<argument name="type" desc="type that we want filtered" max="1" min="0"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
 			<id>com:ebc:triplestore:httpclient:java:keywordsearchjena:accessor</id>
 			<class>com.ebc.triplestore.httpclient.KeywordSearchJenaAccessor</class>
 			<grammar>
 				<active>
 					<identifier>active:keywordsearchjena</identifier>
 					<argument name="database" desc="database name or url" max="1" min="1"/>
-					<argument name="search" desc="keywords" max="1" min="1"/>
-					<argument name="limit" desc="limit on the results of the search" max="1" min="0"/>
 					<argument name="accept" desc="expected mimetype of response" max="1" min="1"/>
 					<argument name="expiry" desc="expiry of the response in milliseconds" max="1" min="1"/>
 					<argument name="credentials" desc="http credentials" max="1" min="1"/>
+					<argument name="search" desc="keywords" max="1" min="1"/>
+					<argument name="limit" desc="limit on the results of the search" max="1" min="0"/>
 				</active>
 			</grammar>
 		</accessor>
@@ -79,6 +119,11 @@
 			<!-- freemarker resources -->
 			<regex>res:/resources/freemarker/.*</regex>
 		</fileset>
+
+		<fileset>
+			<!-- xsl resources -->
+			<regex>res:/resources/xsl/.*</regex>
+		</fileset>
 		
 		<import>
 			<!-- contains                               -->
@@ -88,8 +133,13 @@
 		</import>
 		
 		<import>
-			<!-- active:freemarker -->
+			<!-- contains active:freemarker -->
 			<uri>urn:org:netkernel:lang:freemarker</uri>
+		</import>
+		
+		<import>
+			<!-- contains active:xsltc -->
+			<uri>urn:org:netkernel:xml:core</uri>
 		</import>
 	</rootspace>
 </module>

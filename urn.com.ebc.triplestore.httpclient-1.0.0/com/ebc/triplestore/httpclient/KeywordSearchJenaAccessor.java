@@ -50,7 +50,6 @@ public class KeywordSearchJenaAccessor extends StandardAccessorImpl {
 		//
 		
 		// arguments
-		//
 		String aSearch = null;
 		try {
 			aSearch = aContext.source("arg:search", String.class);
@@ -86,7 +85,7 @@ public class KeywordSearchJenaAccessor extends StandardAccessorImpl {
 			aLimit = 25L;
 			aLimitString = aLimit.toString();
 		}
-
+		//
 		
 		// processing
 		String vQuery = null;
