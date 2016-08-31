@@ -52,6 +52,18 @@ public class ReconcileJenaAccessor extends StandardAccessorImpl {
 		//
 		
 		// arguments
+		String aAccept = null;
+		try {
+			aAccept = aContext.source("arg:accept", String.class);
+		}
+		catch (Exception e) {
+			throw new Exception("SPARQLAccessor: no valid - accept - argument");
+		}
+		if (aAccept.equals("")) {
+			// providing sensible default, in this case only application/json will do
+			aAccept = "application/json";
+		}		
+		
 		String aSearch = null;
 		try {
 			aSearch = aContext.source("arg:search", String.class);
@@ -136,12 +148,22 @@ public class ReconcileJenaAccessor extends StandardAccessorImpl {
 		sparqlrequest.addArgument("credentials", "arg:credentials");
 		sparqlrequest.addArgumentByValue("accept", "application/sparql-results+xml");
 		sparqlrequest.addArgumentByRequest("query", reconcilerequest);
-		Object vSPARQLResult = aContext.issueRequest(sparqlrequest);
+		
+		INKFRequest xsltcrequest = aContext.createRequest("active:xsltc");
+		xsltcrequest.addArgumentByRequest("operand", sparqlrequest);
+		xsltcrequest.addArgument("operator", "res:/resources/xsl/sparqlresult_to_json.xsl");
+		xsltcrequest.addArgumentByValue("search", aSearch);
+		xsltcrequest.setRepresentationClass(String.class);
+		
+		StringBuilder vResult = new StringBuilder("\"result\": [");
+		vResult.append((String)aContext.issueRequest(xsltcrequest));
+		vResult.append("]");
 		//
 
 		// response
-		INKFResponse vResponse = aContext.createResponseFrom(vSPARQLResult);
-		vResponse.setExpiry(INKFResponse.EXPIRY_ALWAYS);
+		INKFResponse vResponse = aContext.createResponseFrom(vResult.toString());
+		vResponse.setMimeType(aAccept);
+		vResponse.setExpiry(INKFResponse.EXPIRY_DEPENDENT);
 		//
 
 		// register finish

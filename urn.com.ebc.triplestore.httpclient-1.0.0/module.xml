@@ -15,11 +15,11 @@
 	<system>
 		<dynamic/>
 	</system>
-	
+			
 	<rootspace
-		name="ebc triplestore httpclient"
+		name="ebc triplestore httpclient fragments"
 		public="true"
-		uri="urn:com:ebc:triplestore:httpclient">
+		uri="urn:com:ebc:triplestore:httpclient:fragments">
 
 		<fileset>
 			<regex>res:/etc/system/(LogConfig).xml</regex>
@@ -47,12 +47,27 @@
 			</grammar>
 		</accessor>
 
+		<import>
+			<uri>urn:com:ebc:triplestore:httpclient:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+
+	<rootspace
+		name="ebc triplestore httpclient reconcile jena"
+		public="true"
+		uri="urn:com:ebc:triplestore:httpclient:reconcile:jena">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+		
 		<accessor>
 			<id>com:ebc:triplestore:httpclient:java:reconcilejena:accessor</id>
 			<class>com.ebc.triplestore.httpclient.ReconcileJenaAccessor</class>
 			<grammar>
 				<active>
-					<identifier>active:reconcilejena</identifier>
+					<identifier>active:reconcile</identifier>
 					<argument name="database" desc="database name or url" max="1" min="1"/>
 					<argument name="accept" desc="expected mimetype of response" max="1" min="1"/>
 					<argument name="expiry" desc="expiry of the response in milliseconds" max="1" min="1"/>
@@ -64,13 +79,28 @@
 				</active>
 			</grammar>
 		</accessor>
+		
+		<import>
+			<uri>urn:com:ebc:triplestore:httpclient:import</uri>
+			<private/>
+		</import>
+	</rootspace>
 
+	<rootspace
+		name="ebc triplestore httpclient kws jena"
+		public="true"
+		uri="urn:com:ebc:triplestore:httpclient:kws:jena">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+		
 		<accessor>
 			<id>com:ebc:triplestore:httpclient:java:keywordsearchjena:accessor</id>
 			<class>com.ebc.triplestore.httpclient.KeywordSearchJenaAccessor</class>
 			<grammar>
 				<active>
-					<identifier>active:keywordsearchjena</identifier>
+					<identifier>active:keywordsearch</identifier>
 					<argument name="database" desc="database name or url" max="1" min="1"/>
 					<argument name="accept" desc="expected mimetype of response" max="1" min="1"/>
 					<argument name="expiry" desc="expiry of the response in milliseconds" max="1" min="1"/>
@@ -81,6 +111,21 @@
 			</grammar>
 		</accessor>
 
+		<import>
+			<uri>urn:com:ebc:triplestore:httpclient:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+
+	<rootspace
+		name="ebc triplestore httpclient sparql"
+		public="true"
+		uri="urn:com:ebc:triplestore:httpclient:sparql">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+		
 		<accessor>
 			<id>com:ebc:triplestore:httpclient:java:sparql:accessor</id>
 			<class>com.ebc.triplestore.httpclient.SPARQLAccessor</class>

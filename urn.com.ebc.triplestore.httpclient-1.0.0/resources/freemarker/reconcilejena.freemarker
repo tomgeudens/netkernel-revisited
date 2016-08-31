@@ -1,3 +1,4 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX text: <http://jena.apache.org/text#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -12,3 +13,4 @@ SELECT distinct ?id ?type ?score ?label
   ${typefilterclause}
 }
 ORDER BY DESC(?score)
+LIMIT ${limit}
