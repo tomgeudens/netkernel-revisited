@@ -21,11 +21,9 @@
 		public="true"
 		uri="urn:com:ebc:kbodata:server">
 
-		<literal type="xml" uri="res:/etc/system/SimpleDynamicImportHook.xml">
-			<connection>
-				<type>KBOData</type>
-			</connection>
-		</literal>
+		<fileset>
+			<regex>res:/etc/system/(LogConfig|SimpleDynamicImportHook).xml</regex>
+		</fileset>
 
 		<!-- this endpoint makes sure no other /etc/system resource
 		     gets pulled in -->
@@ -33,14 +31,7 @@
 			<prototype>Limiter</prototype>
 			<grammar>res:/etc/system<regex type="anything"/></grammar>
 		</endpoint>
-		
-		<fileset>
-			<!-- contains css resources, has to go before the  
-				 RESTOverlay which would otherwise obscure it -->
-			<regex>res:/css/(.*)</regex>
-			<rewrite>res:/resources/css/$1</rewrite>
-		</fileset>
-		
+
 		<overlay>
 			<prototype>RESTOverlay</prototype>
 			<config>
@@ -71,6 +62,30 @@
 							
 							<request>
 								<identifier>res:/resources/html/kbodata.html</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /css/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>css/{cssfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/css</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:kbodatacss</identifier>
+									<argument name="cssfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/css/[[arg:cssfile]]</identifier>
 							</request>
 						</endpoint>
 						
@@ -141,8 +156,36 @@
 		uri="urn:com:ebc:kbodata:server:import:overlay">
 
 		<fileset>
+			<!-- contains html resources -->
 			<regex>res:/resources/html/.*</regex>
 		</fileset>
+		
+		<fileset>
+			<!-- contains css resources -->
+			<regex>res:/resources/css/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- groovy scripts -->
+			<regex>res:/resources/groovy/.*</regex>
+		</fileset>
+		
+		<import>
+			<!-- contains GroovyPrototype -->
+			<uri>urn:org:netkernel:lang:groovy</uri>
+		</import>
+		
+		<accessor>
+			<id>com:ebc:kbodata:server:void:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/kbodatavoid.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:kbodatavoid</identifier>
+					<argument name="extension" desc="extension" max="1" min="0"/>
+				</active>
+			</grammar>
+		</accessor>
 	</rootspace>
 
 </module>

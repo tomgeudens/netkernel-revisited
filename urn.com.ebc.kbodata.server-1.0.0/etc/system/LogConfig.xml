@@ -1,12 +1,12 @@
 <!DOCTYPE log>
 <log>
-	<id>urn:com:ebc:helloworldLogging:log</id>
-	<name>Hello World Application Log</name>
+	<id>urn:com:ebc:kbodata:server:log</id>
+	<name>KBOData Server Application Log</name>
 	<handlers>
 		<handler>
 			<instance>
 				<class>org.netkernel.layer0.logging.LogFileHandler</class>
-				<string>N:/log/helloworld.%g.log</string>
+				<string>N:/log/kbodata_server.%g.log</string>
 				<int>50000000</int>
 				<int>3</int>
 				<boolean>true</boolean>
