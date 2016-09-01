@@ -21,7 +21,7 @@ import org.netkernel.layer0.nkf.*;
 import java.util.UUID;
 
 /**
- * KBOData Void Accessor
+ * KBOData Def Accessor
  */
 
 // context
@@ -31,7 +31,7 @@ INKFRequestContext aContext = (INKFRequestContext)context;
 // register start
 long vStartTime = System.nanoTime();
 UUID vId = UUID.randomUUID();
-aContext.logRaw(INKFLocale.LEVEL_INFO, "KBODataVoidAccessor: start of id - " + vId);
+aContext.logRaw(INKFLocale.LEVEL_INFO, "KBODataDefAccessor: start of id - " + vId);
 //
 
 // arguments
@@ -43,7 +43,7 @@ INKFRequest sparqlrequest = aContext.createRequest("active:sparql");
 sparqlrequest.addArgument("database","kbodata:database-query");
 sparqlrequest.addArgument("expiry","kbodata:expiry");
 sparqlrequest.addArgument("credentials","kbodata:credentials");
-sparqlrequest.addArgument("query","res:/resources/sparql/void.sparql");
+sparqlrequest.addArgument("query","res:/resources/sparql/def.sparql");
 sparqlrequest.addArgumentByValue("accept","application/rdf+xml");
 //
 
@@ -67,5 +67,5 @@ if (vIsHTTPRequest) {
 // register finish
 long vElapsed = System.nanoTime() - vStartTime;
 double vElapsedSeconds = (double)vElapsed / 1000000000.0;
-aContext.logRaw(INKFLocale.LEVEL_INFO, "KBODataVoidAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
+aContext.logRaw(INKFLocale.LEVEL_INFO, "KBODataDefAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
 //

@@ -1,0 +1,6 @@
+CONSTRUCT {?p ?prop ?value} 
+WHERE {
+	?s ?p ?v . 
+	GRAPH <http://data.kbodata.be/vocab/kbo> {?p ?prop ?value .} 
+	FILTER(STRSTARTS(STR(?p), 'http://data.kbodata.be/def#'))
+}

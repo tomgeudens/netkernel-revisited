@@ -1,0 +1,52 @@
+CONSTRUCT {
+	<http://localhost:8090/dataset/kbo#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://rdfs.org/ns/void#Dataset> .
+	<http://localhost:8090/dataset/kbo#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Entity> .
+	<http://localhost:8090/dataset/kbo#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/hydra/core#Collection> .
+	
+	<http://localhost:8090/dataset/kbo#id> <http://www.w3.org/2000/01/rdf-schema#label> "KBO dataset"@nl .
+	<http://localhost:8090/dataset/kbo#id> <http://www.w3.org/2000/01/rdf-schema#label> "BCE données"@fr .
+	
+	<http://localhost:8090/dataset/kbo#id> <http://purl.org/dc/terms/title> "Dataset van de Kruispuntbank van Ondernemingen"@nl .
+	<http://localhost:8090/dataset/kbo#id> <http://purl.org/dc/terms/title> "Données du Banque-Carrefour des Entreprises"@fr .
+	<http://localhost:8090/dataset/kbo#id> <http://purl.org/dc/terms/license> <http://economie.fgov.be/nl/binaries/licence%20opendata%20(240414)-NL_tcm325-246657.doc> .
+	
+	<http://localhost:8090/dataset/kbo#id> <http://www.w3.org/ns/prov#generatedAtTime> ?today .
+	<http://localhost:8090/dataset/kbo#id> <http://www.w3.org/ns/prov#wasGeneratedBy> <http://localhost:8090/activity/CSV2RDFbyNetKernelAccessor#id> .	
+	
+	<http://localhost:8090/dataset/kbo#id> <http://rdfs.org/ns/void#dataDump> <http://localhost:8090/download/kbo.zip> .
+	<http://localhost:8090/dataset/kbo#id> <http://rdfs.org/ns/void#feature> <http://www.w3.org/ns/formats/RDF_XML> .
+	<http://localhost:8090/dataset/kbo#id> <http://rdfs.org/ns/void#feature> <http://www.w3.org/ns/formats/Turtle> .
+	<http://localhost:8090/dataset/kbo#id> <http://rdfs.org/ns/void#feature> <http://www.w3.org/ns/formats/N-Triples> .
+	<http://localhost:8090/dataset/kbo#id> <http://rdfs.org/ns/void#feature> <http://www.w3.org/ns/formats/JSON-LD> .
+	<http://localhost:8090/dataset/kbo#id> <http://rdfs.org/ns/void#exampleResource> ?organisatie .
+	<http://localhost:8090/dataset/kbo#id> <http://rdfs.org/ns/void#exampleResource> ?site .
+	<http://localhost:8090/dataset/kbo#id> <http://rdfs.org/ns/void#exampleResource> ?conceptscheme .
+	<http://localhost:8090/dataset/kbo#id> <http://rdfs.org/ns/void#exampleResource> ?concept .
+	<http://localhost:8090/dataset/kbo#id> <http://rdfs.org/ns/void#uriRegexPattern> "^http://localhost:8090/(activity|activitygroup|address|classification|conceptscheme|contacttype|entitycontact|juridicalform|juridicalsituation|language|nace2003|nace2008|organisation|status|typeofaddress|typeofdenomination|typeofenterprise|activity|softwareagent)/(.*)#id$" .
+}
+WHERE {
+	{SELECT ?organisatie
+		WHERE {
+			?organisatie <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/regorg#RegisteredOrganization> .
+		}
+		LIMIT 2
+	}
+	{SELECT ?site
+		WHERE {
+			?site <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/org#Site> .
+		}
+		LIMIT 2
+	}
+	{SELECT ?conceptscheme
+		WHERE {
+			?conceptscheme <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#ConceptScheme> .
+		}
+		LIMIT 2
+	}
+	{SELECT ?concept
+		WHERE {
+			?concept <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+		}
+		LIMIT 2
+	}	
+}

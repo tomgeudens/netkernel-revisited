@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:kbodata:fuseki</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / kbodata / fuseki</name>
+			<description>elephant bird consulting / kbodata / fuseki</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+
+	<rootspace
+		name="ebc kbodata fuseki"
+		public="true"
+		uri="urn:com:ebc:kbodata:fuseki">
+
+		<literal type="string" uri="kbodata:database-query">http://localhost:3030/kbo/sparql</literal>
+		<literal type="string" uri="kbodata:database-update">http://localhost:3030/kbo/update</literal>
+		<literal type="string" uri="kbodata:query">SELECT ?s ?o WHERE {?s &lt;http://www.w3.org/2004/02/skos/core#prefLabel&gt; ?o .} LIMIT 10</literal>
+		<literal type="string" uri="kbodata:accept">application/sparql-results+xml</literal>
+		<literal type="long" uri="kbodata:expiry">86400000</literal>
+		<literal type="hds" uri="kbodata:credentials">
+			<httpCredentials>
+				<host>localhost</host>
+				<port>3030</port>
+				<username>anonymous</username>
+				<password>anonymous</password>
+			</httpCredentials>
+		</literal>
+		<literal type="string" uri="kbodata:baseurl">http://localhost:8090</literal>
+		
+		<import>
+			<uri>urn:com:ebc:kbodata:fuseki:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc kbodata fuseki import"
+		public="false"
+		uri="urn:com:ebc:kbodata:fuseki:import">
+	</rootspace>
+</module>

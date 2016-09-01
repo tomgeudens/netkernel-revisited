@@ -89,11 +89,36 @@
 							</request>
 						</endpoint>
 						
-						<!-- /dataset/kbodata -->
+						
+						<!-- /dataset/kbo.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>dataset/kbodata</simple>
+									<simple>dataset/kbo.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:kbodatavoidwithextensionrestoverlay</identifier>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:kbodatavoidwithextension</identifier>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>
+						</endpoint>
+						
+						<!-- /dataset/kbo -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>dataset/kbo</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -116,15 +141,102 @@
 								<identifier>active:kbodatavoid</identifier>
 							</request>
 						</endpoint>
+
+						<!-- /def.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>def.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:kbodatadefwithextensionrestoverlay</identifier>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:kbodatadefwithextension</identifier>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>
+						</endpoint>
+
+						<!-- /def -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>def</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html">text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:kbodatadefrestoverlay</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:kbodatadef</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /sparql -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>sparql</simple>
+									<method>GET,POST</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:kbodatasparqlrestoverlay</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:kbodatasparql</identifier>
+							</request>
+						</endpoint>
 					</config>
 					
 					<space>
 						<import>
+							<!-- KBOData constants -->
+							<uri>urn:com:ebc:kbodata:fuseki</uri>
+						</import>
+						
+						<import>
+							<!-- tools needed inside the RESTOverlay --> 
 							<uri>urn:com:ebc:kbodata:server:import:overlay</uri>
 							<private/>
 						</import>
 					</space>
 				</mapper>
+				
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:ebc:kbodata:server:import:overlay</uri>
+					<private/>
+				</import>
 			</space>
 		</overlay>
 		
@@ -164,15 +276,50 @@
 			<!-- contains css resources -->
 			<regex>res:/resources/css/.*</regex>
 		</fileset>
+		
+		<fileset>
+			<!-- contains xsl resources -->
+			<regex>res:/resources/xsl/.*</regex>
+		</fileset>
 
 		<fileset>
 			<!-- groovy scripts -->
 			<regex>res:/resources/groovy/.*</regex>
 		</fileset>
+
+		<fileset>
+			<!-- contains sparql resources -->
+			<regex>res:/resources/sparql/.*</regex>
+		</fileset>
 		
 		<import>
 			<!-- contains GroovyPrototype -->
 			<uri>urn:org:netkernel:lang:groovy</uri>
+		</import>
+
+		<import>
+			<!-- contains active:xsltc -->
+			<uri>urn:org:netkernel:xml:core</uri>
+		</import>
+		
+		<import>
+			<!-- contains                                    -->
+			<!-- active:rdfxml2rdfxml, active:rdfxml2turtle  -->
+			<!-- active:rdfxml2ntriple, active:rdfxml2jsonld -->
+			<uri>urn:com:ebc:triplestore:utility</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+		
+		<import>
+			<!-- contains active:sparql -->
+			<uri>urn:com:ebc:triplestore:httpclient:sparql</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+		
+		<import>
+			<!-- contains transreptors used when the commands are 
+				 launched manually (e.g. request trace tool) -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
 		</import>
 		
 		<accessor>
@@ -182,9 +329,67 @@
 			<grammar>
 				<active>
 					<identifier>active:kbodatavoid</identifier>
-					<argument name="extension" desc="extension" max="1" min="0"/>
 				</active>
 			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:ebc:kbodata:server:def:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/kbodatadef.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:kbodatadef</identifier>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:ebc:kbodata:server:voidwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/kbodatavoidwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:kbodatavoidwithextension</identifier>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:ebc:kbodata:server:defwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/kbodatadefwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:kbodatadefwithextension</identifier>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:ebc:kbodata:server:sparql:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/kbodatasparql.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:kbodatasparql</identifier>
+					<argument name="query" desc="query" max="1" min="0"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:ebc:kbodata:server:rdfxml2html:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/rdfxml2html.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:rdfxml2html</identifier>
+					<argument name="operand" desc="unfiltered rdfxml" max="1" min="1"/>
+				</active>
+			</grammar>			
 		</accessor>
 	</rootspace>
 
