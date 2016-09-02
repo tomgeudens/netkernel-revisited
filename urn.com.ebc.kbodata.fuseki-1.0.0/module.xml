@@ -24,7 +24,6 @@
 		<literal type="string" uri="kbodata:database-query">http://localhost:3030/kbo/sparql</literal>
 		<literal type="string" uri="kbodata:database-update">http://localhost:3030/kbo/update</literal>
 		<literal type="string" uri="kbodata:query">SELECT ?s ?o WHERE {?s &lt;http://www.w3.org/2004/02/skos/core#prefLabel&gt; ?o .} LIMIT 10</literal>
-		<literal type="string" uri="kbodata:accept">application/sparql-results+xml</literal>
 		<literal type="long" uri="kbodata:expiry">86400000</literal>
 		<literal type="hds" uri="kbodata:credentials">
 			<httpCredentials>
@@ -35,6 +34,7 @@
 			</httpCredentials>
 		</literal>
 		<literal type="string" uri="kbodata:baseurl">http://localhost:8090</literal>
+		<literal type="string" uri="kbodata:dataset">http://data.kbodata.be/dataset/kbo#id</literal>
 		
 		<import>
 			<uri>urn:com:ebc:kbodata:fuseki:import</uri>

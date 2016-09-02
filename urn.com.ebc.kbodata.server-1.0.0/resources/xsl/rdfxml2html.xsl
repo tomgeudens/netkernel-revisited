@@ -14,6 +14,7 @@
     	media-type="text/html"/>
 
 	<xsl:template match="rdf:RDF">
+		<xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
 		<html>
 			<head>
 			    <title>Data</title>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:org:apache:commons:lang3</uri>
+			<version>3.3.2</version>
+		</identity>
+		<info>
+			<name>apache / commons / lang3</name>
+			<description>apache / commons / lang3</description>
+		</info>
+	</meta>
+	
+	<system>
+		<dynamic/>
+		<classloader>
+			<exports>
+				<match>org\.apache\.commons\.lang3\..*</match>
+			</exports>
+		</classloader>
+	</system>
+	
+	<rootspace
+		name="apache commons lang3"
+		public="true"
+		uri="urn:org:apache:commons:lang3">
+	</rootspace>
+</module>

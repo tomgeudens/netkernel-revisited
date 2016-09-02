@@ -209,17 +209,17 @@ public class FragmentsAccessor extends StandardAccessorImpl {
 				aQuery = aContext.source("arg:query", String.class);
 			}
 			catch (Exception e) {
-				// sensible default
-				aQuery = "subject=?s&predicate=?p&object=?o";
+				// can be deducted from subject, predicate, object, limit and offset
+				aQuery = new StringBuilder().append("subject=").append(aSubject).append("&predicate=").append(aPredicate).append("&object=").append(aObject).append("&limit=").append(aLimit).append("&offset=").append(aOffset).toString();
 			}
 		}
 		else {
-			// sensible default
-			aQuery = "subject=?s&predicate=?p&object=?o";
+			// can be deducted from subject, predicate, object, limit and offset
+			aQuery = new StringBuilder().append("subject=").append(aSubject).append("&predicate=").append(aPredicate).append("&object=").append(aObject).append("&limit=").append(aLimit).append("&offset=").append(aOffset).toString();
 		}
 		if (aQuery.equals("")) {
-			// sensible default
-			aQuery = "subject=?s&predicate=?p&object=?o";
+			// can be deducted from subject, predicate, object, limit and offset
+			aQuery = new StringBuilder().append("subject=").append(aSubject).append("&predicate=").append(aPredicate).append("&object=").append(aObject).append("&limit=").append(aLimit).append("&offset=").append(aOffset).toString();
 		}
 		//
 		

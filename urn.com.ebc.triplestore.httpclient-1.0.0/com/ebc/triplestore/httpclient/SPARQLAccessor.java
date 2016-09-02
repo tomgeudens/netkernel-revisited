@@ -132,7 +132,7 @@ public class SPARQLAccessor extends StandardAccessorImpl {
 		
 		@SuppressWarnings("rawtypes")
 		INKFResponseReadOnly httpresponse = aContext.issueRequestForResponse(triplestorerequest);
-		//int vHTTPResponseCode = (Integer)httpresponse.getHeader("HTTP_ACCESSOR_STATUS_CODE_METADATA");
+		int vHTTPResponseCode = (Integer)httpresponse.getHeader("HTTP_ACCESSOR_STATUS_CODE_METADATA");
 		org.netkernel.layer0.representation.IReadableBinaryStreamRepresentation vTripleStoreResult = (org.netkernel.layer0.representation.IReadableBinaryStreamRepresentation)httpresponse.getRepresentation();
 		
 		INKFRequest removestaterequest = aContext.createRequest(vStateID);
@@ -144,6 +144,7 @@ public class SPARQLAccessor extends StandardAccessorImpl {
 		// response
 		INKFResponse vResponse = aContext.createResponseFrom(vTripleStoreResult);
 		vResponse.setMimeType(aAccept);
+		vResponse.setHeader("httpresponsecode", vHTTPResponseCode);
 		vResponse.setExpiry(INKFResponse.EXPIRY_MIN_CONSTANT_DEPENDENT, System.currentTimeMillis() + aExpiry);
 		//
 

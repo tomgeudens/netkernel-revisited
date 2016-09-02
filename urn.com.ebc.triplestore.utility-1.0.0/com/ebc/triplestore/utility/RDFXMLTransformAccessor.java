@@ -1,7 +1,5 @@
 package com.ebc.triplestore.utility;
 
-import java.util.UUID;
-
 /**
  * 
  * Elephant Bird Consulting
@@ -22,6 +20,7 @@ import org.netkernel.module.standard.endpoint.StandardAccessorImpl;
 /**
  * Processing Imports
  */
+import java.util.UUID;
 
 /**
  * RDF XML Transform Accessor
