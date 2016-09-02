@@ -365,6 +365,12 @@
 			<uri>urn:com:ebc:triplestore:httpclient:fragments</uri>
 			<version-min>1.0.0</version-min>
 		</import>
+
+		<import>
+			<!-- contains active:keywordsearch -->
+			<uri>urn:com:ebc:triplestore:httpclient:kws:jena</uri>
+			<version-min>1.0.0</version-min>
+		</import>
 		
 		<import>
 			<!-- contains transreptors used when the commands are 

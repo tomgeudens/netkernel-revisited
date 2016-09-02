@@ -10,7 +10,7 @@
  * Accessor Imports
  */
 import org.netkernel.layer0.nkf.*;
-//import org.netkernel.layer0.representation.*;
+import org.netkernel.layer0.representation.*;
 //import org.netkernel.layer0.representation.impl.*;
 //import org.netkernel.layer0.meta.impl.SourcedArgumentMetaImpl;
 //import org.netkernel.module.standard.endpoint.StandardAccessorImpl;
@@ -58,7 +58,7 @@ else {
 }
 if (aSearch == null || aSearch == "") {
 	// sensible default
-	aSubject = "supercalifragilisticexpialidocious";
+	aSearch = "supercalifragilisticexpialidocious";
 }
 
 String aLimit = null;
@@ -111,11 +111,58 @@ if (aAccept == null || aAccept == "") {
 //
 
 // processing
+INKFRequest kwsrequest = aContext.createRequest("active:keywordsearch");
+kwsrequest.addArgument("database","kbodata:database-query");
+kwsrequest.addArgument("expiry","kbodata:expiry");
+kwsrequest.addArgument("credentials","kbodata:credentials");
+if (aAccept.startsWith("text/html")) {
+	kwsrequest.addArgumentByValue("accept", "application/sparql-results+xml");
+}
+else {
+	kwsrequest.addArgumentByValue("accept", aAccept);
+}
+kwsrequest.addArgumentByValue("search", aSearch);
+kwsrequest.addArgumentByValue("limit", aLimit);
+
+INKFResponseReadOnly kwsresponse = aContext.issueRequestForResponse(kwsrequest);
+int vHTTPResponseCode = kwsresponse.getHeader("httpresponsecode");
+Object vKWSResult = kwsresponse.getRepresentation();
 //
 
 // response
-INKFResponse vResponse = aContext.createResponseFrom("to do");
-vResponse.setExpiry(INKFResponse.EXPIRY_ALWAYS);
+INKFResponse vResponse = null;
+if (vHTTPResponseCode >= 400) {
+	vResponse = aContext.createResponseFrom(vKWSResult);
+	vResponse.setMimeType("text/plain"); // best mimetype for an errormessage
+	vResponse.setExpiry(INKFResponse.EXPIRY_ALWAYS); // we don't want to cache this
+}
+else {
+	if (aAccept.startsWith("text/html")) {
+		INKFRequest xsltcrequest = aContext.createRequest("active:xsltc");
+		xsltcrequest.addArgumentByValue("operand", vKWSResult);
+		xsltcrequest.addArgumentByValue("search", aSearch);
+		xsltcrequest.addArgument("operator", "res:/resources/xsl/kbodatakeywordsearch.xsl");
+		xsltcrequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
+		vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(xsltcrequest));
+	}
+	vResponse.setMimeType(aAccept);
+}
+if (vIsHTTPRequest) {
+	// pass the code on
+	vResponse.setHeader("httpResponse:/code", vHTTPResponseCode);
+	
+	String vCORSOrigin = null;
+	try {
+		vCORSOrigin = aContext.source("httpRequest:/header/Origin", String.class);
+	}
+	catch (Exception e){
+		//
+	}
+	if (vCORSOrigin != null) {
+		// No CORS verification yet, I just allow everything
+		vResponse.setHeader("httpResponse:/header/Access-Control-Allow-Origin","*");
+	}
+}
 //
 
 // register finish
