@@ -347,6 +347,11 @@
 		</import>
 		
 		<import>
+			<!-- contains active:tagSoup -->
+			<uri>urn:org:netkernel:web:core</uri>
+		</import>
+		
+		<import>
 			<!-- contains                                    -->
 			<!-- active:rdfxml2rdfxml, active:rdfxml2turtle  -->
 			<!-- active:rdfxml2ntriple, active:rdfxml2jsonld -->

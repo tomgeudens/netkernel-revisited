@@ -46,10 +46,14 @@ INKFRequest xsltcrequest = aContext.createRequest("active:xsltc");
 xsltcrequest.addArgumentByValue("operand", vRDFXML);
 xsltcrequest.addArgument("operator","res:/resources/xsl/rdfxml2html.xsl");
 xsltcrequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
+
+INKFRequest tagsouprequest = aContext.createRequest("active:tagSoup");
+tagsouprequest.addArgumentByRequest("operand", xsltcrequest);
+tagsouprequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
 //
 
 // response
-INKFResponse vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(xsltcrequest));
+INKFResponse vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(tagsouprequest));
 vResponse.setMimeType("text/html");
 String vCORSOrigin = null;
 try {

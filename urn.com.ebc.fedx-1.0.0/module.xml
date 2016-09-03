@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:fedx</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / fedx</name>
+			<description>elephant bird consulting / fedx</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc fedx"
+		public="true"
+		uri="urn:com:ebc:fedx">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+
+		<accessor>
+			<id>com:ebc:fedx:java:sparql:accessor</id>
+			<class>com.ebc.fedx.QueryAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:fedxquery</identifier>
+					<argument name="query" desc="query" max="1" min="1"/>
+					<argument name="accept" desc="accept" max="1" min="1"/>
+					<argument name="expiry" desc="expiry of the response in milliseconds" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<import>
+			<uri>urn:com:ebc:fedx:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc fedx import"
+		public="false"
+		uri="urn:com:ebc:fedx:import">
+	</rootspace>
+</module>

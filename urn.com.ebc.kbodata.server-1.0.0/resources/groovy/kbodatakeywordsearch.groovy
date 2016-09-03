@@ -143,7 +143,12 @@ else {
 		xsltcrequest.addArgumentByValue("search", aSearch);
 		xsltcrequest.addArgument("operator", "res:/resources/xsl/kbodatakeywordsearch.xsl");
 		xsltcrequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
-		vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(xsltcrequest));
+		
+		INKFRequest tagsouprequest = aContext.createRequest("active:tagSoup");
+		tagsouprequest.addArgumentByRequest("operand", xsltcrequest);
+		tagsouprequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
+		
+		vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(tagsouprequest));
 	}
 	vResponse.setMimeType(aAccept);
 }

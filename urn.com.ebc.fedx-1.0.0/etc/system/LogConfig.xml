@@ -1,0 +1,17 @@
+<!DOCTYPE log>
+<log>
+	<id>urn:com:ebc:fedx:log</id>
+	<name>FedX Application Log</name>
+	<handlers>
+		<handler>
+			<instance>
+				<class>org.netkernel.layer0.logging.LogFileHandler</class>
+				<string>N:/log/fedx.%g.log</string>
+				<int>50000000</int>
+				<int>3</int>
+				<boolean>true</boolean>
+			</instance>
+			<formatterClass>org.netkernel.layer0.logging.ConsoleFormatter</formatterClass>
+		</handler>
+	</handlers>
+</log>
