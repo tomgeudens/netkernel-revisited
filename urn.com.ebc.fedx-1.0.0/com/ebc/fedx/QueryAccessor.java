@@ -49,6 +49,7 @@ public class QueryAccessor extends StandardAccessorImpl {
 		this.declareSourceRepresentation(org.netkernel.layer0.representation.IReadableBinaryStreamRepresentation.class);
 		this.declareArgument(new SourcedArgumentMetaImpl("query",null,null,new Class[] {String.class}));
 		this.declareArgument(new SourcedArgumentMetaImpl("accept",null,null,new Class[] {String.class}));
+		this.declareArgument(new SourcedArgumentMetaImpl("endpoint",null,null,new Class[] {String.class}));
 		this.declareArgument(new SourcedArgumentMetaImpl("expiry",null,null,new Class[] {Long.class}));
 	}
 
@@ -101,6 +102,8 @@ public class QueryAccessor extends StandardAccessorImpl {
 				throw new Exception("QueryAccessor: no valid - expiry - argument");
 			}
 		}
+		
+		List<String> aEndpoints = aContext.getThisRequest().getArgumentValues("endpoint");
 		//
 		
 		// processing
@@ -109,8 +112,17 @@ public class QueryAccessor extends StandardAccessorImpl {
 		ByteArrayOutputStream vResult = new ByteArrayOutputStream();
 		try {
 			List<Endpoint> vEndpoints = new ArrayList<Endpoint>();
-			vEndpoints.add(EndpointFactory.loadSPARQLEndpoint("dbpedia", "http://dbpedia.org/sparql"));
-			vEndpoints.add(EndpointFactory.loadSPARQLEndpoint("swdf", "http://data.semanticweb.org/sparql"));
+			for (String aEndpointIdentifier : aEndpoints) {
+				String aEndpoint = (String)aContext.source(aEndpointIdentifier,String.class);
+				
+				INKFRequest md5request = aContext.createRequest("active:md5");
+				md5request.addArgumentByValue("operand", aEndpoint);
+				String aEndpointHash = (String)aContext.issueRequest(md5request);
+				
+				System.out.println(aEndpointHash + " - " + aEndpoint);
+				vEndpoints.add(EndpointFactory.loadSPARQLEndpoint(aEndpointHash, aEndpoint));
+
+			}
 			FedXFactory.initializeFederation(vEndpoints);
 		
 			TupleQuery vQuery = QueryManager.prepareTupleQuery(aQuery);

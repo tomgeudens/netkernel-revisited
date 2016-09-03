@@ -34,6 +34,7 @@
 					<argument name="query" desc="query" max="1" min="1"/>
 					<argument name="accept" desc="accept" max="1" min="1"/>
 					<argument name="expiry" desc="expiry of the response in milliseconds" max="1" min="1"/>
+					<argument name="endpoint" desc="url sparql endpoint" max="*" min="1"/>
 				</active>
 			</grammar>
 		</accessor>
@@ -48,5 +49,10 @@
 		name="ebc fedx import"
 		public="false"
 		uri="urn:com:ebc:fedx:import">
+		
+		<import>
+			<!-- contains active:md5 -->
+			<uri>urn:org:netkernel:mod:security</uri>
+		</import>
 	</rootspace>
 </module>
