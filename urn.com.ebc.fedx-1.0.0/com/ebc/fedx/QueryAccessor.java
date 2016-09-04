@@ -70,7 +70,7 @@ public class QueryAccessor extends StandardAccessorImpl {
 		}
 		if (aQuery.equals("")) {
 			// providing sensible default
-			aQuery = "SELECT ?subject ?predicate ?object WHERE { ?subject ?predicate ?object . } LIMIT 10";
+			aQuery = "SELECT ?s ?p ?o WHERE { ?s ?p ?o . } LIMIT 5";
 		}
 		
 		String aAccept = null;
@@ -119,7 +119,6 @@ public class QueryAccessor extends StandardAccessorImpl {
 				md5request.addArgumentByValue("operand", aEndpoint);
 				String aEndpointHash = (String)aContext.issueRequest(md5request);
 				
-				System.out.println(aEndpointHash + " - " + aEndpoint);
 				vEndpoints.add(EndpointFactory.loadSPARQLEndpoint(aEndpointHash, aEndpoint));
 
 			}

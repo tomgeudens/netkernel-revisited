@@ -26,7 +26,7 @@
 		</fileset>
 
 		<accessor>
-			<id>com:ebc:fedx:java:sparql:accessor</id>
+			<id>com:ebc:fedx:java:query:accessor</id>
 			<class>com.ebc.fedx.QueryAccessor</class>
 			<grammar>
 				<active>

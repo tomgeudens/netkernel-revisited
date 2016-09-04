@@ -23,7 +23,7 @@
 
 		<literal type="string" uri="kbodata:database-query">http://localhost:3030/kbo/sparql</literal>
 		<literal type="string" uri="kbodata:database-update">http://localhost:3030/kbo/update</literal>
-		<literal type="string" uri="kbodata:query">SELECT ?s ?o WHERE {?s &lt;http://www.w3.org/2004/02/skos/core#prefLabel&gt; ?o .} LIMIT 10</literal>
+		<literal type="string" uri="kbodata:query">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
 		<literal type="long" uri="kbodata:expiry">86400000</literal>
 		<literal type="hds" uri="kbodata:credentials">
 			<httpCredentials>

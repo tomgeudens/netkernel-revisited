@@ -58,7 +58,7 @@ else {
 		}
 	}
 }
-if (aQuery == null) {
+if (aQuery == null || aQuery == "") {
 	try {
 		aQuery = (String)aContext.source("kbodata:query", String.class);
 	}
@@ -103,7 +103,7 @@ Boolean vDescribeFound = vDescribeMatcher.find();
 Pattern vAskPattern = Pattern.compile("(?i)\\bASK\\b");
 Matcher vAskMatcher = vAskPattern.matcher(aQuery);
 Boolean vAskFound = vAskMatcher.find();
-if (aAccept == null) {
+if (aAccept == null || aAccept == "") {
 	if (vConstructFound || vDescribeFound) {
 		// sensible default
 		aAccept = "application/rdf+xml";
@@ -187,6 +187,9 @@ else {
 			
 			vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(tagsouprequest));
 		}
+	}
+	else {
+		vResponse = aContext.createResponseFrom(vSPARQLResult);
 	}
 	vResponse.setMimeType(vMimeType);
 }
