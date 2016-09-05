@@ -118,8 +118,13 @@ public class QueryAccessor extends StandardAccessorImpl {
 				INKFRequest md5request = aContext.createRequest("active:md5");
 				md5request.addArgumentByValue("operand", aEndpoint);
 				String aEndpointHash = (String)aContext.issueRequest(md5request);
-				
-				vEndpoints.add(EndpointFactory.loadSPARQLEndpoint(aEndpointHash, aEndpoint));
+				try {
+					vEndpoints.add(EndpointFactory.loadSPARQLEndpoint(aEndpointHash, aEndpoint));					
+				}
+				catch (Exception e) {
+					aContext.logRaw(INKFLocale.LEVEL_WARNING, "QueryAccessor: adding endpoint " + aEndpoint + " - " + e.getMessage());
+					//
+				}
 
 			}
 			FedXFactory.initializeFederation(vEndpoints);

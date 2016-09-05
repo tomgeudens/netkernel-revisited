@@ -1,1 +1,1 @@
-http://localhost:8090/sparql
+http://data.kbodata.be/sparql
