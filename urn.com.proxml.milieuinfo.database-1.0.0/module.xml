@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:proxml:milieuinfo:database</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>proxml / milieuinfo / database</name>
+			<description>proxml / milieuinfo / database</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="proxml milieuinfo database"
+		public="true"
+		uri="urn:com:proxml:milieuinfo:database">
+		
+		<!-- 
+		<literal type="string" uri="milieuinfo:database-cbb">http://lodcbbomv-on-1.vm.cumuli.be:8080/lodcbbomv/repositories/CBB</literal>
+		 -->
+		<literal type="string" uri="milieuinfo:database-cbb">http://localhost:9999/blazegraph/namespace/cbb/sparql</literal>
+		<literal type="string" uri="milieuinfo:query-cbb">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
+		<literal type="long" uri="milieuinfo:expiry-cbb">86400000</literal>
+		<literal type="hds" uri="milieuinfo:credentials-cbb">
+			<httpCredentials>
+				<host>localhost</host>
+				<port>9999</port>
+				<username>anonymous</username>
+				<password>anonymous</password>
+			</httpCredentials>
+		</literal>		
+		<import>
+			<uri>urn:com:proxml:milieuinfo:database:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="proxml milieuinfo database import"
+		public="false"
+		uri="urn:com:proxml:milieuinfo:database:import">
+	</rootspace>	
+</module>

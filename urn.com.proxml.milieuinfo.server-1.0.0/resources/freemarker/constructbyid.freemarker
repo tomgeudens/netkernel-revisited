@@ -1,0 +1,11 @@
+<#setting url_escaping_charset='UTF-8'>
+CONSTRUCT {
+  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?vp ?v .
+  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?op ?out .
+}
+WHERE {
+  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?vp ?v .
+  FILTER (isLiteral(?v))
+  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?op ?out .
+  FILTER (isURI(?out))
+}
