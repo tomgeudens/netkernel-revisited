@@ -95,6 +95,7 @@ else {
 	case "html":
 		INKFRequest rdfxml2htmlrequest = aContext.createRequest("active:rdfxml2html");
 		rdfxml2htmlrequest.addArgumentByValue("operand", vCBBbyIDResult);
+		rdfxml2htmlrequest.addArgument("operator", "res:/resources/xsl/rdfxml2htmlcbb.xsl");
 		vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(rdfxml2htmlrequest));
 		vResponse.setMimeType("text/html");
 		break;

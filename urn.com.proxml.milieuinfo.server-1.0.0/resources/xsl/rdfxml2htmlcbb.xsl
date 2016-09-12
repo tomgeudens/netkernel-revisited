@@ -17,7 +17,7 @@
 		<xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
 		<html>
 			<head>
-			    <title>Data</title>
+			    <title>Data Centraal Bedrijven Bestand</title>
 				<style type="text/css">
 					@import url(/css/pure-min.css);
    	    		</style>

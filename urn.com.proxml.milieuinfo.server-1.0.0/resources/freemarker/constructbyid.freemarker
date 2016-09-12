@@ -2,10 +2,17 @@
 CONSTRUCT {
   <http://id.milieuinfo.be/${owner}/${id?url}#id> ?vp ?v .
   <http://id.milieuinfo.be/${owner}/${id?url}#id> ?op ?out .
+  ?s ?ip <http://id.milieuinfo.be/${owner}/${id?url}#id> .
 }
 WHERE {
-  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?vp ?v .
-  FILTER (isLiteral(?v))
-  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?op ?out .
-  FILTER (isURI(?out))
+  {
+    <http://id.milieuinfo.be/${owner}/${id?url}#id> ?vp ?v.
+    FILTER (isLiteral(?v))
+    <http://id.milieuinfo.be/${owner}/${id?url}#id> ?op ?out.
+    FILTER (isURI(?out))
+  }
+  UNION
+  {
+    ?s ?ip <http://id.milieuinfo.be/${owner}/${id?url}#id>.
+  }
 }

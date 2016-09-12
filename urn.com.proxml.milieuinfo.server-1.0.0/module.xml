@@ -97,7 +97,7 @@
 									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
 									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
 									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html">text/html</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlcbb.xsl">text/html</produces>
 								</rest>
 							</meta>
 							<grammar>
@@ -375,6 +375,7 @@
 				<active>
 					<identifier>active:rdfxml2html</identifier>
 					<argument name="operand" desc="unfiltered rdfxml" max="1" min="1"/>
+					<argument name="operator" desc="xsl stylesheet" max="1" min="1"/>
 				</active>
 			</grammar>			
 		</accessor>

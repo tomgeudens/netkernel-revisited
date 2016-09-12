@@ -44,7 +44,7 @@ Object vRDFXML = aContext.issueRequest(rdfxml2rdfxmlrequest);
 
 INKFRequest xsltcrequest = aContext.createRequest("active:xsltc");
 xsltcrequest.addArgumentByValue("operand", vRDFXML);
-xsltcrequest.addArgument("operator","res:/resources/xsl/rdfxml2html.xsl");
+xsltcrequest.addArgument("operator","arg:operator");
 xsltcrequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
 
 INKFRequest tagsouprequest = aContext.createRequest("active:tagSoup");
