@@ -1,6 +1,6 @@
 /**
  *
- * Elephant Bird Consulting
+ * ProXML
  *
  * @author tomgeudens
  *
@@ -21,7 +21,7 @@ import org.netkernel.layer0.nkf.*;
 import java.util.UUID;
 
 /**
- * KBOData SPARQL Accessor
+ * Milieuinfo CBB Fragments Accessor
  */
 
 // context
@@ -31,7 +31,7 @@ INKFRequestContext aContext = (INKFRequestContext)context;
 // register start
 long vStartTime = System.nanoTime();
 UUID vId = UUID.randomUUID();
-aContext.logRaw(INKFLocale.LEVEL_INFO, "KBODataFragmentsAccessor: start of id - " + vId);
+aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoCBBFragmentsAccessor: start of id - " + vId);
 //
 
 // arguments
@@ -182,7 +182,7 @@ if (vIsHTTPRequest) {
 }
 if (aURL == null || aURL == "") {
 	try {
-		aURL = (String)aContext.source("kbodata:baseurl", String.class) + "/fragments";
+		aURL = (String)aContext.source("milieuinfo:baseurl-cbb", String.class) + "/fragments";
 	}
 	catch (Exception e) {
 		// sensible default
@@ -192,7 +192,7 @@ if (aURL == null || aURL == "") {
 
 String aDataset = null;
 try {
-	aDataset = (String)aContext.source("kbodata:dataset", String.class);
+	aDataset = (String)aContext.source("milieuinfo:dataset-cbb", String.class);
 }
 catch (Exception e) {
 	// sensible default
@@ -226,10 +226,10 @@ if (aAccept == null || aAccept == "") {
 
 // processing
 INKFRequest fragmentsrequest = aContext.createRequest("active:fragments");
-fragmentsrequest.addArgument("database","kbodata:database-query");
+fragmentsrequest.addArgument("database","milieuinfo:database-cbb");
 fragmentsrequest.addArgumentByValue("accept", "application/rdf+xml");
-fragmentsrequest.addArgument("expiry","kbodata:expiry");
-fragmentsrequest.addArgument("credentials","kbodata:credentials");
+fragmentsrequest.addArgument("expiry","milieuinfo:expiry-cbb");
+fragmentsrequest.addArgument("credentials","milieuinfo:credentials-cbb");
 fragmentsrequest.addArgumentByValue("subject", aSubject);
 fragmentsrequest.addArgumentByValue("predicate", aPredicate);
 fragmentsrequest.addArgumentByValue("object", aObject);
@@ -245,33 +245,16 @@ Object vFragmentsResult = fragmentsresponse.getRepresentation();
 //
 
 // response
-INKFResponse vResponse = null;
+INKFResponse vResponse = aContext.createResponseFrom(vFragmentsResult);
+vResponse.setHeader("httpresponsecode", vHTTPResponseCode);
 if (vHTTPResponseCode >= 400) {
-	vResponse = aContext.createResponseFrom(vFragmentsResult);
 	vResponse.setMimeType("text/plain"); // best mimetype for an errormessage
 	vResponse.setExpiry(INKFResponse.EXPIRY_ALWAYS); // we don't want to cache this
 }
 else {
-	INKFRequest conversionrequest = null;
-	if (aAccept.startsWith("text/plain")) {
-		conversionrequest = aContext.createRequest("active:rdfxml2ntriple");
-	}
-	else if (aAccept.startsWith("text/turtle") || aAccept.startsWith("application/x-turtle")) {
-		conversionrequest = aContext.createRequest("active:rdfxml2turtle");
-	}
-	else if (aAccept.startsWith("text/html")) {
-		conversionrequest = aContext.createRequest("active:rdfxml2html");
-	}
-	else if (aAccept.startsWith("application/ld-json")) {
-		conversionrequest = aContext.createRequest("active:rdfxml2jsonld");
-	}
-	else {
-		conversionrequest = aContext.createRequest("active:rdfxml2rdfxml");
-	}
-	conversionrequest.addArgumentByValue("operand", vFragmentsResult);
-	vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(conversionrequest));
-	vResponse.setMimeType(aAccept);
+	vResponse.setMimeType("text/xml");
 }
+
 if (vIsHTTPRequest) {
 	// pass the code on
 	vResponse.setHeader("httpResponse:/code", vHTTPResponseCode);
@@ -293,5 +276,5 @@ if (vIsHTTPRequest) {
 // register finish
 long vElapsed = System.nanoTime() - vStartTime;
 double vElapsedSeconds = (double)vElapsed / 1000000000.0;
-aContext.logRaw(INKFLocale.LEVEL_INFO, "KBODataFragmentsAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
+aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoCBBFragmentsAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
 //

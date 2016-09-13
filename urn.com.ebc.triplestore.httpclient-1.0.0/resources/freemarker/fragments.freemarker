@@ -33,14 +33,18 @@ CONSTRUCT {
  ?tripplePredicate hydra:variable "predicate" .
  ?tripplePredicate hydra:property rdf:predicate .
  ?trippleObject hydra:variable "object" .
- ?trippleObject hydra:property rdf:object . 
- ${subject} ${predicate} ${object} .
+ ?trippleObject hydra:property rdf:object .
+ ?subject ?predicate ?object .
 }
 WHERE { 
  OPTIONAL {SELECT *
   WHERE {
   	${subject} ${predicate} ${object} .
+  	BIND (${subject} as ?subject)
+  	BIND (${predicate} as ?predicate)
+  	BIND (${object} as ?object)
   }
+  ORDER BY ?subject ?predicate ?object
   OFFSET ${offset}
   LIMIT ${limit}
  }

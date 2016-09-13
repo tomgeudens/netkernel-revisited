@@ -30,15 +30,24 @@
 						</xsl:for-each>
 					</tr>
 					<xsl:for-each select="sp:results/sp:result">
+						<xsl:variable name="current" select="."/>
 						<tr>
-							<xsl:for-each select="sp:binding">
+							<xsl:for-each select="//sp:head/sp:variable">
+								<xsl:variable name="name" select="@name"/>
 								<td>
 									<xsl:choose>
-										<xsl:when test="sp:literal">
-											<xsl:value-of select="sp:literal"/>
+										<xsl:when test="$current/sp:binding[@name=$name]">
+											<xsl:choose>
+												<xsl:when test="$current/sp:binding[@name=$name]/sp:literal">
+													<xsl:value-of select="$current/sp:binding[@name=$name]/sp:literal"/>
+												</xsl:when>
+												<xsl:otherwise>
+													<a href="{$current/sp:binding[@name=$name]/sp:uri}"><xsl:value-of select="$current/sp:binding[@name=$name]/sp:uri"/></a>
+												</xsl:otherwise>
+											</xsl:choose>											
 										</xsl:when>
 										<xsl:otherwise>
-											<a href="{sp:uri}"><xsl:value-of select="sp:uri"/></a>
+											<!-- no value for the header -->
 										</xsl:otherwise>
 									</xsl:choose>
 								</td>

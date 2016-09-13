@@ -2,7 +2,8 @@
 <xsl:stylesheet 
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:sp="http://www.w3.org/2005/sparql-results#"
-	exclude-result-prefixes="sp"
+	xmlns:nk="http://1060.org"
+	exclude-result-prefixes="sp nk"
 	version="1.0">
 	
 	<xsl:output 
@@ -11,18 +12,20 @@
     	encoding="UTF-8"
     	omit-xml-declaration="yes"
     	media-type="text/html"/>
-    
+    	
+    <xsl:param name="search" nk:class="java.lang.String" />
+
 	<xsl:template match="sp:sparql">
 		<xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
 		<html>
 			<head>
-				<title>KBOData : SPARQL Query Results</title>
+				<title>Keyword Search Results Centraal Bedrijven Bestand</title>
 				<style type="text/css">
 					@import url(/css/pure-min.css);
    	    		</style>
 			</head>
 			<body>
-				<h1>SPARQL Query Results</h1>
+				<h1>Keyword Search Results for "<xsl:value-of select="$search"/>"</h1>
 				<table class="pure-table pure-table-bordered">
 					<tr>
 						<xsl:for-each select="sp:head/sp:variable">

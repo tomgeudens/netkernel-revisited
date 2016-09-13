@@ -1,0 +1,13 @@
+PREFIX bds: <http://www.bigdata.com/rdf/search#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+
+SELECT distinct ?id ?score ?label
+{ 
+  ?label bds:search "${search}" .
+  ?label bds:relevance ?score .
+  ?label bds:maxRank "${limit}" .
+  ?id (rdfs:label|skos:prefLabel|skos:altLabel) ?label .
+}
+ORDER BY DESC(?score)

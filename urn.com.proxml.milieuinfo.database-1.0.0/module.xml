@@ -34,7 +34,10 @@
 				<username>anonymous</username>
 				<password>anonymous</password>
 			</httpCredentials>
-		</literal>		
+		</literal>
+		<literal type="string" uri="milieuinfo:baseurl-cbb">http://localhost:8100/cbb</literal>
+		<literal type="string" uri="milieuinfo:dataset-cbb">http://id.milieuinfo.be/dataset/cbb#id</literal>
+
 		<import>
 			<uri>urn:com:proxml:milieuinfo:database:import</uri>
 			<private/>

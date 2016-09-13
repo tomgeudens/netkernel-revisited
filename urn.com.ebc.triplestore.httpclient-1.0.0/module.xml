@@ -118,6 +118,37 @@
 	</rootspace>
 
 	<rootspace
+		name="ebc triplestore httpclient kws bigdata"
+		public="true"
+		uri="urn:com:ebc:triplestore:httpclient:kws:bigdata">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+		
+		<accessor>
+			<id>com:ebc:triplestore:httpclient:java:keywordsearchbigdata:accessor</id>
+			<class>com.ebc.triplestore.httpclient.KeywordSearchBigDataAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:keywordsearch</identifier>
+					<argument name="database" desc="database name or url" max="1" min="1"/>
+					<argument name="accept" desc="expected mimetype of response" max="1" min="1"/>
+					<argument name="expiry" desc="expiry of the response in milliseconds" max="1" min="1"/>
+					<argument name="credentials" desc="http credentials" max="1" min="1"/>
+					<argument name="search" desc="keywords" max="1" min="1"/>
+					<argument name="limit" desc="limit on the results of the search" max="1" min="0"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<import>
+			<uri>urn:com:ebc:triplestore:httpclient:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+
+	<rootspace
 		name="ebc triplestore httpclient sparql"
 		public="true"
 		uri="urn:com:ebc:triplestore:httpclient:sparql">
