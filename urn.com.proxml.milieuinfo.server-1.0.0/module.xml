@@ -59,11 +59,11 @@
 			<space>
 				<mapper>
 					<config>
-						<!-- /cbb/(exploitatie|exploitant)/xxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<!-- /cbb/(adres|exploitatie|exploitant)/xxxxx.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(exploitatie|exploitant)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<simple>{owner:(adres|exploitatie|exploitant)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -84,11 +84,11 @@
 								<argument name="extension" method="as-string">[[arg:extension]]</argument>
 							</request>
 						</endpoint>
-						<!-- /cbb/(exploitatie|exploitant)/xxxxx -->
+						<!-- /cbb/(adres|exploitatie|exploitant)/xxxxx -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(exploitatie|exploitant)}/{id}</simple>
+									<simple>{owner:(adres|exploitatie|exploitant)}/{id}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
