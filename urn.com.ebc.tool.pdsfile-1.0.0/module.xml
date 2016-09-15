@@ -50,7 +50,7 @@
 		uri="urn:com:ebc:tool:pdsfile:import">
 		
 		<import>
-			<!-- contains file:/ scheme -->
+			<!-- contains file:/ scheme, active:fls -->
 			<uri>urn:org:netkernel:ext:layer1</uri>
 		</import>
 	</rootspace>
