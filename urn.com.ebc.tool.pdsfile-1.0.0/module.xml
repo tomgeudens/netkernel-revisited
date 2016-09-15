@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:tool:pdsfile</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / tool / pdsfile</name>
+			<description>elephant bird consulting / tool / pdsfile</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc tool pdsfile"
+		public="true"
+		uri="urn:com:ebc:tool:pdsfile">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+
+		<accessor>
+			<id>com:ebc:tool:pdsfile:java:pds:accessor</id>
+			<class>com.ebc.tool.pdsfile.PDSAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:pds</identifier>
+					<argument name="pds" desc="pds" max="1" min="1"/>
+					<argument name="zone" desc="zone" max="1" min="1"/>
+					<argument name="instance" desc="instance" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<import>
+			<uri>urn:com:ebc:tool:pdsfile:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc tool pdsfile import"
+		public="false"
+		uri="urn:com:ebc:tool:pdsfile:import">
+		
+		<import>
+			<!-- contains file:/ scheme -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+	</rootspace>
+</module>

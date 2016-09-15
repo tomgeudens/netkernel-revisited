@@ -59,6 +59,70 @@
 			<space>
 				<mapper>
 					<config>
+						<!-- /cbb/(adres|exploitatie|exploitant)/xxxxx/status.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(exploitatie)}/{id}/{status:(status)}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbbyidstatuswithextensionrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+									<argument name="status"/>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfocbbbyidstatuswithextension</identifier>
+								<argument name="owner" method="as-string">cbb/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="status" method="as-string">[[arg:status]]</argument>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
+						
+						<!-- /cbb/(adres|exploitatie|exploitant)/xxxxx/status -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(exploitatie)}/{id}/{status:(status)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlcbb.xsl">text/html</produces>
+								</rest>
+							</meta>
+
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbbyidstatusrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+									<argument name="status"/>
+								</active>
+							</grammar>
+
+							<request>
+								<identifier>active:milieuinfocbbbyidstatus</identifier>
+								<argument name="owner" method="as-string">cbb/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="status" method="as-string">[[arg:status]]</argument>								
+							</request>
+						</endpoint>
+						
 						<!-- /cbb/(adres|exploitatie|exploitant)/xxxxx.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
@@ -307,6 +371,12 @@
 		name="proxml milieuinfo server import overlay"
 		public="false"
 		uri="urn:com:proxml:milieuinfo:server:import:overlay">
+		<literal type="hds" uri="res:/etc/pdsConfig.xml">
+			<config>
+				<zone>Milieuinfo</zone>
+				<pdsfiledirectory>file:/C:/nkwork/tmp/</pdsfiledirectory>
+			</config>
+		</literal>
 		
 		<fileset>
 			<!-- contains html resources -->
@@ -354,6 +424,11 @@
 		</import>
 		
 		<import>
+			<!-- contains pds:/ scheme -->
+			<uri>urn:org:netkernel:mod:pds</uri>
+		</import>
+		
+		<import>
 			<!-- contains transreptors used when the commands are 
 				 launched manually (e.g. request trace tool) -->
 			<uri>urn:org:netkernel:ext:layer1</uri>
@@ -385,6 +460,12 @@
 			<version-min>1.0.0</version-min>
 		</import>
 		
+		<import>
+			<!-- contains active:pds -->
+			<uri>urn:com:ebc:tool:pdsfile</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+		
 		<accessor>
 			<id>com:proxml:milieuinfo:server:cbbbyid:groovy:accessor</id>
 			<prototype>GroovyPrototype</prototype>
@@ -399,6 +480,20 @@
 		</accessor>
 
 		<accessor>
+			<id>com:proxml:milieuinfo:server:cbbbyidstatus:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfocbbbyidstatus.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfocbbbyidstatus</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="status" desc="status" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
 			<id>com:proxml:milieuinfo:server:cbbbyidwithextension:groovy:accessor</id>
 			<prototype>GroovyPrototype</prototype>
 			<script>res:/resources/groovy/milieuinfocbbbyidwithextension.groovy</script>
@@ -407,6 +502,21 @@
 					<identifier>active:milieuinfocbbbyidwithextension</identifier>
 					<argument name="owner" desc="owner" max="1" min="1"/>
 					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:proxml:milieuinfo:server:cbbbyidstatuswithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfocbbbyidstatuswithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfocbbbyidstatuswithextension</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="status" desc="status" max="1" min="1"/>
 					<argument name="extension" desc="extension" max="1" min="1"/>
 				</active>
 			</grammar>
