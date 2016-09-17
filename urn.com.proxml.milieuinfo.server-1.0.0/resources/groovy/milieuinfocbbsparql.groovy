@@ -180,6 +180,8 @@ else {
 			INKFRequest xsltcrequest = aContext.createRequest("active:xsltc");
 			xsltcrequest.addArgumentByValue("operand", vSPARQLResult);
 			xsltcrequest.addArgument("operator", "res:/resources/xsl/milieuinfocbbsparql.xsl");
+			xsltcrequest.addArgument("replace","milieuinfo:baseurl");
+			xsltcrequest.addArgument("with","milieuinfo:activeurl");
 			xsltcrequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
 			
 			INKFRequest tagsouprequest = aContext.createRequest("active:tagSoup");

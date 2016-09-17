@@ -21,7 +21,7 @@ import org.netkernel.layer0.nkf.*;
 import java.util.UUID;
 
 /**
- * Milieuinfo CBB by ID Accessor
+ * Milieuinfo CBB by ID Remainder Accessor
  */
 
 // context
@@ -31,7 +31,7 @@ INKFRequestContext aContext = (INKFRequestContext)context;
 // register start
 long vStartTime = System.nanoTime();
 UUID vId = UUID.randomUUID();
-aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoCBBbyIDAccessor: start of id - " + vId);
+aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoCBBbyIDRemainderAccessor: start of id - " + vId);
 //
 
 // arguments
@@ -42,8 +42,8 @@ try {
 	aOwner = aContext.source("arg:owner", String.class);
 }
 catch (Exception e) {
-	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoCBBbyIDAccessor: invalid - owner - argument");
-	throw new Exception("MilieuinfoCBBbyIDAccessor: no valid - owner - argument");
+	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoCBBbyIDRemainderAccessor: invalid - owner - argument");
+	throw new Exception("MilieuinfoCBBbyIDRemainderAccessor: no valid - owner - argument");
 }
 
 String aID = null;
@@ -51,13 +51,22 @@ try {
 	aID = aContext.source("arg:id", String.class);
 }
 catch (Exception e) {
-	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoCBBbyIDAccessor: invalid - id - argument");
-	throw new Exception("MilieuinfoCBBbyIDAccessor: no valid - id - argument");
+	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoCBBbyIDRemainderAccessor: invalid - id - argument");
+	throw new Exception("MilieuinfoCBBbyIDRemainderAccessor: no valid - id - argument");
+}
+
+String aRemainder = null;
+try {
+	aRemainder = aContext.source("arg:remainder", String.class);
+}
+catch (Exception e) {
+	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoCBBbyIDRemainderAccessor: invalid - Remainder - argument");
+	throw new Exception("MilieuinfoCBBbyIDRemainderAccessor: no valid - remainder - argument");
 }
 //
 
 // processing
-INKFRequest incacherequest = aContext.createRequest("pds:/" +aOwner + "/" + aID);
+INKFRequest incacherequest = aContext.createRequest("pds:/" +aOwner + "/" + aRemainder + "/" + aID);
 incacherequest.setVerb(INKFRequestReadOnly.VERB_EXISTS);
 incacherequest.setRepresentationClass(Boolean.class);
 Boolean vInCache = (Boolean)aContext.issueRequest(incacherequest);
@@ -66,14 +75,15 @@ int vHTTPResponseCode = 0;
 Object vSPARQLResult
 
 if (vInCache) {
-	vSPARQLResult = aContext.source("pds:/" +aOwner + "/" + aID);
+	vSPARQLResult = aContext.source("pds:/" +aOwner + "/" + aRemainder + "/" + aID);
 	vHTTPResponseCode = 200;
 }
 else {
 	INKFRequest freemarkerrequest = aContext.createRequest("active:freemarker");
-	freemarkerrequest.addArgument("operator", "res:/resources/freemarker/constructcbbbyid.freemarker");
+	freemarkerrequest.addArgument("operator", "res:/resources/freemarker/constructcbbbyidremainder.freemarker");
 	freemarkerrequest.addArgumentByValue("owner", aOwner);
 	freemarkerrequest.addArgumentByValue("id", aID);
+	freemarkerrequest.addArgumentByValue("remainder", aRemainder);
 	freemarkerrequest.setRepresentationClass(String.class);
 	String vQuery = (String)aContext.issueRequest(freemarkerrequest);
 	
@@ -89,7 +99,7 @@ else {
 	vSPARQLResult = sparqlresponse.getRepresentation();
 	
 	if (vHTTPResponseCode == 200) {
-		aContext.sink("pds:/" +aOwner + "/" + aID, vSPARQLResult);
+		aContext.sink("pds:/" +aOwner + "/" + aRemainder + "/" + aID, vSPARQLResult);
 	}
 }
 //
@@ -126,5 +136,5 @@ if (vIsHTTPRequest) {
 // register finish
 long vElapsed = System.nanoTime() - vStartTime;
 double vElapsedSeconds = (double)vElapsed / 1000000000.0;
-aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoCBBbyIDAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
+aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoCBBbyIDRemainderAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
 //

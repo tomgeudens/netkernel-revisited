@@ -21,7 +21,7 @@ import org.netkernel.layer0.nkf.*;
 import java.util.UUID;
 
 /**
- * Milieuinfo CBB by ID Status with Extension Accessor
+ * Milieuinfo IMJV by ID Remainder with Extension Accessor
  */
 
 // context
@@ -31,7 +31,7 @@ INKFRequestContext aContext = (INKFRequestContext)context;
 // register start
 long vStartTime = System.nanoTime();
 UUID vId = UUID.randomUUID();
-aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoCBBbyIDStatuswithExtensionAccessor: start of id - " + vId);
+aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoIMJVbyIDRemainderwithExtensionAccessor: start of id - " + vId);
 //
 
 // arguments
@@ -42,28 +42,28 @@ try {
 	aExtension = aContext.source("arg:extension", String.class);
 }
 catch (Exception e) {
-	aContext.logRaw(INKFLocale.LEVEL_WARNING, "MilieuinfoCBBbyIDStatuswithExtensionAccessor: invalid - extension - argument");
+	aContext.logRaw(INKFLocale.LEVEL_WARNING, "MilieuinfoIMJVbyIDRemainderwithExtensionAccessor: invalid - extension - argument");
 	// sensible default
 	aExtension = "html"
 }
 //
 
 // processing
-INKFRequest cbbbyidstatusrequest = aContext.createRequest("active:milieuinfocbbbyidstatus");
-cbbbyidstatusrequest.addArgument("owner","arg:owner");
-cbbbyidstatusrequest.addArgument("id","arg:id");
-cbbbyidstatusrequest.addArgument("status","arg:status");
+INKFRequest imjvbyidremainderrequest = aContext.createRequest("active:milieuinfoimjvbyidremainder");
+imjvbyidremainderrequest.addArgument("owner","arg:owner");
+imjvbyidremainderrequest.addArgument("id","arg:id");
+imjvbyidremainderrequest.addArgument("remainder","arg:remainder");
 
-INKFResponseReadOnly cbbbyidstatusresponse = aContext.issueRequestForResponse(cbbbyidstatusrequest);
-int vHTTPResponseCode = cbbbyidstatusresponse.getHeader("httpresponsecode");
-Object vCBBbyIDStatusResult = cbbbyidstatusresponse.getRepresentation();
+INKFResponseReadOnly imjvbyidremainderresponse = aContext.issueRequestForResponse(imjvbyidremainderrequest);
+int vHTTPResponseCode = imjvbyidremainderresponse.getHeader("httpresponsecode");
+Object vIMJVbyIDRemainderResult = imjvbyidremainderresponse.getRepresentation();
 //
 
 // response
 INKFResponse vResponse = null;
 
 if (vHTTPResponseCode >= 400) {
-	vResponse = aContext.createResponseFrom(vCBBbyIDStatusResult);
+	vResponse = aContext.createResponseFrom(vIMJVbyIDRemainderResult);
 	vResponse.setMimeType("text/plain"); // best mimetype for an errormessage
 	vResponse.setExpiry(INKFResponse.EXPIRY_ALWAYS); // we don't want to cache this
 }
@@ -71,38 +71,38 @@ else {
 	switch (aExtension) {
 	case "rdf":
 		INKFRequest rdfxml2rdfxmlrequest = aContext.createRequest("active:rdfxml2rdfxml");
-		rdfxml2rdfxmlrequest.addArgumentByValue("operand", vCBBbyIDStatusResult);
+		rdfxml2rdfxmlrequest.addArgumentByValue("operand", vIMJVbyIDRemainderResult);
 		vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(rdfxml2rdfxmlrequest));
 		vResponse.setMimeType("application/rdf+xml");
 		break;
 	case "ttl":
 		INKFRequest rdfxml2turtlerequest = aContext.createRequest("active:rdfxml2turtle");
-		rdfxml2turtlerequest.addArgumentByValue("operand", vCBBbyIDStatusResult);
+		rdfxml2turtlerequest.addArgumentByValue("operand", vIMJVbyIDRemainderResult);
 		vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(rdfxml2turtlerequest));
 		vResponse.setMimeType("text/turtle");
 		break;
 	case "nt":
 		INKFRequest rdfxml2ntriplerequest = aContext.createRequest("active:rdfxml2ntriple");
-		rdfxml2ntriplerequest.addArgumentByValue("operand", vCBBbyIDStatusResult);
+		rdfxml2ntriplerequest.addArgumentByValue("operand", vIMJVbyIDRemainderResult);
 		vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(rdfxml2ntriplerequest));
 		vResponse.setMimeType("text/plain");
 		break;
 	case "jsonld":
 		INKFRequest rdfxml2jsonldrequest = aContext.createRequest("active:rdfxml2jsonld");
-		rdfxml2jsonldrequest.addArgumentByValue("operand", vCBBbyIDStatusResult);
+		rdfxml2jsonldrequest.addArgumentByValue("operand", vIMJVbyIDRemainderResult);
 		vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(rdfxml2jsonldrequest));
 		vResponse.setMimeType("application/ld+json");
 		break;
 	case "html":
 		INKFRequest rdfxml2htmlrequest = aContext.createRequest("active:rdfxml2html");
-		rdfxml2htmlrequest.addArgumentByValue("operand", vCBBbyIDStatusResult);
-		rdfxml2htmlrequest.addArgument("operator", "res:/resources/xsl/rdfxml2htmlcbb.xsl");
+		rdfxml2htmlrequest.addArgumentByValue("operand", vIMJVbyIDRemainderResult);
+		rdfxml2htmlrequest.addArgument("operator", "res:/resources/xsl/rdfxml2htmlimjv.xsl");
 		vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(rdfxml2htmlrequest));
 		vResponse.setMimeType("text/html");
 		break;
 	default:
 		INKFRequest rdfxml2rdfxmlrequest = aContext.createRequest("active:rdfxml2rdfxml");
-		rdfxml2rdfxmlrequest.addArgumentByValue("operand", vCBBbyIDStatusResult);
+		rdfxml2rdfxmlrequest.addArgumentByValue("operand", vIMJVbyIDRemainderResult);
 		vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(rdfxml2rdfxmlrequest));
 		vResponse.setMimeType("application/rdf+xml");
 		break;
@@ -130,5 +130,5 @@ if (vIsHTTPRequest) {
 // register finish
 long vElapsed = System.nanoTime() - vStartTime;
 double vElapsedSeconds = (double)vElapsed / 1000000000.0;
-aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoCBBbyIDStatuswithExtensionAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
+aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoIMJVbyIDRemainderwithExtensionAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
 //

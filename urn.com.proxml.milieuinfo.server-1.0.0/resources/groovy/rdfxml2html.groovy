@@ -45,6 +45,8 @@ Object vRDFXML = aContext.issueRequest(rdfxml2rdfxmlrequest);
 INKFRequest xsltcrequest = aContext.createRequest("active:xsltc");
 xsltcrequest.addArgumentByValue("operand", vRDFXML);
 xsltcrequest.addArgument("operator","arg:operator");
+xsltcrequest.addArgument("replace","milieuinfo:baseurl");
+xsltcrequest.addArgument("with","milieuinfo:activeurl");
 xsltcrequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
 
 INKFRequest tagsouprequest = aContext.createRequest("active:tagSoup");

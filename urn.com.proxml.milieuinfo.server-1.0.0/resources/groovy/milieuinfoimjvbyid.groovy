@@ -21,7 +21,7 @@ import org.netkernel.layer0.nkf.*;
 import java.util.UUID;
 
 /**
- * Milieuinfo CBB by ID Accessor
+ * Milieuinfo IMJV by ID Accessor
  */
 
 // context
@@ -31,7 +31,7 @@ INKFRequestContext aContext = (INKFRequestContext)context;
 // register start
 long vStartTime = System.nanoTime();
 UUID vId = UUID.randomUUID();
-aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoCBBbyIDAccessor: start of id - " + vId);
+aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoIMJVbyIDAccessor: start of id - " + vId);
 //
 
 // arguments
@@ -42,8 +42,8 @@ try {
 	aOwner = aContext.source("arg:owner", String.class);
 }
 catch (Exception e) {
-	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoCBBbyIDAccessor: invalid - owner - argument");
-	throw new Exception("MilieuinfoCBBbyIDAccessor: no valid - owner - argument");
+	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoIMJVbyIDAccessor: invalid - owner - argument");
+	throw new Exception("MilieuinfoIMJVbyIDAccessor: no valid - owner - argument");
 }
 
 String aID = null;
@@ -51,8 +51,8 @@ try {
 	aID = aContext.source("arg:id", String.class);
 }
 catch (Exception e) {
-	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoCBBbyIDAccessor: invalid - id - argument");
-	throw new Exception("MilieuinfoCBBbyIDAccessor: no valid - id - argument");
+	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoIMJVbyIDAccessor: invalid - id - argument");
+	throw new Exception("MilieuinfoIMJVbyIDAccessor: no valid - id - argument");
 }
 //
 
@@ -71,16 +71,16 @@ if (vInCache) {
 }
 else {
 	INKFRequest freemarkerrequest = aContext.createRequest("active:freemarker");
-	freemarkerrequest.addArgument("operator", "res:/resources/freemarker/constructcbbbyid.freemarker");
+	freemarkerrequest.addArgument("operator", "res:/resources/freemarker/constructimjvbyid.freemarker");
 	freemarkerrequest.addArgumentByValue("owner", aOwner);
 	freemarkerrequest.addArgumentByValue("id", aID);
 	freemarkerrequest.setRepresentationClass(String.class);
 	String vQuery = (String)aContext.issueRequest(freemarkerrequest);
 	
 	INKFRequest sparqlrequest = aContext.createRequest("active:sparql");
-	sparqlrequest.addArgument("database","milieuinfo:database-cbb");
-	sparqlrequest.addArgument("expiry", "milieuinfo:expiry-cbb");
-	sparqlrequest.addArgument("credentials","milieuinfo:credentials-cbb");
+	sparqlrequest.addArgument("database","milieuinfo:database-imjv");
+	sparqlrequest.addArgument("expiry", "milieuinfo:expiry-imjv");
+	sparqlrequest.addArgument("credentials","milieuinfo:credentials-imjv");
 	sparqlrequest.addArgumentByValue("query", vQuery);
 	sparqlrequest.addArgumentByValue("accept","application/rdf+xml");
 
@@ -126,5 +126,5 @@ if (vIsHTTPRequest) {
 // register finish
 long vElapsed = System.nanoTime() - vStartTime;
 double vElapsedSeconds = (double)vElapsed / 1000000000.0;
-aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoCBBbyIDAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
+aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoIMJVbyIDAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
 //

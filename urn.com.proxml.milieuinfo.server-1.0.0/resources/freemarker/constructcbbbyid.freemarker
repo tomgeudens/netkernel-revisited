@@ -1,0 +1,11 @@
+<#setting url_escaping_charset='UTF-8'>
+CONSTRUCT {
+  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?predicate ?object .
+  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?outgoingpredicate ?outgoingobject .
+}
+WHERE {
+  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?predicate ?object .
+  FILTER (isLiteral(?object))
+  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?outgoingpredicate ?outgoingobject .
+  FILTER (isURI(?outgoingobject))
+}

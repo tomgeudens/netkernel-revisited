@@ -20,13 +20,24 @@
 		name="proxml milieuinfo database"
 		public="true"
 		uri="urn:com:proxml:milieuinfo:database">
-		
-		<!-- 
-		<literal type="string" uri="milieuinfo:database-cbb">http://lodcbbomv-on-1.vm.cumuli.be:8080/lodcbbomv/repositories/CBB</literal>
-		 -->
+		<literal type="string" uri="milieuinfo:database-cbb">http://lodcbbomv-on-1.vm.cumuli.be:8080/lodcbbomv/repositories/CBB</literal> 
+
+		<literal type="string" uri="milieuinfo:database-imjv">http://rdfstoreomv-on-1.vm.cumuli.be:3030/blazegraph/namespace/lne/sparql</literal>
+        <!--
 		<literal type="string" uri="milieuinfo:database-cbb">http://localhost:9999/blazegraph/namespace/cbb/sparql</literal>
+		-->
+		<!--
+		<literal type="string" uri="milieuinfo:database-imjv">http://localhost:9999/blazegraph/namespace/imjv/sparql</literal>
+		--> 
+
 		<literal type="string" uri="milieuinfo:query-cbb">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
+
+		<literal type="string" uri="milieuinfo:query-imjv">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
+
 		<literal type="long" uri="milieuinfo:expiry-cbb">86400000</literal>
+
+		<literal type="long" uri="milieuinfo:expiry-imjv">86400000</literal>
+
 		<literal type="hds" uri="milieuinfo:credentials-cbb">
 			<httpCredentials>
 				<host>localhost</host>
@@ -35,9 +46,27 @@
 				<password>anonymous</password>
 			</httpCredentials>
 		</literal>
-		<literal type="string" uri="milieuinfo:baseurl-cbb">http://localhost:8100/cbb</literal>
-		<literal type="string" uri="milieuinfo:dataset-cbb">http://id.milieuinfo.be/dataset/cbb#id</literal>
+		
+		<literal type="hds" uri="milieuinfo:credentials-imjv">
+			<httpCredentials>
+				<host>rdfstoreomv-on-1.vm.cumuli.be</host>
+				<port>3030</port>
+				<username>anonymous</username>
+				<password>anonymous</password>
+			</httpCredentials>
+		</literal>
 
+		<literal type="hds" uri="res:/etc/pdsConfig.xml">
+			<config>
+				<zone>Milieuinfo</zone>
+				<pdsfiledirectory>file:/N:/tmp/</pdsfiledirectory>
+			</config>
+		</literal>
+		
+		<literal type="string" uri="milieuinfo:baseurl">http://id.milieuinfo.be</literal>
+		
+		<literal type="string" uri="milieuinfo:activeurl">http://localhost:8100</literal>
+		
 		<import>
 			<uri>urn:com:proxml:milieuinfo:database:import</uri>
 			<private/>

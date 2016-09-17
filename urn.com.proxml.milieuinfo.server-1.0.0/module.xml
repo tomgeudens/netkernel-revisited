@@ -35,11 +35,154 @@
 		<overlay>
 			<prototype>RESTOverlay</prototype>
 			<config>
-				<basepath>/imjv</basepath>
+				<basepath>/imjv/</basepath>
 				<auto404/>
 			</config>
 			
 			<space>
+				<mapper>
+					<config>
+						<!-- /imjv/(dossier|exploitatie)/xxxxxxx/<remainder>.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(dossier|exploitatie)}/{id}/{remainder}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvbyidremainderwithextensionrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+									<argument name="remainder"/>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfoimjvbyidremainderwithextension</identifier>
+								<argument name="owner" method="as-string">imjv/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="remainder" method="as-string">[[arg:remainder]]</argument>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
+
+						<!-- /imjv/(dossier|exploitatie)/xxxxxxx/<remainder> -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(dossier|exploitatie)}/{id}/{remainder}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlimjv.xsl">text/html</produces>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvbyidremainderrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+									<argument name="remainder"/>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfoimjvbyidremainder</identifier>
+								<argument name="owner" method="as-string">imjv/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="remainder" method="as-string">[[arg:remainder]]</argument>
+							</request>
+						</endpoint>
+>
+						
+						<!-- /imjv/(dossier|exploitatie)/xxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(dossier|exploitatie)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvbyidwithextensionrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfoimjvbyidwithextension</identifier>
+								<argument name="owner" method="as-string">imjv/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>
+						</endpoint>
+
+						<!-- /imjv/(dossier|exploitatie)/xxxxxxx -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(dossier|exploitatie)}/{id}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlimjv.xsl">text/html</produces>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvbyidrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfoimjvbyid</identifier>
+								<argument name="owner" method="as-string">imjv/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+							</request>
+						</endpoint>
+					</config>
+					
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:proxml:milieuinfo:database</uri>
+							<private/>
+						</import>			
+
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+				
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:proxml:milieuinfo:database</uri>
+					<private/>
+				</import>			
+
 				<import>
 					<!-- needed here as well if the RESTOverlay itself
 						 launches the request -->
@@ -59,11 +202,11 @@
 			<space>
 				<mapper>
 					<config>
-						<!-- /cbb/(adres|exploitatie|exploitant)/xxxxx/status.(rdf|ttl|nt|jsonld|html) -->
+						<!-- /cbb/(adres|exploitatie|exploitant)/xxxxx/<remainder>.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(exploitatie)}/{id}/{status:(status)}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<simple>{owner:(exploitatie)}/{id}/{remainder}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -72,28 +215,28 @@
 							
 							<grammar>
 								<active>
-									<identifier>active:milieuinfocbbbyidstatuswithextensionrestoverlay</identifier>
+									<identifier>active:milieuinfocbbbyidremainderwithextensionrestoverlay</identifier>
 									<argument name="owner"/>
 									<argument name="id"/>
-									<argument name="status"/>
+									<argument name="remainder"/>
 									<argument name="extension"/>
 								</active>
 							</grammar>
 							
 							<request>
-								<identifier>active:milieuinfocbbbyidstatuswithextension</identifier>
+								<identifier>active:milieuinfocbbbyidremainderwithextension</identifier>
 								<argument name="owner" method="as-string">cbb/[[arg:owner]]</argument>
 								<argument name="id" method="as-string">[[arg:id]]</argument>
-								<argument name="status" method="as-string">[[arg:status]]</argument>
+								<argument name="remainder" method="as-string">[[arg:remainder]]</argument>
 								<argument name="extension" method="as-string">[[arg:extension]]</argument>
 							</request>							
 						</endpoint>
 						
-						<!-- /cbb/(adres|exploitatie|exploitant)/xxxxx/status -->
+						<!-- /cbb/(adres|exploitatie|exploitant)/xxxxx/<remainder> -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(exploitatie)}/{id}/{status:(status)}</simple>
+									<simple>{owner:(exploitatie)}/{id}/{remainder}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -108,18 +251,18 @@
 
 							<grammar>
 								<active>
-									<identifier>active:milieuinfocbbbyidstatusrestoverlay</identifier>
+									<identifier>active:milieuinfocbbbyidremainderrestoverlay</identifier>
 									<argument name="owner"/>
 									<argument name="id"/>
-									<argument name="status"/>
+									<argument name="remainder"/>
 								</active>
 							</grammar>
 
 							<request>
-								<identifier>active:milieuinfocbbbyidstatus</identifier>
+								<identifier>active:milieuinfocbbbyidremainder</identifier>
 								<argument name="owner" method="as-string">cbb/[[arg:owner]]</argument>
 								<argument name="id" method="as-string">[[arg:id]]</argument>
-								<argument name="status" method="as-string">[[arg:status]]</argument>								
+								<argument name="remainder" method="as-string">[[arg:remainder]]</argument>								
 							</request>
 						</endpoint>
 						
@@ -148,6 +291,7 @@
 								<argument name="extension" method="as-string">[[arg:extension]]</argument>
 							</request>
 						</endpoint>
+
 						<!-- /cbb/(adres|exploitatie|exploitant)/xxxxx -->
 						<endpoint>
 							<meta>
@@ -261,6 +405,12 @@
 				</mapper>
 
 				<import>
+					<!-- database constants -->
+					<uri>urn:com:proxml:milieuinfo:database</uri>
+					<private/>
+				</import>
+						
+				<import>
 					<!-- needed here as well if the RESTOverlay itself
 						 launches the request -->
 					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
@@ -371,13 +521,6 @@
 		name="proxml milieuinfo server import overlay"
 		public="false"
 		uri="urn:com:proxml:milieuinfo:server:import:overlay">
-		<literal type="hds" uri="res:/etc/pdsConfig.xml">
-			<config>
-				<zone>Milieuinfo</zone>
-				<pdsfiledirectory>file:/C:/nkwork/tmp/</pdsfiledirectory>
-			</config>
-		</literal>
-		
 		<fileset>
 			<!-- contains html resources -->
 			<regex>res:/resources/html/.*</regex>
@@ -478,17 +621,44 @@
 				</active>
 			</grammar>
 		</accessor>
-
+		
 		<accessor>
-			<id>com:proxml:milieuinfo:server:cbbbyidstatus:groovy:accessor</id>
+			<id>com:proxml:milieuinfo:server:imjvbyid:groovy:accessor</id>
 			<prototype>GroovyPrototype</prototype>
-			<script>res:/resources/groovy/milieuinfocbbbyidstatus.groovy</script>
+			<script>res:/resources/groovy/milieuinfoimjvbyid.groovy</script>
 			<grammar>
 				<active>
-					<identifier>active:milieuinfocbbbyidstatus</identifier>
+					<identifier>active:milieuinfoimjvbyid</identifier>
 					<argument name="owner" desc="owner" max="1" min="1"/>
 					<argument name="id" desc="id" max="1" min="1"/>
-					<argument name="status" desc="status" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:cbbbyidremainder:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfocbbbyidremainder.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfocbbbyidremainder</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="remainder" desc="remainder" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:imjvbyidremainder:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoimjvbyidremainder.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoimjvbyidremainder</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="remainder" desc="remainder" max="1" min="1"/>
 				</active>
 			</grammar>
 		</accessor>
@@ -506,17 +676,46 @@
 				</active>
 			</grammar>
 		</accessor>
-		
+
 		<accessor>
-			<id>com:proxml:milieuinfo:server:cbbbyidstatuswithextension:groovy:accessor</id>
+			<id>com:proxml:milieuinfo:server:imjvbyidwithextension:groovy:accessor</id>
 			<prototype>GroovyPrototype</prototype>
-			<script>res:/resources/groovy/milieuinfocbbbyidstatuswithextension.groovy</script>
+			<script>res:/resources/groovy/milieuinfoimjvbyidwithextension.groovy</script>
 			<grammar>
 				<active>
-					<identifier>active:milieuinfocbbbyidstatuswithextension</identifier>
+					<identifier>active:milieuinfoimjvbyidwithextension</identifier>
 					<argument name="owner" desc="owner" max="1" min="1"/>
 					<argument name="id" desc="id" max="1" min="1"/>
-					<argument name="status" desc="status" max="1" min="1"/>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:proxml:milieuinfo:server:cbbbyidremainderwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfocbbbyidremainderwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfocbbbyidremainderwithextension</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="remainder" desc="remainder" max="1" min="1"/>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:imjvbyidremainderwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoimjvbyidremainderwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoimjvbyidremainderwithextension</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="remainder" desc="remainder" max="1" min="1"/>
 					<argument name="extension" desc="extension" max="1" min="1"/>
 				</active>
 			</grammar>
