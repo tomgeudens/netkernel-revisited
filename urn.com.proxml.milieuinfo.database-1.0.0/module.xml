@@ -20,23 +20,27 @@
 		name="proxml milieuinfo database"
 		public="true"
 		uri="urn:com:proxml:milieuinfo:database">
+		<!--
 		<literal type="string" uri="milieuinfo:database-cbb">http://lodcbbomv-on-1.vm.cumuli.be:8080/lodcbbomv/repositories/CBB</literal> 
 
 		<literal type="string" uri="milieuinfo:database-imjv">http://rdfstoreomv-on-1.vm.cumuli.be:3030/blazegraph/namespace/lne/sparql</literal>
-        <!--
+        -->
+		<literal type="string" uri="milieuinfo:database-def">http://rdfstoreomv-on-1.vm.cumuli.be:3030/blazegraph/namespace/lne/sparql</literal>
+		
 		<literal type="string" uri="milieuinfo:database-cbb">http://localhost:9999/blazegraph/namespace/cbb/sparql</literal>
-		-->
-		<!--
 		<literal type="string" uri="milieuinfo:database-imjv">http://localhost:9999/blazegraph/namespace/imjv/sparql</literal>
-		--> 
 
 		<literal type="string" uri="milieuinfo:query-cbb">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
 
 		<literal type="string" uri="milieuinfo:query-imjv">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
 
+		<literal type="string" uri="milieuinfo:query-def">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
+
 		<literal type="long" uri="milieuinfo:expiry-cbb">86400000</literal>
 
 		<literal type="long" uri="milieuinfo:expiry-imjv">86400000</literal>
+
+		<literal type="long" uri="milieuinfo:expiry-def">86400000</literal>
 
 		<literal type="hds" uri="milieuinfo:credentials-cbb">
 			<httpCredentials>
@@ -48,6 +52,15 @@
 		</literal>
 		
 		<literal type="hds" uri="milieuinfo:credentials-imjv">
+			<httpCredentials>
+				<host>rdfstoreomv-on-1.vm.cumuli.be</host>
+				<port>3030</port>
+				<username>anonymous</username>
+				<password>anonymous</password>
+			</httpCredentials>
+		</literal>
+
+		<literal type="hds" uri="milieuinfo:credentials-def">
 			<httpCredentials>
 				<host>rdfstoreomv-on-1.vm.cumuli.be</host>
 				<port>3030</port>

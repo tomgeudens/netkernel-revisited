@@ -47,6 +47,7 @@ public class CSVFreemarkerAccessor extends StandardAccessorImpl {
 		this.declareArgument(new SourcedArgumentMetaImpl("in", null, null, new Class[] {String.class}));
 		this.declareArgument(new SourcedArgumentMetaImpl("out", null, null, new Class[] {String.class}));
 		this.declareArgument(new SourcedArgumentMetaImpl("template", null, null, new Class[] {String.class}));
+		this.declareArgument(new SourcedArgumentMetaImpl("separator", null, null, new Class[] {String.class}));
 		this.declareSourceRepresentation(String.class);
 	}
 	
@@ -90,15 +91,24 @@ public class CSVFreemarkerAccessor extends StandardAccessorImpl {
 		if (! aTemplate.startsWith("file:/")) {
 			throw new Exception("CSVFreemarkerAccessor: argument - template - should be a file:/ resource");
 		}
-		//
 		
+		String aSeparator = null;
+		try {
+			aSeparator = aContext.source("arg:separator", String.class);
+		}
+		catch (Exception e) {
+			throw new Exception("CSVFreemarkerAccessor: no valid - separator - argument");
+		}
+		//
+
 		// processing
 		ICsvMapReader vMapReader = null;
 		BufferedWriter vOutWriter = null;
 		try {
+			CsvPreference CUSTOM_PREFERENCE = new CsvPreference.Builder('"', aSeparator.charAt(0), "\r\n").build();
 			File vOutFile = new File(new URI(aOut));
 			vOutWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(vOutFile), "UTF8"));
-			vMapReader = new CsvMapReader(new FileReader((new URI(aIn)).getRawPath()), CsvPreference.STANDARD_PREFERENCE);
+			vMapReader = new CsvMapReader(new FileReader((new URI(aIn)).getRawPath()), CUSTOM_PREFERENCE);
 			
 			// read the column names
 			final String[] vHeader = vMapReader.getHeader(true);
@@ -122,8 +132,8 @@ public class CSVFreemarkerAccessor extends StandardAccessorImpl {
 				//		vMap));
 				
 				// write the result
-				vOutWriter.append(vFreemarkerResult);
-				//vOutWriter.append(vFreemarkerResult).append("\r\n");
+				//vOutWriter.append(vFreemarkerResult);
+				vOutWriter.append(vFreemarkerResult).append("\r\n");
 			}
 		}
 		finally {

@@ -52,7 +52,7 @@ catch (Exception e) {
 INKFRequest cbbbyidremainderrequest = aContext.createRequest("active:milieuinfocbbbyidremainder");
 cbbbyidremainderrequest.addArgument("owner","arg:owner");
 cbbbyidremainderrequest.addArgument("id","arg:id");
-cbbbyidremainderrequest.addArgument("Remainder","arg:remainder");
+cbbbyidremainderrequest.addArgument("remainder","arg:remainder");
 
 INKFResponseReadOnly cbbbyidremainderresponse = aContext.issueRequestForResponse(cbbbyidremainderrequest);
 int vHTTPResponseCode = cbbbyidremainderresponse.getHeader("httpresponsecode");

@@ -34,6 +34,7 @@
 					<argument name="in" desc="input csv file" max="1" min="1"/>
 					<argument name="out" desc="output file" max="1" min="1"/>
 					<argument name="template" desc="freemarker template file" max="1" min="1"/>
+					<argument name="separator" desc="separator" max="1" min="1"/>
 				</active>
 			</grammar>
 		</accessor>
@@ -47,6 +48,7 @@
 					<argument name="in" desc="input csv file" max="1" min="1"/>
 					<argument name="out" desc="output file" max="1" min="1"/>
 					<argument name="template" desc="freemarker template file" max="1" min="1"/>
+					<argument name="separator" desc="separator" max="1" min="1"/>
 				</active>
 			</grammar>
 		</accessor>
