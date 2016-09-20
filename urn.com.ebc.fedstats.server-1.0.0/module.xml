@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:fedstats:server</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / fedstats / server</name>
+			<description>ebc / fedstats / server</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc fedstats server"
+		public="true"
+		uri="urn:com:ebc:fedstats:server">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig|SimpleDynamicImportHook).xml</regex>
+		</fileset>
+
+		<!-- this endpoint makes sure no other /etc/system resource
+		     gets pulled in -->
+		<endpoint>
+			<prototype>Limiter</prototype>
+			<grammar>res:/etc/system<regex type="anything"/></grammar>
+		</endpoint>
+		
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/nace</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>
+						<!-- /nace(2003/2008)/xxxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{year:(2003|2008)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:fedstatsnacebyidwithextensionrestoverlay</identifier>
+									<argument name="year"/>
+									<argument name="id"/>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:fedstatsnacebyidwithextension</identifier>
+								<argument name="owner" method="as-string">nace[[arg:year]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>
+						</endpoint>
+						
+						<!-- /nace(2003/2008)/xxxxxx -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{year:(2003|2008)}/{id}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlnace.xsl">text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:fedstatsnacebyidrestoverlay</identifier>
+									<argument name="year"/>
+									<argument name="id"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:fedstatsnacebyid</identifier>
+								<argument name="owner" method="as-string">nace[[arg:year]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+							</request>
+						</endpoint>
+					</config>
+					
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:ebc:fedstats:database</uri>
+							<private/>
+						</import>
+				
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:ebc:fedstats:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+				
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:ebc:fedstats:database</uri>
+					<private/>
+				</import>
+				
+				<import>
+					<!-- tools needed inside the RESTOverlay -->
+					<uri>urn:com:ebc:fedstats:server:import:overlay</uri>
+					<private/>
+				</import>				
+			</space>
+		</overlay>
+		
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>
+						<!-- / -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple></simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:fedstatshomerestoverlay</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/html/fedstats.html</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /css/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>css/{cssfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/css</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:fedstatscssrestoverlay</identifier>
+									<argument name="cssfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/css/[[arg:cssfile]]</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /dataset/nace.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>dataset/nace.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+
+							<grammar>
+								<active>
+									<identifier>active:fedstatsnacevoidwithextensionrestoverlay</identifier>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:fedstatsnacevoidwithextension</identifier>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
+						
+						<!-- /dataset/nace -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>dataset/nace</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlnace.xsl">text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:fedstatsnacevoidrestoverlay</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:fedstatsnacevoid</identifier>
+							</request>
+						</endpoint>
+					</config>
+					
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:ebc:fedstats:database</uri>
+							<private/>
+						</import>
+				
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:ebc:fedstats:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+				
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:ebc:fedstats:database</uri>
+					<private/>
+				</import>
+				
+				<import>
+					<!-- tools needed inside the RESTOverlay -->
+					<uri>urn:com:ebc:fedstats:server:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+		
+		<import>
+			<uri>urn:com:ebc:fedstats:server:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc fedstats server import"
+		public="false"
+		uri="urn:com:ebc:fedstats:server:import">
+		
+		<import>
+			<!-- contains RESTOverlay prototype -->
+			<uri>urn:org:netkernel:tpt:http</uri>
+		</import>
+		
+		<import>
+			<!-- contains Limiter prototype -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc fedstats server import overlay"
+		public="false"
+		uri="urn:com:ebc:fedstats:server:import:overlay">
+		
+		<fileset>
+			<!-- contains html resources -->
+			<regex>res:/resources/html/.*</regex>
+		</fileset>
+		
+		<fileset>
+			<!-- contains css resources -->
+			<regex>res:/resources/css/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains groovy resources -->
+			<regex>res:/resources/groovy/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains xsl resources -->
+			<regex>res:/resources/xsl/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains sparql resources -->
+			<regex>res:/resources/sparql/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains freemarker resources -->
+			<regex>res:/resources/freemarker/.*</regex>
+		</fileset>
+		
+		<import>
+			<!-- contains GroovyPrototype -->
+			<uri>urn:org:netkernel:lang:groovy</uri>
+		</import>
+
+		<import>
+			<!-- contains active:freemarker -->
+			<uri>urn:org:netkernel:lang:freemarker</uri>
+		</import>
+
+		<import>
+			<!-- contains active:xsltc -->
+			<uri>urn:org:netkernel:xml:core</uri>
+		</import>
+		
+		<import>
+			<!-- contains active:tagSoup -->
+			<uri>urn:org:netkernel:web:core</uri>
+		</import>
+
+		<import>
+			<!-- contains pds:/ scheme -->
+			<uri>urn:org:netkernel:mod:pds</uri>
+		</import>
+		
+		<import>
+			<!-- contains transreptors used when the endpoints are
+			     launched manually (e.g. request trace tool)  -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+		
+		<import>
+			<!-- contains                                    -->
+			<!-- active:rdfxml2rdfxml, active:rdfxml2turtle  -->
+			<!-- active:rdfxml2ntriple, active:rdfxml2jsonld -->
+			<uri>urn:com:ebc:triplestore:utility</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+		
+		<import>
+			<!-- contains active:sparql -->
+			<uri>urn:com:ebc:triplestore:httpclient:sparql</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+		
+		<import>
+			<!-- contains active:pds -->
+			<uri>urn:com:ebc:tool:pdsfile</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+
+		<accessor>
+			<id>com:ebc:fedstats:server:nacebyid:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/fedstatsnacebyid.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:fedstatsnacebyid</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:ebc:fedstats:server:nacebyidwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/fedstatsnacebyidwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:fedstatsnacebyidwithextension</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:ebc:fedstats:server:nacevoid:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/fedstatsnacevoid.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:fedstatsnacevoid</identifier>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:ebc:fedstats:server:nacevoidwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/fedstatsnacevoidwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:fedstatsnacevoidwithextension</identifier>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:ebc:fedstats:server:rdfxml2html:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/rdfxml2html.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:rdfxml2html</identifier>
+					<argument name="operand" desc="unfiltered rdfxml" max="1" min="1"/>
+					<argument name="operator" desc="xsl stylesheet" max="1" min="1"/>
+				</active>
+			</grammar>			
+		</accessor>
+	</rootspace>
+	
+	<rootspace
+		name="ebc fedstats server unittest"
+		public="true"
+		uri="urn:com:ebc:fedstats:server:unittest">
+	</rootspace>
+</module>

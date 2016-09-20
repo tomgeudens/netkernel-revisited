@@ -107,7 +107,7 @@
 				<test>
 					<id>test:urn:com:ebc:aws:sdk</id>
 					<name>ebc aws sdk unittest</name>
-					<name>ebc aws sdk unittest</name>
+					<desc>ebc aws sdk unittest</desc>
 					<uri>res:/resources/unittest/aws-sdk.xml</uri>
 				</test>
 			</tests>

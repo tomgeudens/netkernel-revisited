@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:fedstats:database</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / fedstats / database</name>
+			<description>ebc / fedstats / database</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc fedstats database"
+		public="true"
+		uri="urn:com:ebc:fedstats:database">
+		
+		<literal type="string" uri="fedstats:database-nace">http://localhost:9999/blazegraph/namespace/nace/sparql</literal>
+		
+		<literal type="string" uri="fedstats:query-nace">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
+		
+		<literal type="long" uri="fedstats:expiry-nace">86400000</literal>
+		
+		<literal type="hds" uri="fedstats:credentials-nace">
+			<httpCredentials>
+				<host>localhost</host>
+				<port>9999</port>
+				<username>anonymous</username>
+				<password>anonymous</password>
+			</httpCredentials>
+		</literal>		
+
+		<literal type="hds" uri="res:/etc/pdsConfig.xml">
+			<config>
+				<zone>Fedstats</zone>
+				<pdsfiledirectory>file:/C:/nkwork/tmp/</pdsfiledirectory>
+			</config>
+		</literal>
+		
+		<literal type="string" uri="fedstats:baseurl">http://id.fedstats.be</literal>
+		
+		<literal type="string" uri="fedstats:activeurl">http://localhost:8200</literal>
+						
+		<import>
+			<uri>urn:com:ebc:fedstats:database:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc fedstats database import"
+		public="false"
+		uri="urn:com:ebc:fedstats:database:import">
+	</rootspace>
+	
+	<rootspace
+		name="ebc fedstats database unittest"
+		public="true"
+		uri="urn:com:ebc:fedstats:database:unittest">
+		
+		<literal type="hds" uri="res:/etc/system/Tests.xml">
+			<tests>
+				<test>
+					<id>test:urn:com:ebc:fedstats:database</id>
+					<name>ebc fedstats database unittest</name>
+					<desc>ebc fedstats database unittest</desc>
+					<uri>res:/resources/unittest/fedstats-database.xml</uri>
+				</test>
+			</tests>
+		</literal>
+		
+		<!-- this endpoint makes sure no other /etc/system resource
+		     gets pulled into the testing framework -->
+		<endpoint>
+			<prototype>Limiter</prototype>
+			<grammar>res:/etc/system<regex type="anything"/></grammar>
+		</endpoint>		
+
+		<literal type="hds" uri="res:/resources/unittest/fedstats-database.xml">
+			<testlist>
+				<test name="SOURCE fedstats:baseurl">
+					<request>
+						<identifier>fedstats:baseurl</identifier>
+						<verb>SOURCE</verb>
+					</request>
+					
+					<assert>
+						<stringEquals>http://id.fedstats.be</stringEquals>
+					</assert>
+				</test>
+			</testlist>
+		</literal>	
+		
+		<import>
+			<!-- public space we want to test -->
+			<uri>urn:com:ebc:fedstats:database</uri>
+		</import>
+		
+		<import>
+			<!-- contains Limiter prototype -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>	
+	</rootspace>
+</module>
