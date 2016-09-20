@@ -475,6 +475,59 @@
 								<identifier>res:/resources/css/[[arg:cssfile]]</identifier>
 							</request>
 						</endpoint>
+						
+						<!-- /dataset/cbb.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>dataset/cbb.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbvoidwithextensionrestoverlay</identifier>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfocbbvoidwithextension</identifier>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
+
+						
+						<!-- /dataset/cbb -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>dataset/cbb</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlcbb.xsl">text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbvoidrestoverlay</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfocbbvoid</identifier>
+							</request>
+						</endpoint>
 
 					    <!-- /def -->
 						<endpoint>
@@ -662,6 +715,17 @@
 				</active>
 			</grammar>
 		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:cbbvoid:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfocbbvoid.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfocbbvoid</identifier>
+				</active>
+			</grammar>
+		</accessor>
 		
 		<accessor>
 			<id>com:proxml:milieuinfo:server:cbbbyid:groovy:accessor</id>
@@ -713,6 +777,18 @@
 					<argument name="owner" desc="owner" max="1" min="1"/>
 					<argument name="id" desc="id" max="1" min="1"/>
 					<argument name="remainder" desc="remainder" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:cbbvoidwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfocbbvoidwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfocbbvoidwithextension</identifier>
+					<argument name="extension" desc="extension" max="1" min="1"/>
 				</active>
 			</grammar>
 		</accessor>
