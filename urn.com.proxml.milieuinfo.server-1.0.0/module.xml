@@ -529,6 +529,59 @@
 							</request>
 						</endpoint>
 
+						<!-- /dataset/imjv.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>dataset/imjv.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvvoidwithextensionrestoverlay</identifier>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfoimjvvoidwithextension</identifier>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
+
+						
+						<!-- /dataset/imjv -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>dataset/imjv</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlimjv.xsl">text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvvoidrestoverlay</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfoimjvvoid</identifier>
+							</request>
+						</endpoint>
+
 					    <!-- /def -->
 						<endpoint>
 							<meta>
@@ -726,6 +779,17 @@
 				</active>
 			</grammar>
 		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:imjvvoid:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoimjvvoid.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoimjvvoid</identifier>
+				</active>
+			</grammar>
+		</accessor>
 		
 		<accessor>
 			<id>com:proxml:milieuinfo:server:cbbbyid:groovy:accessor</id>
@@ -788,6 +852,18 @@
 			<grammar>
 				<active>
 					<identifier>active:milieuinfocbbvoidwithextension</identifier>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:imjvvoidwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoimjvvoidwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoimjvvoidwithextension</identifier>
 					<argument name="extension" desc="extension" max="1" min="1"/>
 				</active>
 			</grammar>

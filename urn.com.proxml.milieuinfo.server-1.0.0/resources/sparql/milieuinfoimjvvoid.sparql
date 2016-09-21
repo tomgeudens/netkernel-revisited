@@ -1,0 +1,33 @@
+CONSTRUCT {
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://rdfs.org/ns/void#Dataset> .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://www.w3.org/2000/01/rdf-schema#label> "IMJV"@nl .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://purl.org/dc/terms/title> "Dataset IMJV"@nl .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://purl.org/dc/terms/description> "Dataset Integraal Milieujaarverslag"@nl .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://purl.org/dc/terms/license> <http://economie.fgov.be/nl/binaries/Licence%20open%20data_Nl_final2_tcm325-272764.pdf> .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#sparqlEndpoint> <http://id.milieuinfo.be/imjv/sparql> .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?dossier .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?document .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#triples> ?triples .
+}
+WHERE {
+  { 
+    SELECT (count(*) as ?triples) 
+    WHERE {
+      ?a ?b ?c .
+    }
+  }
+  {
+    SELECT ?dossier
+    WHERE {
+      ?dossier <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Case> .
+    }
+    LIMIT 2
+  }
+  {
+    SELECT ?document
+    WHERE {
+      ?document <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Document> .
+    }
+    LIMIT 2
+  }
+}
