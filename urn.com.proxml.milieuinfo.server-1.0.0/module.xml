@@ -581,6 +581,30 @@
 								<identifier>active:milieuinfoimjvvoid</identifier>
 							</request>
 						</endpoint>
+						
+						<!-- /def.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>def.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+
+							<grammar>
+								<active>
+									<identifier>active:milieuinfodefwithextensionrestoverlay</identifier>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfodefwithextension</identifier>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
 
 					    <!-- /def -->
 						<endpoint>
@@ -841,6 +865,18 @@
 					<argument name="owner" desc="owner" max="1" min="1"/>
 					<argument name="id" desc="id" max="1" min="1"/>
 					<argument name="remainder" desc="remainder" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:defwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfodefwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfodefwithextension</identifier>
+					<argument name="extension" desc="extension" max="1" min="1"/>
 				</active>
 			</grammar>
 		</accessor>

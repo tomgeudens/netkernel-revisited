@@ -24,11 +24,14 @@
 		<literal type="string" uri="milieuinfo:database-cbb">http://lodcbbomv-on-1.vm.cumuli.be:8080/lodcbbomv/repositories/CBB</literal> 
 
 		<literal type="string" uri="milieuinfo:database-imjv">http://rdfstoreomv-on-1.vm.cumuli.be:3030/blazegraph/namespace/lne/sparql</literal>
-        -->
+
 		<literal type="string" uri="milieuinfo:database-def">http://rdfstoreomv-on-1.vm.cumuli.be:3030/blazegraph/namespace/lne/sparql</literal>
-		
+		--> 
 		<literal type="string" uri="milieuinfo:database-cbb">http://localhost:9999/blazegraph/namespace/cbb/sparql</literal>
+	
 		<literal type="string" uri="milieuinfo:database-imjv">http://localhost:9999/blazegraph/namespace/imjv/sparql</literal>
+
+		<literal type="string" uri="milieuinfo:database-def">http://localhost:9999/blazegraph/namespace/def/sparql</literal>
 
 		<literal type="string" uri="milieuinfo:query-cbb">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
 
@@ -72,7 +75,7 @@
 		<literal type="hds" uri="res:/etc/pdsConfig.xml">
 			<config>
 				<zone>Milieuinfo</zone>
-				<pdsfiledirectory>file:/C:/nkwork/tmp/</pdsfiledirectory>
+				<pdsfiledirectory>file:/N:/tmp/</pdsfiledirectory>
 			</config>
 		</literal>
 		
