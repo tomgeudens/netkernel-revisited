@@ -20,17 +20,35 @@
 		name="ebc fedstats database"
 		public="true"
 		uri="urn:com:ebc:fedstats:database">
-		
+		<!--
+		<literal type="string" uri="fedstats:database-nace">http://id.fedstats.be:8890/sparql</literal>
+
+		<literal type="string" uri="fedstats:database-nis">http://id.fedstats.be:8890/sparql</literal>
+		-->
 		<literal type="string" uri="fedstats:database-nace">http://localhost:9999/blazegraph/namespace/nace/sparql</literal>
-		
+
+		<literal type="string" uri="fedstats:database-nis">http://localhost:9999/blazegraph/namespace/nis/sparql</literal>
 		<literal type="string" uri="fedstats:query-nace">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
+
+		<literal type="string" uri="fedstats:query-nis">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
 		
 		<literal type="long" uri="fedstats:expiry-nace">86400000</literal>
 		
+		<literal type="long" uri="fedstats:expiry-nis">86400000</literal>
+		
 		<literal type="hds" uri="fedstats:credentials-nace">
 			<httpCredentials>
-				<host>localhost</host>
-				<port>9999</port>
+				<host>id.fedstats.be</host>
+				<port>8890</port>
+				<username>anonymous</username>
+				<password>anonymous</password>
+			</httpCredentials>
+		</literal>
+		
+		<literal type="hds" uri="fedstats:credentials-nis">
+			<httpCredentials>
+				<host>id.fedstats.be</host>
+				<port>8890</port>
 				<username>anonymous</username>
 				<password>anonymous</password>
 			</httpCredentials>
@@ -39,7 +57,7 @@
 		<literal type="hds" uri="res:/etc/pdsConfig.xml">
 			<config>
 				<zone>Fedstats</zone>
-				<pdsfiledirectory>file:/N:/tmp/</pdsfiledirectory>
+				<pdsfiledirectory>file:/C:/nkwork/tmp/</pdsfiledirectory>
 			</config>
 		</literal>
 		

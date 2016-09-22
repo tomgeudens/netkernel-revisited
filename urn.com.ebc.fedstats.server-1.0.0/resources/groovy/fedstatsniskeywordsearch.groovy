@@ -1,6 +1,6 @@
 /**
  *
- * ProXML
+ * Elephant Bird Consulting
  *
  * @author tomgeudens
  *
@@ -21,7 +21,7 @@ import org.netkernel.layer0.representation.*;
 import java.util.UUID;
 
 /**
- * Milieuinfo CBB Keyword Search Accessor
+ * Fedstats NIS Keyword Search Accessor
  */
 
 // context
@@ -31,7 +31,7 @@ INKFRequestContext aContext = (INKFRequestContext)context;
 // register start
 long vStartTime = System.nanoTime();
 UUID vId = UUID.randomUUID();
-aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoCBBKWSAccessor: start of id - " + vId);
+aContext.logRaw(INKFLocale.LEVEL_INFO, "FedstatsNISKWSAccessor: start of id - " + vId);
 //
 
 // arguments
@@ -112,9 +112,9 @@ if (aAccept == null || aAccept == "") {
 
 // processing
 INKFRequest kwsrequest = aContext.createRequest("active:keywordsearch");
-kwsrequest.addArgument("database","milieuinfo:database-cbb");
-kwsrequest.addArgument("expiry","milieuinfo:expiry-cbb");
-kwsrequest.addArgument("credentials","milieuinfo:credentials-cbb");
+kwsrequest.addArgument("database","fedstats:database-nis");
+kwsrequest.addArgument("expiry","fedstats:expiry-nis");
+kwsrequest.addArgument("credentials","fedstats:credentials-nis");
 if (aAccept.startsWith("text/html")) {
 	kwsrequest.addArgumentByValue("accept", "application/sparql-results+xml");
 }
@@ -141,7 +141,7 @@ else {
 		INKFRequest xsltcrequest = aContext.createRequest("active:xsltc");
 		xsltcrequest.addArgumentByValue("operand", vKWSResult);
 		xsltcrequest.addArgumentByValue("search", aSearch);
-		xsltcrequest.addArgument("operator", "res:/resources/xsl/milieuinfocbbkeywordsearch.xsl");
+		xsltcrequest.addArgument("operator", "res:/resources/xsl/fedstatsniskeywordsearch.xsl");
 		xsltcrequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
 		
 		INKFRequest tagsouprequest = aContext.createRequest("active:tagSoup");
@@ -178,6 +178,5 @@ if (vIsHTTPRequest) {
 // register finish
 long vElapsed = System.nanoTime() - vStartTime;
 double vElapsedSeconds = (double)vElapsed / 1000000000.0;
-aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoCBBKWSAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
+aContext.logRaw(INKFLocale.LEVEL_INFO, "FedstatsNISKWSAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
 //
-

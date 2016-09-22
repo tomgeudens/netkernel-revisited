@@ -1,0 +1,28 @@
+CONSTRUCT {
+  <http://id.fedstats.be/dataset/nace#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://rdfs.org/ns/void#Dataset> .
+  <http://id.fedstats.be/dataset/nace#id> <http://www.w3.org/2000/01/rdf-schema#label> "NIS"@nl .
+  <http://id.fedstats.be/dataset/nace#id> <http://www.w3.org/2000/01/rdf-schema#label> "NIS"@fr .
+  <http://id.fedstats.be/dataset/nace#id> <http://purl.org/dc/terms/title> "Dataset NIS"@nl.
+  <http://id.fedstats.be/dataset/nace#id> <http://purl.org/dc/terms/title> "Ensemble de données NIS"@fr.
+  <http://id.fedstats.be/dataset/nace#id> <http://purl.org/dc/terms/license> <http://economie.fgov.be/nl/binaries/Licence%20open%20data_Nl_final2_tcm325-272764.pdf> .
+  <http://id.fedstats.be/dataset/nace#id> <http://rdfs.org/ns/void#sparqlEndpoint> <http://id.fedstats.be/nis/sparql> .
+  <http://id.fedstats.be/dataset/nace#id> <http://rdfs.org/ns/void#exampleResource> ?nace2003 .
+  <http://id.fedstats.be/dataset/nace#id> <http://rdfs.org/ns/void#triples> ?triples .
+}
+WHERE {
+  { 
+    SELECT (count(*) as ?triples) 
+    WHERE {
+      ?a ?b ?c .
+      FILTER(STRSTARTS(STR(?a), 'http://id.fedstats.be/nis'))
+    }
+  }
+  {
+    SELECT ?nace2003 
+    WHERE {
+      ?nace2003 ?d ?e .
+      FILTER(STRSTARTS(STR(?nace2003), 'http://id.fedstats.be/nis'))
+    }
+    LIMIT 2
+  }
+}

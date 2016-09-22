@@ -1,0 +1,17 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+
+SELECT distinct ?id (?sc as ?score) ?label
+{ 
+  ?id ?p ?label .
+  ?label bif:contains '${search}'
+  OPTION ( 
+    SCORE ?sc 
+  )
+  
+}
+ORDER BY DESC(?sc)
+<#if limit != "">
+LIMIT ${limit}
+</#if>

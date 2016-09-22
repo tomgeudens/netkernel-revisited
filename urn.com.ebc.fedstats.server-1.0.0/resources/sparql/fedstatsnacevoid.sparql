@@ -15,6 +15,7 @@ WHERE {
     SELECT (count(*) as ?triples) 
     WHERE {
       ?a ?b ?c .
+      FILTER(STRSTARTS(STR(?a), 'http://id.fedstats.be/nace'))
     }
   }
   {
