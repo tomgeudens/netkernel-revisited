@@ -6,7 +6,7 @@
 		<handler>
 			<instance>
 				<class>org.netkernel.layer0.logging.LogFileHandler</class>
-				<string>C:/nkwork/log/fedstats_server.%g.log</string>
+				<string>N:/log/fedstats_server.%g.log</string>
 				<int>50000000</int>
 				<int>3</int>
 				<boolean>true</boolean>

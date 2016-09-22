@@ -57,7 +57,7 @@
 		<literal type="hds" uri="res:/etc/pdsConfig.xml">
 			<config>
 				<zone>Fedstats</zone>
-				<pdsfiledirectory>file:/C:/nkwork/tmp/</pdsfiledirectory>
+				<pdsfiledirectory>file:/N:/tmp/</pdsfiledirectory>
 			</config>
 		</literal>
 		

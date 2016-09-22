@@ -160,6 +160,46 @@
 								<argument name="id" method="as-string">[[arg:id]]</argument>
 							</request>
 						</endpoint>
+						
+						<!-- /imjv/keywordsearch -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>keywordsearch</simple>
+									<method>GET,POST</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvkeywordsearchrestoverlay</identifier>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfoimjvkeywordsearch</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /imjv/sparql -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>sparql</simple>
+									<method>GET,POST</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvsparqlrestoverlay</identifier>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfoimjvsparql</identifier>
+							</request>
+						</endpoint>
 					</config>
 					
 					<space>
@@ -975,6 +1015,19 @@
 				</active>
 			</grammar>
 		</accessor>
+		
+		<accessor>
+			<id>com:proxml:milieuinfo:server:imjvsparql:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoimjvsparql.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoimjvsparql</identifier>
+					<argument name="query" desc="query" max="1" min="0"/>
+					<argument name="accept" desc="accept header" max="1" min="0"/>
+				</active>
+			</grammar>
+		</accessor>
 
 		<accessor>
 			<id>com:proxml:milieuinfo:server:cbbfragments:groovy:accessor</id>
@@ -1007,6 +1060,19 @@
 			</grammar>
 		</accessor>
 
+		<accessor>
+			<id>com:proxml:milieuinfo:server:imjvkeywordsearch:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoimjvkeywordsearch.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoimjvkeywordsearch</identifier>
+					<argument name="search" desc="search" max="1" min="0"/>
+					<argument name="limit" desc="limit" max="1" min="0"/>
+					<argument name="accept" desc="accept header" max="1" min="0"/>
+				</active>
+			</grammar>
+		</accessor>
 
 		<accessor>
 			<id>com:proxml:milieuinfo:server:rdfxml2html:groovy:accessor</id>
