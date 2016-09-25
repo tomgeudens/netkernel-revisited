@@ -20,15 +20,15 @@
 		name="proxml milieuinfo database"
 		public="true"
 		uri="urn:com:proxml:milieuinfo:database">
-		<!--
-		<literal type="string" uri="milieuinfo:database-cbb">http://lodcbbomv-on-1.vm.cumuli.be:8080/lodcbbomv/repositories/CBB</literal> 
 
+		<literal type="string" uri="milieuinfo:database-cbb">http://lodcbbomv-on-1.vm.cumuli.be:8080/lodcbbomv/repositories/CBB</literal> 
+		<!--
 		<literal type="string" uri="milieuinfo:database-imjv">http://rdfstoreomv-on-1.vm.cumuli.be:3030/blazegraph/namespace/lne/sparql</literal>
 
 		<literal type="string" uri="milieuinfo:database-def">http://rdfstoreomv-on-1.vm.cumuli.be:3030/blazegraph/namespace/lne/sparql</literal>
-		-->
-		<literal type="string" uri="milieuinfo:database-cbb">http://localhost:9999/blazegraph/namespace/cbb/sparql</literal>
 
+		<literal type="string" uri="milieuinfo:database-cbb">http://localhost:9999/blazegraph/namespace/cbb/sparql</literal>
+		-->
 		<literal type="string" uri="milieuinfo:database-imjv">http://localhost:9999/blazegraph/namespace/imjv/sparql</literal>
 
 		<literal type="string" uri="milieuinfo:database-def">http://localhost:9999/blazegraph/namespace/def/sparql</literal>

@@ -23,11 +23,38 @@
 			<head>
 			    <title>Data Vocabulary</title>
 				<style type="text/css">
-					@import url(/css/pure-min.css);
+					@import url(/css/documentation.css);
+					@import url(/css/explorer.css);
+					@import url(/css/page.css);
+					@import url(/css/print.css);
+					@import url(/css/resource.css);
+					@import url(/css/responsive.css);
    	    		</style>
 			</head>
 			<body>
-				<xsl:apply-templates/>
+				<div id="header">
+					<div id="logo">
+						<a href="/"><span>LNE</span></a>
+					</div>
+				</div>
+				
+				<div id="content">
+					<xsl:apply-templates/>
+				</div>
+				
+				<div id="footer">
+					<div>
+						<div class="logo">
+							<span class="title">Vlaanderen</span>
+							<span class="claim">verbeelding werkt</span>
+						</div>
+				
+						<div class="site-info">
+							<h3>Dit is een officiële website van de Vlaamse overheid</h3>
+							<span>uitgegeven door het <a href="https://www.lne.be/">Departement Leefmilieu, Natuur en Energie (LNE)</a></span>
+						</div>
+					</div>
+				</div>
 			</body>
 		</html>
 	</xsl:template>

@@ -671,6 +671,52 @@
 								<identifier>active:milieuinfodef</identifier>
 							</request>
 						</endpoint>
+						
+						<!-- /fonts/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>fonts/{fontsfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfofonts</identifier>
+									<argument name="fontsfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/fonts/[[arg:fontsfile]]</identifier>
+							</request>
+						</endpoint>
+
+						<!-- /img/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>img/{imgfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimg</identifier>
+									<argument name="imgfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/img/[[arg:imgfile]]</identifier>
+							</request>
+						</endpoint>
 					</config>
 					<space>
 						<import>
@@ -737,6 +783,16 @@
 		<fileset>
 			<!-- contains css resources -->
 			<regex>res:/resources/css/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains fonts resources -->
+			<regex>res:/resources/fonts/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains img resources -->
+			<regex>res:/resources/img/.*</regex>
 		</fileset>
 		
 		<fileset>
