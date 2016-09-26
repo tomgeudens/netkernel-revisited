@@ -15,10 +15,10 @@
     	omit-xml-declaration="yes"
     	media-type="text/html"/>
 
-    <xsl:param name="replace" nk:class="java.lang.String" />
-    <xsl:param name="with" nk:class="java.lang.String" />
-    
-    <!-- keys for muenchian method -->
+	<xsl:param name="replace" nk:class="java.lang.String" />
+	<xsl:param name="with" nk:class="java.lang.String" />
+
+	<!-- keys for muenchian method -->
 	<xsl:key name="predicates-by-tag-incoming-links" match="rdf:RDF/rdf:Description[not(rdf:type)]/*" use="name()" />
 	<xsl:key name="predicates-by-tag" match="rdf:RDF/rdf:Description[rdf:type]/*" use="name()" />
 
