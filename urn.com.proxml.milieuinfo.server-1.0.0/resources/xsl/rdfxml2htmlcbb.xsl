@@ -3,8 +3,9 @@
 <xsl:stylesheet 
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:purl="http://purl.org/dc/terms/"
 	xmlns:nk="http://1060.org"
-	exclude-result-prefixes="rdf nk"
+	exclude-result-prefixes="rdf nk purl"
 	version="1.0">
 	
 	<xsl:output 
@@ -16,12 +17,35 @@
 
     <xsl:param name="replace" nk:class="java.lang.String" />
     <xsl:param name="with" nk:class="java.lang.String" />
+    
+    <!-- keys for muenchian method -->
+	<xsl:key name="predicates-by-tag-incoming-links" match="rdf:RDF/rdf:Description[not(rdf:type)]/*" use="name()" />
+	<xsl:key name="predicates-by-tag" match="rdf:RDF/rdf:Description[rdf:type]/*" use="name()" />
 
 	<xsl:template match="rdf:RDF">
 		<xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
+		<xsl:apply-templates select="rdf:Description[rdf:type]"/>
+	</xsl:template>
+	
+	<xsl:template match="rdf:Description[rdf:type]">
+		<xsl:variable name="idurl" select="@rdf:about"/>
+		<xsl:variable name="modifiedidurl">
+		<xsl:call-template name="replace-string">
+			<xsl:with-param name="text" select="$idurl"/>
+			<xsl:with-param name="replace" select="$replace"/>
+			<xsl:with-param name="with" select="$with"/>															
+			</xsl:call-template>
+		</xsl:variable>
+		<xsl:variable name="docid">
+			<xsl:value-of select="substring-before($idurl,'#')"/>
+		</xsl:variable>		
 		<html>
 			<head>
 			    <title>Data Centraal Bedrijven Bestand</title>
+				<link rel="alternate" type="application/rdf+xml" href="{$docid}.rdf"/>
+				<link rel="alternate" type="text/turtle" href="{$docid}.ttl"/>
+				<link rel="alternate" type="text/plain" href="{$docid}.nt"/>
+				<link rel="alternate" type="application/ld+json" href="{$docid}.jsonld"/>
 				<style type="text/css">
 					@import url(/css/documentation.css);
 					@import url(/css/explorer.css);
@@ -37,11 +61,85 @@
 						<a href="/"><span>LNE</span></a>
 					</div>
 				</div>
-				
+
 				<div id="content">
-					<xsl:apply-templates/>
+					<h1><xsl:value-of select="purl:title"/></h1>
+					
+					<!-- regular properties -->
+					<div class="properties">
+						<!-- loop through the unique predicates -->
+						<xsl:for-each select="/descendant::rdf:Description[rdf:type]/*[not(@rdf:resource)][count(. | key('predicates-by-tag', name())[1]) = 1]">
+
+							<div class="predicate">
+								<a href="{namespace-uri()}{local-name()}" class="label"><xsl:value-of select="local-name()"/></a>
+							
+								<div class="objects">
+									<!-- loop through the occurences for the unique predicates -->
+									<xsl:for-each select="key('predicates-by-tag', name())">
+										<p><xsl:value-of select="."/></p>
+									</xsl:for-each>
+								</div>
+							</div>
+						</xsl:for-each>
+					</div>
+					
+					<!-- outgoing urls -->
+					<div class="links outbound">
+						<xsl:for-each select="/descendant::rdf:Description[rdf:type]/*[@rdf:resource][count(. | key('predicates-by-tag', name())[1]) = 1]">						
+							<div class="predicate">
+								<a href="{namespace-uri()}{local-name()}" class="label"><xsl:value-of select="local-name()"/></a>
+							
+								<div class="objects">
+									<!-- loop through the occurences for the unique predicates -->									
+									<xsl:for-each select="key('predicates-by-tag', name())">
+										<xsl:variable name="resourceurl" select="@rdf:resource"/>
+										<xsl:variable name="modifiedresourceurl">
+											<xsl:call-template name="replace-string">
+												<xsl:with-param name="text" select="$resourceurl"/>
+												<xsl:with-param name="replace" select="$replace"/>
+												<xsl:with-param name="with" select="$with"/>															
+											</xsl:call-template>
+										</xsl:variable>
+
+										<p><a href="{$modifiedresourceurl}"><xsl:value-of select="$resourceurl"/></a></p>
+									</xsl:for-each>
+								</div>
+							</div>						
+						</xsl:for-each>
+					</div>
+
+					<!-- incoming urls -->					
+					<xsl:if test="/descendant::rdf:Description[not(rdf:type)]">
+						<h2 class="links-heading">References from other resources</h2>
+						
+						<div class="links inbound">
+							<!-- loop through the unique predicates -->
+							<xsl:for-each select="/descendant::rdf:Description[not(rdf:type)]/*[@rdf:resource=$idurl][count(. | key('predicates-by-tag-incoming-links', name())[1]) = 1]">
+								<div class="predicate">
+									<a href="{namespace-uri()}{local-name()}" class="label"><xsl:value-of select="local-name()"/></a>
+									
+									<div class="objects">
+										<!-- loop through the occurences for the unique predicates -->
+										<xsl:for-each select="key('predicates-by-tag-incoming-links', name())">
+											<!-- we have to go a level up to find the inbound link -->
+											<xsl:variable name="abouturl" select="../@rdf:about"/>
+											<xsl:variable name="modifiedabouturl">
+												<xsl:call-template name="replace-string">
+													<xsl:with-param name="text" select="$abouturl"/>
+													<xsl:with-param name="replace" select="$replace"/>
+													<xsl:with-param name="with" select="$with"/>															
+												</xsl:call-template>
+											</xsl:variable>
+
+											<p><a href="{$modifiedabouturl}"><xsl:value-of select="$abouturl"/></a></p>
+										</xsl:for-each>
+									</div>
+								</div>							
+							</xsl:for-each>
+						</div>
+					</xsl:if>
 				</div>
-				
+
 				<div id="footer">
 					<div>
 						<div class="logo">
@@ -57,40 +155,6 @@
 				</div>
 			</body>
 		</html>
-	</xsl:template>
-
-	<xsl:template match="*[@rdf:about]">
-		<xsl:variable name="abouturl" select="@rdf:about"/>
-		<xsl:variable name="modifiedabouturl">
-		<xsl:call-template name="replace-string">
-			<xsl:with-param name="text" select="$abouturl"/>
-			<xsl:with-param name="replace" select="$replace"/>
-			<xsl:with-param name="with" select="$with"/>															
-			</xsl:call-template>
-		</xsl:variable>
-		<h2>Identifier: <a href="{$modifiedabouturl}"><xsl:value-of select="@rdf:about"/></a></h2>
-		<table>
-			<xsl:for-each select="*[not(@rdf:resource)]">
-				<tr>
-					<th><xsl:value-of select="local-name()"/></th>
-					<td><xsl:value-of select="."/></td>
-				</tr>
-			</xsl:for-each>
-			<xsl:for-each select="*[@rdf:resource]">
-				<tr>
-					<xsl:variable name="resourceurl" select="@rdf:resource"/>
-					<xsl:variable name="modifiedresourceurl">
-					<xsl:call-template name="replace-string">
-						<xsl:with-param name="text" select="$resourceurl"/>
-						<xsl:with-param name="replace" select="$replace"/>
-						<xsl:with-param name="with" select="$with"/>															
-						</xsl:call-template>
-					</xsl:variable>
-					<th><xsl:value-of select="local-name()"/></th>
-					<td><a href="{$modifiedresourceurl}"><xsl:value-of select="@rdf:resource"/></a></td>
-				</tr>
-			</xsl:for-each>
-		</table>
 	</xsl:template>
 
 	<xsl:template name="replace-string">
