@@ -109,7 +109,7 @@
 					</div>
 
 					<!-- incoming urls -->					
-					<xsl:if test="/descendant::rdf:Description[not(rdf:type)]">
+					<xsl:if test="/descendant::rdf:Description[not(rdf:type)]/*[@rdf:resource=$idurl]">
 						<h2 class="links-heading">References from other resources</h2>
 						
 						<div class="links inbound">
