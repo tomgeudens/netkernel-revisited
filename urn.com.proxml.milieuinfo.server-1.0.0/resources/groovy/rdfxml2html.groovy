@@ -40,10 +40,18 @@ aContext.logRaw(INKFLocale.LEVEL_INFO, "RDFXML2HTMLAccessor: start of id - " + v
 // processing
 INKFRequest rdfxml2rdfxmlrequest = aContext.createRequest("active:rdfxml2rdfxml");
 rdfxml2rdfxmlrequest.addArgument("operand", "arg:operand");
-Object vRDFXML = aContext.issueRequest(rdfxml2rdfxmlrequest);
+
+INKFResponseReadOnly rdfxml2rdfxmlresponse = aContext.issueRequestForResponse(rdfxml2rdfxmlrequest);
+Boolean vIsModelEmpty = rdfxml2rdfxmlresponse.getHeader("empty");
+Object vRDFXML = rdfxml2rdfxmlresponse.getRepresentation();
 
 INKFRequest xsltcrequest = aContext.createRequest("active:xsltc");
-xsltcrequest.addArgumentByValue("operand", vRDFXML);
+if (vIsModelEmpty) {
+	xsltcrequest.addArgument("operand", "res:/resources/rdf/empty.rdf");
+}
+else {
+	xsltcrequest.addArgumentByValue("operand", vRDFXML);
+}
 xsltcrequest.addArgument("operator","arg:operator");
 xsltcrequest.addArgument("replace","milieuinfo:baseurl");
 xsltcrequest.addArgument("with","milieuinfo:activeurl");

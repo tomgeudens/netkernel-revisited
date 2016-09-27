@@ -38,14 +38,21 @@
 		</xsl:variable>
 		<xsl:variable name="docid">
 			<xsl:value-of select="substring-before($idurl,'#')"/>
+		</xsl:variable>
+		<xsl:variable name="modifieddocid">
+			<xsl:call-template name="replace-string">
+				<xsl:with-param name="text" select="$docid"/>
+				<xsl:with-param name="replace" select="$replace"/>
+				<xsl:with-param name="with" select="$with"/>															
+			</xsl:call-template>
 		</xsl:variable>		
 		<html>
 			<head>
 			    <title>Data Integraal Milieu Jaarverslag</title>
-				<link rel="alternate" type="application/rdf+xml" href="{$docid}.rdf"/>
-				<link rel="alternate" type="text/turtle" href="{$docid}.ttl"/>
-				<link rel="alternate" type="text/plain" href="{$docid}.nt"/>
-				<link rel="alternate" type="application/ld+json" href="{$docid}.jsonld"/>
+				<link rel="alternate" type="application/rdf+xml" href="{$modifieddocid}.rdf"/>
+				<link rel="alternate" type="text/turtle" href="{$modifieddocid}.ttl"/>
+				<link rel="alternate" type="text/plain" href="{$modifieddocid}.nt"/>
+				<link rel="alternate" type="application/ld+json" href="{$modifieddocid}.jsonld"/>
 				<style type="text/css">
 					@import url(/css/documentation.css);
 					@import url(/css/explorer.css);
@@ -63,6 +70,13 @@
 				</div>
 
 				<div id="content">
+					<div class="export-options">
+						<a href="">HTML</a>
+						<a href="{$modifieddocid}.jsonld">JSON-LD</a>
+						<a href="{$modifieddocid}.ttl">TURTLE</a>
+						<a href="{$modifieddocid}.nt">N-TRIPLES</a>
+						<a href="{$modifieddocid}.rdf">XML</a>
+					</div>
 					<h1><xsl:value-of select="purl:title"/></h1>
 					
 					<!-- regular properties -->
@@ -110,7 +124,7 @@
 
 					<!-- incoming urls -->					
 					<xsl:if test="/descendant::rdf:Description[not(rdf:type)]/*[@rdf:resource=$idurl]">
-						<h2 class="links-heading">References from other resources</h2>
+						<h2 class="links-heading">Referenties van andere resources</h2>
 						
 						<div class="links inbound">
 							<!-- loop through the unique predicates -->

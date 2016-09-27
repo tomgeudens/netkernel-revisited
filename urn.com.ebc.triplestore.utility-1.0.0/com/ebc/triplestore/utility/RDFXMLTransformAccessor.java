@@ -46,10 +46,10 @@ public class RDFXMLTransformAccessor extends StandardAccessorImpl {
 		jenaparserequest.addArgument("operand", "arg:operand");
 		Object vJenaParseResult = aContext.issueRequest(jenaparserequest);
 		
-		//INKFRequest modelemptyrequest = aContext.createRequest("active:jRDFModelIsEmpty");
-		//modelemptyrequest.addArgumentByValue("operand", vJenaParseResult);
-		//modelemptyrequest.setRepresentationClass(Boolean.class);
-		//Boolean vIsModelEmpty = (Boolean)aContext.issueRequest(modelemptyrequest);
+		INKFRequest modelemptyrequest = aContext.createRequest("active:jRDFModelIsEmpty");
+		modelemptyrequest.addArgumentByValue("operand", vJenaParseResult);
+		modelemptyrequest.setRepresentationClass(Boolean.class);
+		Boolean vIsModelEmpty = (Boolean)aContext.issueRequest(modelemptyrequest);
 		
 		IReadableBinaryStreamRepresentation vRBS = null;
 		String vMimetype = null;
@@ -87,6 +87,7 @@ public class RDFXMLTransformAccessor extends StandardAccessorImpl {
 		// response
 		INKFResponse vResponse = aContext.createResponseFrom(vRBS);
 		vResponse.setMimeType(vMimetype);
+		vResponse.setHeader("empty", vIsModelEmpty);
 		vResponse.setExpiry(INKFResponse.EXPIRY_DEPENDENT);
 		//
 

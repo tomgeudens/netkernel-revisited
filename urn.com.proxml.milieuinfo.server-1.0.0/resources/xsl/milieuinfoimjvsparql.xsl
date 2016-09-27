@@ -22,51 +22,82 @@
 			<head>
 				<title>Milieuinfo IMJV : SPARQL Query Results</title>
 				<style type="text/css">
-					@import url(/css/pure-min.css);
+					@import url(/css/documentation.css);
+					@import url(/css/explorer.css);
+					@import url(/css/page.css);
+					@import url(/css/print.css);
+					@import url(/css/resource.css);
+					@import url(/css/responsive.css);
    	    		</style>
 			</head>
 			<body>
+				<div id="header">
+					<div id="logo">
+						<a href="/"><span>LNE</span></a>
+					</div>
+				</div>
+
+				<div id="content">
 				<h1>SPARQL Query Results</h1>
-				<table class="pure-table pure-table-bordered">
-					<tr>
-						<xsl:for-each select="sp:head/sp:variable">
-							<th><xsl:value-of select="@name"/></th>
-						</xsl:for-each>
-					</tr>
-					<xsl:for-each select="sp:results/sp:result">
-						<xsl:variable name="current" select="."/>
-						<tr>
-							<xsl:for-each select="//sp:head/sp:variable">
-								<xsl:variable name="name" select="@name"/>
-								<td>
-									<xsl:choose>
-										<xsl:when test="$current/sp:binding[@name=$name]">
+					<table>
+						<thead>
+							<tr>
+								<xsl:for-each select="sp:head/sp:variable">
+									<th><xsl:value-of select="@name"/></th>
+								</xsl:for-each>
+							</tr>
+						</thead>
+						<tbody>
+							<xsl:for-each select="sp:results/sp:result">
+								<xsl:variable name="current" select="."/>
+								<tr>
+									<xsl:for-each select="//sp:head/sp:variable">
+										<xsl:variable name="name" select="@name"/>
+										<td>
 											<xsl:choose>
-												<xsl:when test="$current/sp:binding[@name=$name]/sp:literal">
-													<xsl:value-of select="$current/sp:binding[@name=$name]/sp:literal"/>
+												<xsl:when test="$current/sp:binding[@name=$name]">
+													<xsl:choose>
+														<xsl:when test="$current/sp:binding[@name=$name]/sp:literal">
+															<xsl:value-of select="$current/sp:binding[@name=$name]/sp:literal"/>
+														</xsl:when>
+														<xsl:otherwise>
+															<xsl:variable name="url" select="$current/sp:binding[@name=$name]/sp:uri"/>
+															<xsl:variable name="modifiedurl">
+																<xsl:call-template name="replace-string">
+																	<xsl:with-param name="text" select="$url"/>
+																	<xsl:with-param name="replace" select="$replace"/>
+																	<xsl:with-param name="with" select="$with"/>															
+																</xsl:call-template>
+															</xsl:variable>
+															<a href="{$modifiedurl}"><xsl:value-of select="$current/sp:binding[@name=$name]/sp:uri"/></a>
+														</xsl:otherwise>
+													</xsl:choose>											
 												</xsl:when>
 												<xsl:otherwise>
-													<xsl:variable name="url" select="$current/sp:binding[@name=$name]/sp:uri"/>
-													<xsl:variable name="modifiedurl">
-														<xsl:call-template name="replace-string">
-															<xsl:with-param name="text" select="$url"/>
-															<xsl:with-param name="replace" select="$replace"/>
-															<xsl:with-param name="with" select="$with"/>															
-														</xsl:call-template>
-													</xsl:variable>
-													<a href="{$modifiedurl}"><xsl:value-of select="$current/sp:binding[@name=$name]/sp:uri"/></a>
+													<!-- no value for the header -->
 												</xsl:otherwise>
-											</xsl:choose>											
-										</xsl:when>
-										<xsl:otherwise>
-											<!-- no value for the header -->
-										</xsl:otherwise>
-									</xsl:choose>
-								</td>
+											</xsl:choose>
+										</td>
+									</xsl:for-each>
+								</tr>
 							</xsl:for-each>
-						</tr>
-					</xsl:for-each>
-				</table>
+						</tbody>
+					</table>
+				</div>
+
+				<div id="footer">
+					<div>
+						<div class="logo">
+							<span class="title">Vlaanderen</span>
+							<span class="claim">verbeelding werkt</span>
+						</div>
+				
+						<div class="site-info">
+							<h3>Dit is een officiële website van de Vlaamse overheid</h3>
+							<span>uitgegeven door het <a href="https://www.lne.be/">Departement Leefmilieu, Natuur en Energie (LNE)</a></span>
+						</div>
+					</div>
+				</div>
 			</body>
 		</html>
 	</xsl:template>

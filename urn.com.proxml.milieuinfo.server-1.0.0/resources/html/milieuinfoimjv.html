@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
+		<title>IMJV Archief als Linked Data</title>
+		<style type="text/css">
+			@import url(/css/documentation.css);
+			@import url(/css/explorer.css);
+			@import url(/css/page.css);
+			@import url(/css/print.css);
+			@import url(/css/resource.css);
+			@import url(/css/responsive.css);
+		</style>
+	</head>
+	<body>
+		<div id="header">
+			<div id="logo">
+				<a href="/"><span>LNE</span></a>
+			</div>
+		</div>
+		
+		<div id="content">
+			<h1>Het Integraal Milieu JaarVerslag (IMJV) Archief als Linked Data.</h1>
+			<h2>Gepubliceerde datasets</h2>
+			<p>U vindt hier:</p>
+			<ul>
+				<li><a href="/dataset/imjv">Dataset IMJV</a></li>
+			</ul>
+			
+			<h2>Exploreer de dataset</h2>
+			<div id="explorer">
+				<div class="api active" data-api="lookup">
+					<h4>Opzoeken op basis van identifier</h4>
+					
+					<div class="form-area">
+						<form action="#" method="GET">
+							<input name="identifier" type="text" placeholder="Voer een identifier in ..." />
+							
+							<select class="samples" size="1">
+								<option value="">Voorbeelden ...</option>
+							</select>
+							
+							<div class="buttons">
+								<button type="submit">Identifier opzoeken</button>
+								<button type="reset">Herladen</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				
+				<div class="api" data-api="sparql">
+					<h4>Opzoeken met een zoekopdracht (<a href="http://www.w3.org/TR/sparql11-query/">SPARQL</a>)</h4>
+					
+					<div class="form-area">
+						<form action="#" method="GET">
+							<textarea name="query" placeholder="Voer een SPARQL zoekopdracht in ..."></textarea>
+							
+							<select class="samples" size="1">
+								<option value="">Voorbeelden ...</option>
+							</select>
+							
+							<div class="buttons">
+								<button type="submit">Zoekopdracht uitvoeren</button>
+								<button type="reset">Herladen</button>
+							</div>
+						</form>
+					</div>					
+				</div>
+			</div>
+		</div>
+		
+		<div id="footer">
+			<div>
+				<div class="logo">
+					<span class="title">Vlaanderen</span>
+					<span class="claim">verbeelding werkt</span>
+				</div>
+				
+				<div class="site-info">
+					<h3>Dit is een officiële website van de Vlaamse overheid</h3>
+					<span>uitgegeven door het <a href="https://www.lne.be/">Departement Leefmilieu, Natuur en Energie (LNE)</a></span>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="/js/jquery-3.1.1.min.js"></script>
+		<script type="text/javascript" src="/js/milieuinfo-imjv-config.js"></script>
+		<script type="text/javascript" src="/js/milieuinfo-imjv-explorer.js"></script>
+	</body>
+</html>

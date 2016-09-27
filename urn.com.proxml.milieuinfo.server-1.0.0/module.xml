@@ -160,6 +160,79 @@
 								<argument name="id" method="as-string">[[arg:id]]</argument>
 							</request>
 						</endpoint>
+
+						<!-- /imjv/def.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>def.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvdefwithextensionrestoverlay</identifier>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfodefwithextension</identifier>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
+
+					    <!-- /imjv/def -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>def</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmldef.xsl">text/html</produces>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvdefrestoverlay</identifier>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfodef</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /imjv/home -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>home</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvhome</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/html/milieuinfoimjv.html</identifier>
+							</request>
+						</endpoint>
 						
 						<!-- /imjv/keywordsearch -->
 						<endpoint>
@@ -362,6 +435,56 @@
 							</request>
 						</endpoint>
 
+						<!-- /cbb/def.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>def.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbdefwithextensionrestoverlay</identifier>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfodefwithextension</identifier>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
+
+					    <!-- /def -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>def</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmldef.xsl">text/html</produces>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbdefrestoverlay</identifier>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfodef</identifier>
+							</request>
+						</endpoint>
+
 						<!-- /cbb/fragments -->
 						<endpoint>
 							<meta>
@@ -385,6 +508,29 @@
 							</grammar>
 							<request>
 								<identifier>active:milieuinfocbbfragments</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /cbb/home -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>home</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbhome</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/html/milieuinfocbb.html</identifier>
 							</request>
 						</endpoint>
 
@@ -717,6 +863,54 @@
 								<identifier>res:/resources/img/[[arg:imgfile]]</identifier>
 							</request>
 						</endpoint>
+
+						<!-- /js/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>js/{jsfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>application/javascript</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfojs</identifier>
+									<argument name="jsfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/js/[[arg:jsfile]]</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /txt/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>txt/{txtfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/plain</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfotxt</identifier>
+									<argument name="txtfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/txt/[[arg:txtfile]]</identifier>
+							</request>
+						</endpoint>
 					</config>
 					<space>
 						<import>
@@ -808,6 +1002,21 @@
 		<fileset>
 			<!-- contains xsl resources -->
 			<regex>res:/resources/xsl/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains rdf resources -->
+			<regex>res:/resources/rdf/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains txt resources -->
+			<regex>res:/resources/txt/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains js resources -->
+			<regex>res:/resources/js/.*</regex>
 		</fileset>
 
 		<fileset>

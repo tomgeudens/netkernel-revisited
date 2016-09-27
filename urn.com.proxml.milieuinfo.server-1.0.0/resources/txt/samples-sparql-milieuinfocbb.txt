@@ -1,0 +1,18 @@
+# Use 2 hash characters to mark the beginning of a query.
+# The double-hashed line is used as query label
+
+
+## Een aantal exploitaties
+SELECT ?subject
+WHERE {
+	?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Exploitatie> . 
+}
+LIMIT 5
+
+
+## Een aantal exploitanten
+SELECT ?subject
+WHERE {
+	?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Exploitant> . 
+}
+LIMIT 5
