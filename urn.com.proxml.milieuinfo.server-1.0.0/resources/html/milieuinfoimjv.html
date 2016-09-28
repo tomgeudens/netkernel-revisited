@@ -42,7 +42,7 @@
 							</select>
 							
 							<div class="buttons">
-								<button type="submit">Identifier opzoeken</button>
+								<button type="submit">Zoekopdracht uitvoeren</button>
 								<button type="reset">Herladen</button>
 							</div>
 						</form>
@@ -55,6 +55,24 @@
 					<div class="form-area">
 						<form action="#" method="GET">
 							<textarea name="query" placeholder="Voer een SPARQL zoekopdracht in ..."></textarea>
+							
+							<select class="samples" size="1">
+								<option value="">Voorbeelden ...</option>
+							</select>
+							
+							<div class="buttons">
+								<button type="submit">Zoekopdracht uitvoeren</button>
+								<button type="reset">Herladen</button>
+							</div>
+						</form>
+					</div>					
+				</div>
+				<div class="api" data-api="kws">
+					<h4>Opzoeken met een sleutelwoord</h4>
+					
+					<div class="form-area">
+						<form action="#" method="GET">
+							<input name="keyword" type="text" placeholder="Voer een sleutelwoord in ..." />
 							
 							<select class="samples" size="1">
 								<option value="">Voorbeelden ...</option>

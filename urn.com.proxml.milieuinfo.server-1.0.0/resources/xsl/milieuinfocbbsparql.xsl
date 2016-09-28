@@ -20,7 +20,7 @@
 		<xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
 		<html>
 			<head>
-				<title>Milieuinfo CBB : SPARQL Query Results</title>
+				<title>Milieuinfo CBB : SPARQL zoekopdracht resultaten</title>
 				<style type="text/css">
 					@import url(/css/documentation.css);
 					@import url(/css/explorer.css);
@@ -38,7 +38,7 @@
 				</div>
 
 				<div id="content">
-					<h1>SPARQL Query Results</h1>
+					<h1>SPARQL zoekopdracht resultaten</h1>
 					<table>
 						<thead>
 							<tr>

@@ -1,11 +1,12 @@
 PREFIX text: <http://jena.apache.org/text#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX purl: <http://purl.org/dc/terms/>
 
 
 SELECT distinct ?id ?score ?label
 { 
   (?id ?score) text:query ('${search}' ${limit}) .
-  ?id (rdfs:label|skos:prefLabel|skos:altLabel) ?label .
+  ?id (rdfs:label|skos:prefLabel|skos:altLabel|purl:title) ?label .
 }
 ORDER BY DESC(?score)

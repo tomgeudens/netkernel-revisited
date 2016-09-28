@@ -43,6 +43,7 @@
 			initExamples: function() {
 				lib.injectLookupExamples();
 				lib.injectSparqlExamples();
+				lib.injectKWSExamples();
 				$('#explorer .api select.samples').on('change', function() {
 					$(this).prev().val($(this).val().replace(/\&quot\;/, '-'));
 					$(this).val('');
@@ -90,6 +91,19 @@
 				});
 			},
 
+			injectKWSExamples: function() {
+				var src = window['milieuinfo-cbb-config']['kwsExamples'];
+				var container = $('#explorer .api[data-api="kws"] select.samples');
+				$.get(src, function(data) {
+					var lines = data.split(/[\r\n]+/);
+					$.each(lines, function(index, value) {
+						if (!value.match(/^#/) && !value.match(/^\s*$/)) {
+							container.append('<option value="' + value + '">' + value + '</option>');
+						}
+					});
+				});
+			},
+
 			initForms: function() {
 				$('#explorer .api form').on('submit', function(e) {
 					e.preventDefault();
@@ -100,6 +114,9 @@
 					}
 					else if (api === 'sparql') {
 						lib.submitSparql($(this).find('[name="query"]').val());
+					}
+					else if (api === 'kws') {
+						lib.submitKWS($(this).find('[name="keyword"]').val());
 					}
 					form.find('.buttons')
 					.find('.status').remove().end()
@@ -124,10 +141,16 @@
 					location.reload();
 				}
 			},
-			
+
 			submitSparql: function(query) {
 				var endpoint = window['milieuinfo-cbb-config']['sparqlEndpoint'];
 				var url = endpoint + '?query=' + encodeURIComponent(query);
+				location.href = url;
+			},
+
+			submitKWS: function(keyword) {
+				var endpoint = window['milieuinfo-cbb-config']['kwsEndpoint'];
+				var url = endpoint + '?search=' + encodeURIComponent(keyword);
 				location.href = url;
 			},
 

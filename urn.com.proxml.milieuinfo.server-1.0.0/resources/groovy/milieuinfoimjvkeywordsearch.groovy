@@ -141,6 +141,8 @@ else {
 		INKFRequest xsltcrequest = aContext.createRequest("active:xsltc");
 		xsltcrequest.addArgumentByValue("operand", vKWSResult);
 		xsltcrequest.addArgumentByValue("search", aSearch);
+		xsltcrequest.addArgument("replace","milieuinfo:baseurl");
+		xsltcrequest.addArgument("with","milieuinfo:activeurl");
 		xsltcrequest.addArgument("operator", "res:/resources/xsl/milieuinfoimjvkeywordsearch.xsl");
 		xsltcrequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
 		
