@@ -89,16 +89,19 @@ tagsouprequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class)
 // response
 INKFResponse vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(tagsouprequest));
 vResponse.setMimeType("text/html");
-String vCORSOrigin = null;
-try {
-	vCORSOrigin = aContext.source("httpRequest:/header/Origin", String.class);
-}
-catch (Exception e){
-	//
-}
-if (vCORSOrigin != null) {
-	// No CORS verification yet, I just allow everything
-	vResponse.setHeader("httpResponse:/header/Access-Control-Allow-Origin","*");
+
+if (vIsHTTPRequest) {
+	String vCORSOrigin = null;
+	try {
+		vCORSOrigin = aContext.source("httpRequest:/header/Origin", String.class);
+	}
+	catch (Exception e){
+		//
+	}
+	if (vCORSOrigin != null) {
+		// No CORS verification yet, I just allow everything
+		vResponse.setHeader("httpResponse:/header/Access-Control-Allow-Origin","*");
+	}
 }
 //
 
