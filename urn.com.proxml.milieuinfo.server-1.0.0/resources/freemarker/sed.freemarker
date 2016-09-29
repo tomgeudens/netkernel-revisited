@@ -1,0 +1,6 @@
+<sed>
+  <pattern>
+    <regex>${replace}</regex>
+    <replace>${with}</replace>
+  </pattern>
+</sed>

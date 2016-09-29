@@ -81,7 +81,7 @@
 		
 		<literal type="string" uri="milieuinfo:baseurl">http://id.milieuinfo.be</literal>
 		
-		<literal type="string" uri="milieuinfo:activeurl">http://localhost:8100</literal>
+		<literal type="string" uri="milieuinfo:activeurl">https://id-ontwikkel.milieuinfo.be</literal>
 		
 		<import>
 			<uri>urn:com:proxml:milieuinfo:database:import</uri>

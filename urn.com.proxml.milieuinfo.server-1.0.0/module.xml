@@ -884,7 +884,8 @@
 							</grammar>
 							
 							<request>
-								<identifier>res:/resources/js/[[arg:jsfile]]</identifier>
+								<identifier>active:parsejavascript</identifier>
+								<argument name="operand">res:/resources/js/[[arg:jsfile]]</argument>
 							</request>
 						</endpoint>
 						
@@ -1042,6 +1043,11 @@
 		<import>
 			<!-- contains active:tagSoup -->
 			<uri>urn:org:netkernel:web:core</uri>
+		</import>
+
+		<import>
+			<!-- contains active:sed -->
+			<uri>urn:org:netkernel:lang:trl</uri>
 		</import>
 		
 		<import>
@@ -1337,6 +1343,20 @@
 					<argument name="accept" desc="accept header" max="1" min="0"/>
 				</active>
 			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:parsejavascript:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/parsejavascript.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:parsejavascript</identifier>
+					<argument name="operand" desc="javascript" max="1" min="1"/>
+					<argument name="replace" desc="" max="1" min="0"/>
+					<argument name="replace" desc="" max="1" min="0"/>
+				</active>
+			</grammar>			
 		</accessor>
 
 		<accessor>

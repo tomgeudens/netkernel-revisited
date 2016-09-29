@@ -35,6 +35,30 @@ aContext.logRaw(INKFLocale.LEVEL_INFO, "RDFXML2HTMLAccessor: start of id - " + v
 //
 
 // arguments
+Boolean vIsHTTPRequest = (Boolean)aContext.exists("httpRequest:/remote-host");
+
+String aWith = null;
+if (vIsHTTPRequest) {
+	try {
+		javax.servlet.http.HttpServletRequest vURL = (javax.servlet.http.HttpServletRequest)aContext.source("httpRequest:/advanced/HttpServletRequest", javax.servlet.http.HttpServletRequest.class);
+		aWith = vURL.getScheme() + "://" + vURL.serverName + ":" + vURL.serverPort.toString();
+	}
+	catch (Exception e) {
+		//
+	}
+}
+else {
+	try {
+		aWith = (String)aContext.source("milieuinfo:activeurl", String.class);
+	}
+	catch (Exception e) {
+		//
+	}
+}
+if (aWith == null || aWith == "") {
+	// sensible default
+	aWith = "http://localhost:8080";
+}
 //
 
 // processing
@@ -54,7 +78,7 @@ else {
 }
 xsltcrequest.addArgument("operator","arg:operator");
 xsltcrequest.addArgument("replace","milieuinfo:baseurl");
-xsltcrequest.addArgument("with","milieuinfo:activeurl");
+xsltcrequest.addArgumentByValue("with", aWith);
 xsltcrequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
 
 INKFRequest tagsouprequest = aContext.createRequest("active:tagSoup");
