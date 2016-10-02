@@ -21,7 +21,7 @@ import org.netkernel.layer0.nkf.*;
 import java.util.UUID;
 
 /**
- * Parse Javascript Accessor
+ * Parse Text Accessor
  */
 
 // context
@@ -31,7 +31,7 @@ INKFRequestContext aContext = (INKFRequestContext)context;
 // register start
 long vStartTime = System.nanoTime();
 UUID vId = UUID.randomUUID();
-aContext.logRaw(INKFLocale.LEVEL_INFO, "ParseJavascriptAccessor: start of id - " + vId);
+aContext.logRaw(INKFLocale.LEVEL_INFO, "ParseTextAccessor: start of id - " + vId);
 //
 
 // arguments
@@ -112,11 +112,11 @@ else {
 
 // response
 INKFResponse vResponse = aContext.createResponseFrom(vResult);
-vResponse.setMimeType("application/javascript");
+vResponse.setMimeType("text/plain");
 //
 
 // register finish
 long vElapsed = System.nanoTime() - vStartTime;
 double vElapsedSeconds = (double)vElapsed / 1000000000.0;
-aContext.logRaw(INKFLocale.LEVEL_INFO, "ParseJavascriptAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
+aContext.logRaw(INKFLocale.LEVEL_INFO, "ParseTextscriptAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
 //

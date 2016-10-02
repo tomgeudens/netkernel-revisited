@@ -42,11 +42,11 @@
 			<space>
 				<mapper>
 					<config>
-						<!-- /imjv/(dossier|exploitatie)/xxxxxxx/<remainder>.(rdf|ttl|nt|jsonld|html) -->
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)/xxxxxxx/<remainder>.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(dossier|exploitatie)}/{id}/{remainder}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)}/{id}/{remainder}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -72,11 +72,11 @@
 							</request>							
 						</endpoint>
 
-						<!-- /imjv/(dossier|exploitatie)/xxxxxxx/<remainder> -->
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)/xxxxxxx/<remainder> -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(dossier|exploitatie)}/{id}/{remainder}</simple>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)}/{id}/{remainder}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -105,11 +105,11 @@
 						</endpoint>
 >
 						
-						<!-- /imjv/(dossier|exploitatie)/xxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)/xxxxxxx.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(dossier|exploitatie)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -131,11 +131,11 @@
 							</request>
 						</endpoint>
 
-						<!-- /imjv/(dossier|exploitatie)/xxxxxxx -->
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)/xxxxxxx -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(dossier|exploitatie)}/{id}</simple>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)}/{id}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -909,7 +909,8 @@
 							</grammar>
 							
 							<request>
-								<identifier>res:/resources/txt/[[arg:txtfile]]</identifier>
+								<identifier>active:parsetext</identifier>
+								<argument name="operand">res:/resources/txt/[[arg:txtfile]]</argument>
 							</request>
 						</endpoint>
 					</config>
@@ -1353,8 +1354,22 @@
 				<active>
 					<identifier>active:parsejavascript</identifier>
 					<argument name="operand" desc="javascript" max="1" min="1"/>
-					<argument name="replace" desc="" max="1" min="0"/>
-					<argument name="replace" desc="" max="1" min="0"/>
+					<argument name="replace" desc="string to replace" max="1" min="0"/>
+					<argument name="with" desc="string to replace with" max="1" min="0"/>
+				</active>
+			</grammar>			
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:parsetext:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/parsetext.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:parsetext</identifier>
+					<argument name="operand" desc="text" max="1" min="1"/>
+					<argument name="replace" desc="string to replace" max="1" min="0"/>
+					<argument name="with" desc="string to replace with" max="1" min="0"/>
 				</active>
 			</grammar>			
 		</accessor>
@@ -1371,5 +1386,85 @@
 				</active>
 			</grammar>			
 		</accessor>
+	</rootspace>
+	
+	<rootspace
+		name="proxml milieuinfo server unittest"
+		public="true"
+		uri="urn:com:proxml:milieuinfo:server:unittest">
+		
+		<literal type="hds" uri="res:/etc/system/Tests.xml">
+			<tests>
+				<test>
+					<id>test:urn:com:proxml:milieuinfo:server</id>
+					<name>proxml milieuinfo server unittest</name>
+					<desc>proxml milieuinfo server unittest</desc>
+					<uri>res:/resources/unittest/milieuinfo-server.xml</uri>
+				</test>
+			</tests>
+		</literal>
+		
+		<!-- this endpoint makes sure no other /etc/system resource
+		     gets pulled into the testing framework -->
+		<endpoint>
+			<prototype>Limiter</prototype>
+			<grammar>res:/etc/system<regex type="anything"/></grammar>
+		</endpoint>
+
+		<literal type="hds" uri="res:/resources/unittest/milieuinfo-server.xml">
+			<testlist>
+				<test name="SOURCE active:parsetext">
+					<request>
+						<identifier>active:parsetext</identifier>
+						<argument name="operand">
+							<literal type="string">Tom LastName</literal>
+						</argument>
+						<argument name="replace">
+							<literal type="string">LastName</literal>
+						</argument>
+						<argument name="with">
+							<literal type="string">Geudens</literal>
+						</argument>
+						<representation>java.lang.String</representation>
+						<verb>SOURCE</verb>
+					</request>
+					
+					<assert>
+						<stringEquals>Tom Geudens</stringEquals>
+					</assert>
+				</test>
+
+				<test name="SOURCE active:parsejavascript">
+					<request>
+						<identifier>active:parsejavascript</identifier>
+						<argument name="operand">
+							<literal type="string">/* milieuinfo-database-config.js */</literal>
+						</argument>
+						<argument name="replace">
+							<literal type="string">database</literal>
+						</argument>
+						<argument name="with">
+							<literal type="string">cbb</literal>
+						</argument>
+						<representation>java.lang.String</representation>
+						<verb>SOURCE</verb>
+					</request>
+					
+					<assert>
+						<stringEquals>/* milieuinfo-cbb-config.js */</stringEquals>
+					</assert>
+				</test>
+			</testlist>
+		</literal>	
+		
+		<import>
+			<!-- private space we want to test -->
+			<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+		</import>
+		
+		<import>
+			<!-- contains Limiter prototype -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
 	</rootspace>
 </module>

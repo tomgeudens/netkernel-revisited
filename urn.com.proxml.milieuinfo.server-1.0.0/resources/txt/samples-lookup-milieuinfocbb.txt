@@ -1,4 +1,4 @@
 # one entry per line => {uri}{space}{label}
-http://localhost:8100/cbb/exploitant/00001847000036#id Claessens Frank
-http://localhost:8100/cbb/exploitatie/00001847000137#id Dr. Claessens Frank
-http://localhost:8100/cbb/adres/409798#id Helenalei 35, 2018 Antwerpen, België
+http://id.milieuinfo.be/cbb/exploitant/00001847000036#id Claessens Frank
+http://id.milieuinfo.be/cbb/exploitatie/00001847000137#id Dr. Claessens Frank
+http://id.milieuinfo.be/cbb/adres/409798#id Helenalei 35, 2018 Antwerpen, België

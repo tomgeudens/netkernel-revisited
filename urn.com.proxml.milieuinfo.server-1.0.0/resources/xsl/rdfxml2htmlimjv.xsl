@@ -77,7 +77,10 @@
 						<a href="{$modifieddocid}.nt">N-TRIPLES</a>
 						<a href="{$modifieddocid}.rdf">XML</a>
 					</div>
-					<h1><xsl:value-of select="purl:title"/></h1>
+					
+					<xsl:if test="purl:title">
+						<h1><xsl:value-of select="purl:title"/></h1>
+					</xsl:if>
 					
 					<!-- regular properties -->
 					<div class="properties">
