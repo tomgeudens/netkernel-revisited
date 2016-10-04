@@ -42,11 +42,11 @@
 			<space>
 				<mapper>
 					<config>
-						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)/xxxxxxx/<remainder>.(rdf|ttl|nt|jsonld|html) -->
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)/xxxxxxx/<remainder>.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)}/{id}/{remainder}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)}/{id}/{remainder}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -72,11 +72,11 @@
 							</request>							
 						</endpoint>
 
-						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)/xxxxxxx/<remainder> -->
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)/xxxxxxx/<remainder> -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)}/{id}/{remainder}</simple>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)}/{id}/{remainder}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -105,11 +105,11 @@
 						</endpoint>
 >
 						
-						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)/xxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)/xxxxxxx.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -131,11 +131,11 @@
 							</request>
 						</endpoint>
 
-						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)/xxxxxxx -->
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)/xxxxxxx -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsaparaat|kubus)}/{id}</simple>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)}/{id}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
