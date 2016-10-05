@@ -11,6 +11,8 @@ CONSTRUCT {
   <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?zuiveringsaparaat .
   <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?emissie .
   <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?emissiepunt .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?lozing .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?lozingspunt .
   <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#triples> ?triples .
 }
 WHERE {
@@ -59,6 +61,20 @@ WHERE {
     SELECT ?emissiepunt
     WHERE {
       ?emissiepunt <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Emissiepunt> .
+    }
+    LIMIT 2
+  }
+  {
+    SELECT ?lozing
+    WHERE {
+      ?lozing <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#GeleideLozing> .
+    }
+    LIMIT 2
+  }
+  {
+    SELECT ?lozingspunt
+    WHERE {
+      ?lozingspunt <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Lozingspunt> .
     }
     LIMIT 2
   }

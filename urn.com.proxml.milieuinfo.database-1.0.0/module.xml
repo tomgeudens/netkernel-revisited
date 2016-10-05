@@ -75,7 +75,7 @@
 		<literal type="hds" uri="res:/etc/pdsConfig.xml">
 			<config>
 				<zone>Milieuinfo</zone>
-				<pdsfiledirectory>file:/N:/tmp/</pdsfiledirectory>
+				<pdsfiledirectory>file:/C:/nkwork/tmp/</pdsfiledirectory>
 			</config>
 		</literal>
 		
@@ -93,54 +93,5 @@
 		name="proxml milieuinfo database import"
 		public="false"
 		uri="urn:com:proxml:milieuinfo:database:import">
-	</rootspace>
-
-	<rootspace
-		name="proxml milieuinfo database unittest"
-		public="true"
-		uri="urn:com:proxml:milieuinfo:database:unittest">
-		
-		<literal type="hds" uri="res:/etc/system/Tests.xml">
-			<tests>
-				<test>
-					<id>test:urn:com:proxml:milieuinfo:database</id>
-					<name>proxml milieuinfo database unittest</name>
-					<desc>proxml milieuinfo database unittest</desc>
-					<uri>res:/resources/unittest/milieuinfo-database.xml</uri>
-				</test>
-			</tests>
-		</literal>
-		
-		<!-- this endpoint makes sure no other /etc/system resource
-		     gets pulled into the testing framework -->
-		<endpoint>
-			<prototype>Limiter</prototype>
-			<grammar>res:/etc/system<regex type="anything"/></grammar>
-		</endpoint>		
-
-		<literal type="hds" uri="res:/resources/unittest/milieuinfo-database.xml">
-			<testlist>
-				<test name="SOURCE milieuinfo:baseurl">
-					<request>
-						<identifier>milieuinfo:baseurl</identifier>
-						<verb>SOURCE</verb>
-					</request>
-					
-					<assert>
-						<stringEquals>http://id.milieuinfo.be</stringEquals>
-					</assert>
-				</test>
-			</testlist>
-		</literal>	
-		
-		<import>
-			<!-- public space we want to test -->
-			<uri>urn:com:proxml:milieuinfo:database</uri>
-		</import>
-		
-		<import>
-			<!-- contains Limiter prototype -->
-			<uri>urn:org:netkernel:ext:layer1</uri>
-		</import>	
-	</rootspace>
+	</rootspace>	
 </module>
