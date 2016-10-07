@@ -2,10 +2,12 @@
 <!DOCTYPE xsl:stylesheet>
 <xsl:stylesheet 
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	xmlns:purl="http://purl.org/dc/terms/"
 	xmlns:nk="http://1060.org"
-	exclude-result-prefixes="rdf nk purl"
+	xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+	exclude-result-prefixes="rdf nk purl rdfs skos"
 	version="1.0">
 	
 	<xsl:output 
@@ -15,8 +17,8 @@
     	omit-xml-declaration="yes"
     	media-type="text/html"/>
 
-	<xsl:param name="replace" nk:class="java.lang.String" />
-	<xsl:param name="with" nk:class="java.lang.String" />
+	<xsl:param name="replace" nk:class="java.lang.String" select="'foofoofoo'"/>
+	<xsl:param name="with" nk:class="java.lang.String" select="'barbarbar'"/>
 
 	<!-- keys for muenchian method -->
 	<xsl:key name="predicates-by-tag-incoming-links" match="rdf:RDF/rdf:Description[not(rdf:type)]/*" use="name()" />
@@ -118,7 +120,26 @@
 											</xsl:call-template>
 										</xsl:variable>
 
-										<p><a href="{$modifiedresourceurl}"><xsl:value-of select="$resourceurl"/></a></p>
+										<p><a href="{$modifiedresourceurl}">
+											<xsl:choose>
+												<xsl:when test="//rdf:Description[@rdf:about = $resourceurl]">
+													<xsl:choose>
+														<xsl:when test="//rdf:Description[@rdf:about = $resourceurl]/rdfs:label">
+															<xsl:value-of select="//rdf:Description[@rdf:about = $resourceurl]/rdfs:label"/>
+														</xsl:when>
+														<xsl:when test="//rdf:Description[@rdf:about = $resourceurl]/skos:prefLabel">
+															<xsl:value-of select="//rdf:Description[@rdf:about = $resourceurl]/skos:prefLabel"/>
+														</xsl:when>
+														<xsl:otherwise>
+															<xsl:value-of select="$resourceurl"/>
+															</xsl:otherwise>
+													</xsl:choose>
+														</xsl:when>
+												<xsl:otherwise>
+													<xsl:value-of select="$resourceurl"/>
+												</xsl:otherwise>
+											</xsl:choose>
+										</a></p>
 									</xsl:for-each>
 								</div>
 							</div>						
@@ -148,7 +169,8 @@
 												</xsl:call-template>
 											</xsl:variable>
 
-											<p><a href="{$modifiedabouturl}"><xsl:value-of select="$abouturl"/></a></p>
+											<p><a href="{$modifiedabouturl}"><xsl:value-of select="$abouturl"/>
+											</a></p>
 										</xsl:for-each>
 									</div>
 								</div>							

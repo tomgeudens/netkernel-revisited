@@ -35,6 +35,107 @@
 		<overlay>
 			<prototype>RESTOverlay</prototype>
 			<config>
+				<basepath>/vlaremII/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>
+						<!-- /vlaremII/(concept|conceptscheme)/xxxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(concept|conceptscheme)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfovlaremIIconceptwithextensionrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+
+							<request>
+								<identifier>active:milieuinfovlaremIIconceptwithextension</identifier>
+								<argument name="owner" method="as-string">vlaremII/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>
+						</endpoint>
+						
+						<!-- /vlaremII/(concept|conceptscheme)/xxxxxxxx -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(concept|conceptscheme)}/{id}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlimjvconcept.xsl">text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfovlaremIIconceptrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+								</active>
+							</grammar>
+
+							<request>
+								<identifier>active:milieuinfovlaremIIconcept</identifier>
+								<argument name="owner" method="as-string">vlaremII/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+							</request>
+						</endpoint>
+					</config>
+					
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:proxml:milieuinfo:database</uri>
+							<private/>
+						</import>			
+
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+				
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:proxml:milieuinfo:database</uri>
+					<private/>
+				</import>			
+
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+		
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
 				<basepath>/imjv/</basepath>
 				<auto404/>
 			</config>
@@ -42,11 +143,39 @@
 			<space>
 				<mapper>
 					<config>
-						<!-- /imjv/(concept)/xxxxxxxx -->
+						<!-- /imjv/(concept|conceptscheme)/xxxxxxxx.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(concept)}/{id}</simple>
+									<simple>{owner:(concept|conceptscheme)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvconceptwithextensionrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+
+							<request>
+								<identifier>active:milieuinfoimjvconceptwithextension</identifier>
+								<argument name="owner" method="as-string">imjv/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>
+						</endpoint>
+						
+						<!-- /imjv/(concept|conceptscheme)/xxxxxxxx -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(concept|conceptscheme)}/{id}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -74,11 +203,11 @@
 							</request>
 						</endpoint>
 						
-						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)/xxxxxxx/<remainder>.(rdf|ttl|nt|jsonld|html) -->
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)/xxxxxxx/<remainder>.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)}/{id}/{remainder}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)}/{id}/{remainder}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -104,11 +233,11 @@
 							</request>							
 						</endpoint>
 
-						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)/xxxxxxx/<remainder> -->
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)/xxxxxxx/<remainder> -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)}/{id}/{remainder}</simple>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)}/{id}/{remainder}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -137,11 +266,11 @@
 						</endpoint>
 >
 						
-						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)/xxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)/xxxxxxx.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -163,11 +292,11 @@
 							</request>
 						</endpoint>
 
-						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)/xxxxxxx -->
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)/xxxxxxx -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus)}/{id}</simple>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)}/{id}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -1074,6 +1203,11 @@
 		</import>
 		
 		<import>
+			<!-- contains active:xslt2 -->
+			<uri>urn:org:netkernel:xml:saxon</uri>
+		</import>
+		
+		<import>
 			<!-- contains active:tagSoup -->
 			<uri>urn:org:netkernel:web:core</uri>
 		</import>
@@ -1192,6 +1326,7 @@
 			<grammar>
 				<active>
 					<identifier>active:milieuinfoimjvconcept</identifier>
+					<identifier>active:milieuinfovlaremIIconcept</identifier>
 					<argument name="owner" desc="owner" max="1" min="1"/>
 					<argument name="id" desc="id" max="1" min="1"/>
 				</active>
@@ -1283,6 +1418,21 @@
 			<grammar>
 				<active>
 					<identifier>active:milieuinfoimjvbyidwithextension</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:imjvconceptwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoimjvconceptwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoimjvconceptwithextension</identifier>
+					<identifier>active:milieuinfovlaremIIconceptwithextension</identifier>
 					<argument name="owner" desc="owner" max="1" min="1"/>
 					<argument name="id" desc="id" max="1" min="1"/>
 					<argument name="extension" desc="extension" max="1" min="1"/>
@@ -1426,6 +1576,19 @@
 			<grammar>
 				<active>
 					<identifier>active:rdfxml2html</identifier>
+					<argument name="operand" desc="unfiltered rdfxml" max="1" min="1"/>
+					<argument name="operator" desc="xsl stylesheet" max="1" min="1"/>
+				</active>
+			</grammar>			
+		</accessor>
+		
+		<accessor>
+			<id>com:proxml:milieuinfo:server:rdfxml2htmlsaxon:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/rdfxml2htmlsaxon.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:rdfxml2htmlsaxon</identifier>
 					<argument name="operand" desc="unfiltered rdfxml" max="1" min="1"/>
 					<argument name="operator" desc="xsl stylesheet" max="1" min="1"/>
 				</active>

@@ -27,11 +27,9 @@ WHERE {
   UNION
   {
     SELECT ?incomingsubject ?incomingpredicate
-    WHERE {
+    WHERE { 
       ?incomingsubject ?incomingpredicate <http://id.milieuinfo.be/${owner}/${id}#id> .
     }
-    ORDER BY ?incomingsubject ?incomingpredicate
     LIMIT 100
-    OFFSET 100
   }
 }
