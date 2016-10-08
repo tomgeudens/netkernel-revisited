@@ -23,7 +23,6 @@
 	<xsl:key name="predicates-by-tag" match="rdf:RDF/rdf:Description[rdf:type]/*" use="name()" />
 
 	<xsl:template match="rdf:RDF">
-		<xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
 		<xsl:apply-templates select="rdf:Description[rdf:type]"/>
 	</xsl:template>
 	

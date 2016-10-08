@@ -18,7 +18,6 @@
     <xsl:param name="with" nk:class="java.lang.String" />
 
 	<xsl:template match="rdf:RDF">
-		<xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
 		<html>
 			<head>
 			    <title>Data Vocabulary</title>

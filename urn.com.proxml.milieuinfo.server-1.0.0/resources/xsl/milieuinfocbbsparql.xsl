@@ -17,7 +17,6 @@
     <xsl:param name="with" nk:class="java.lang.String" />
     
 	<xsl:template match="sp:sparql">
-		<xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
 		<html>
 			<head>
 				<title>Milieuinfo CBB : SPARQL zoekopdracht resultaten</title>
