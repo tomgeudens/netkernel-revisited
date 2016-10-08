@@ -73,7 +73,9 @@ else {
 	INKFRequest freemarkerrequest = aContext.createRequest("active:freemarker");
 	freemarkerrequest.addArgument("operator", "res:/resources/freemarker/constructimjvconcept.freemarker");
 	freemarkerrequest.addArgumentByValue("owner", aOwner);
-	freemarkerrequest.addArgumentByValue("id", aID);
+	if (aID != "theidisempty") {
+		freemarkerrequest.addArgumentByValue("id", aID);
+	}
 	freemarkerrequest.setRepresentationClass(String.class);
 	String vQuery = (String)aContext.issueRequest(freemarkerrequest);
 	

@@ -1,35 +1,60 @@
 <#setting url_escaping_charset='UTF-8'>
 CONSTRUCT {
+<#if id??>
   <http://id.milieuinfo.be/${owner}/${id}#id> ?predicate ?object .
   <http://id.milieuinfo.be/${owner}/${id}#id> ?outgoingpredicate ?outgoingobject .
+<#else>
+  <http://id.milieuinfo.be/${owner}#id> ?predicate ?object .
+  <http://id.milieuinfo.be/${owner}#id> ?outgoingpredicate ?outgoingobject .
+</#if>
   ?oo <http://www.w3.org/2000/01/rdf-schema#label> ?ol .
+<#if id??>
   ?incomingsubject ?incomingpredicate <http://id.milieuinfo.be/${owner}/${id}#id> .
+<#else>
+  ?incomingsubject ?incomingpredicate <http://id.milieuinfo.be/${owner}#id> .
+</#if>
   <#--
   ?incomingsubject <http://www.w3.org/2000/01/rdf-schema#label> ?incominglabel .
   -->
 }
 WHERE {
   {
+<#if id??>
     <http://id.milieuinfo.be/${owner}/${id}#id> ?predicate ?object .
+<#else>
+    <http://id.milieuinfo.be/${owner}#id> ?predicate ?object .
+</#if>
     FILTER (isLiteral(?object))
   }
   UNION
   {
+<#if id??>
     <http://id.milieuinfo.be/${owner}/${id}#id> ?outgoingpredicate ?outgoingobject .
+<#else>
+    <http://id.milieuinfo.be/${owner}#id> ?outgoingpredicate ?outgoingobject .
+</#if>
     FILTER (isURI(?outgoingobject))
   }
   UNION
   {
+<#if id??>
     <http://id.milieuinfo.be/${owner}/${id}#id> ?op ?oo .
+<#else>
+    <http://id.milieuinfo.be/${owner}#id> ?op ?oo .
+</#if>
     FILTER (isURI(?oo))
     ?oo <http://www.w3.org/2000/01/rdf-schema#label> ?ol .
   }
   UNION
   {
     SELECT ?incomingsubject ?incomingpredicate
-    WHERE { 
+    WHERE {
+<#if id??>
       ?incomingsubject ?incomingpredicate <http://id.milieuinfo.be/${owner}/${id}#id> .
+<#else>
+      ?incomingsubject ?incomingpredicate <http://id.milieuinfo.be/${owner}#id> .
+</#if>
     }
-    LIMIT 100
+    LIMIT 1000
   }
 }
