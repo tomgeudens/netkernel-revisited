@@ -174,12 +174,12 @@ else {
 		tagsouprequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
 		
 		vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(tagsouprequest));
+		vResponse.setMimeType("text/html");
 	}
 	else {
 		vResponse = aContext.createResponseFrom(vKWSResult);
+		vResponse.setMimeType(aAccept);
 	}
-	
-	vResponse.setMimeType(aAccept);
 }
 
 if (vIsHTTPRequest) {
