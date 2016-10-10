@@ -1623,7 +1623,7 @@
 					</assert>
 				</test>
 
-				<test name="SOURCE active:rdfxml2htmljason">
+				<test name="SOURCE active:rdfxml2htmlsaxon">
 					<request>
 						<identifier>active:rdfxml2htmlsaxon</identifier>
 						<argument name="operand">res:/resources/test/rdf.xml</argument>
