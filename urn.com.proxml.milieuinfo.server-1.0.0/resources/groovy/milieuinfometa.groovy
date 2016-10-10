@@ -21,7 +21,7 @@ import org.netkernel.layer0.nkf.*;
 import java.util.UUID;
 
 /**
- * Milieuinfo IMJV Concept Accessor
+ * Milieuinfo Meta Accessor
  */
 
 // context
@@ -31,7 +31,7 @@ INKFRequestContext aContext = (INKFRequestContext)context;
 // register start
 long vStartTime = System.nanoTime();
 UUID vId = UUID.randomUUID();
-aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoIMJVConceptAccessor: start of id - " + vId);
+aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoMetaAccessor: start of id - " + vId);
 //
 
 // arguments
@@ -42,8 +42,8 @@ try {
 	aOwner = aContext.source("arg:owner", String.class);
 }
 catch (Exception e) {
-	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoIMJVConceptAccessor: invalid - owner - argument");
-	throw new Exception("MilieuinfoIMJVConceptAccessor: no valid - owner - argument");
+	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoMetaAccessor: invalid - owner - argument");
+	throw new Exception("MilieuinfoMetaAccessor: no valid - owner - argument");
 }
 
 String aID = null;
@@ -51,8 +51,8 @@ try {
 	aID = aContext.source("arg:id", String.class);
 }
 catch (Exception e) {
-	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoIMJVConceptAccessor: invalid - id - argument");
-	throw new Exception("MilieuinfoIMJVConceptAccessor: no valid - id - argument");
+	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoMetaAccessor: invalid - id - argument");
+	throw new Exception("MilieuinfoMetaAccessor: no valid - id - argument");
 }
 //
 
@@ -71,18 +71,16 @@ if (vInCache) {
 }
 else {
 	INKFRequest freemarkerrequest = aContext.createRequest("active:freemarker");
-	freemarkerrequest.addArgument("operator", "res:/resources/freemarker/constructimjvconcept.freemarker");
+	freemarkerrequest.addArgument("operator", "res:/resources/freemarker/constructmeta.freemarker");
 	freemarkerrequest.addArgumentByValue("owner", aOwner);
-	if (aID != "theidisempty") {
-		freemarkerrequest.addArgumentByValue("id", aID);
-	}
+	freemarkerrequest.addArgumentByValue("id", aID);
 	freemarkerrequest.setRepresentationClass(String.class);
 	String vQuery = (String)aContext.issueRequest(freemarkerrequest);
 	
 	INKFRequest sparqlrequest = aContext.createRequest("active:sparql");
-	sparqlrequest.addArgument("database","milieuinfo:database-imjv");
-	sparqlrequest.addArgument("expiry", "milieuinfo:expiry-imjv");
-	sparqlrequest.addArgument("credentials","milieuinfo:credentials-imjv");
+	sparqlrequest.addArgument("database","milieuinfo:database-meta");
+	sparqlrequest.addArgument("expiry", "milieuinfo:expiry-meta");
+	sparqlrequest.addArgument("credentials","milieuinfo:credentials-meta");
 	sparqlrequest.addArgumentByValue("query", vQuery);
 	sparqlrequest.addArgumentByValue("accept","application/rdf+xml");
 
@@ -128,5 +126,5 @@ if (vIsHTTPRequest) {
 // register finish
 long vElapsed = System.nanoTime() - vStartTime;
 double vElapsedSeconds = (double)vElapsed / 1000000000.0;
-aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoIMJVConceptAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
+aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoMetaAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
 //

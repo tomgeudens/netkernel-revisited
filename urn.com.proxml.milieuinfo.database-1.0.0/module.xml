@@ -25,11 +25,15 @@
 
 		<literal type="string" uri="milieuinfo:database-imjv">http://rdfstoreomv-on-1.vm.cumuli.be:3030/blazegraph/namespace/lne/sparql</literal>
 
+		<literal type="string" uri="milieuinfo:database-meta">http://rdfstoreomv-on-1.vm.cumuli.be:3030/blazegraph/namespace/lne/sparql</literal>
+
 		<literal type="string" uri="milieuinfo:database-def">http://rdfstoreomv-on-1.vm.cumuli.be:3030/blazegraph/namespace/lne/sparql</literal>
 -->
 		<literal type="string" uri="milieuinfo:database-cbb">http://localhost:9999/blazegraph/namespace/cbb/sparql</literal>
 
 		<literal type="string" uri="milieuinfo:database-imjv">http://localhost:9999/blazegraph/namespace/imjv/sparql</literal>
+
+		<literal type="string" uri="milieuinfo:database-meta">http://localhost:9999/blazegraph/namespace/imjv/sparql</literal>
 
 		<literal type="string" uri="milieuinfo:database-def">http://localhost:9999/blazegraph/namespace/def/sparql</literal>
 
@@ -37,11 +41,15 @@
 
 		<literal type="string" uri="milieuinfo:query-imjv">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
 
+		<literal type="string" uri="milieuinfo:query-meta">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
+
 		<literal type="string" uri="milieuinfo:query-def">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
 
 		<literal type="long" uri="milieuinfo:expiry-cbb">86400000</literal>
 
 		<literal type="long" uri="milieuinfo:expiry-imjv">86400000</literal>
+
+		<literal type="long" uri="milieuinfo:expiry-meta">86400000</literal>
 
 		<literal type="long" uri="milieuinfo:expiry-def">86400000</literal>
 
@@ -63,6 +71,15 @@
 			</httpCredentials>
 		</literal>
 
+		<literal type="hds" uri="milieuinfo:credentials-meta">
+			<httpCredentials>
+				<host>rdfstoreomv-on-1.vm.cumuli.be</host>
+				<port>3030</port>
+				<username>anonymous</username>
+				<password>anonymous</password>
+			</httpCredentials>
+		</literal>
+
 		<literal type="hds" uri="milieuinfo:credentials-def">
 			<httpCredentials>
 				<host>rdfstoreomv-on-1.vm.cumuli.be</host>
@@ -75,7 +92,7 @@
 		<literal type="hds" uri="res:/etc/pdsConfig.xml">
 			<config>
 				<zone>Milieuinfo</zone>
-				<pdsfiledirectory>file:/N:/tmp/</pdsfiledirectory>
+				<pdsfiledirectory>file:/C:/nkwork/tmp/</pdsfiledirectory>
 			</config>
 		</literal>
 		
@@ -93,54 +110,5 @@
 		name="proxml milieuinfo database import"
 		public="false"
 		uri="urn:com:proxml:milieuinfo:database:import">
-	</rootspace>
-
-	<rootspace
-		name="proxml milieuinfo database unittest"
-		public="true"
-		uri="urn:com:proxml:milieuinfo:database:unittest">
-		
-		<literal type="hds" uri="res:/etc/system/Tests.xml">
-			<tests>
-				<test>
-					<id>test:urn:com:proxml:milieuinfo:database</id>
-					<name>proxml milieuinfo database unittest</name>
-					<desc>proxml milieuinfo database unittest</desc>
-					<uri>res:/resources/unittest/milieuinfo-database.xml</uri>
-				</test>
-			</tests>
-		</literal>
-		
-		<!-- this endpoint makes sure no other /etc/system resource
-		     gets pulled into the testing framework -->
-		<endpoint>
-			<prototype>Limiter</prototype>
-			<grammar>res:/etc/system<regex type="anything"/></grammar>
-		</endpoint>		
-
-		<literal type="hds" uri="res:/resources/unittest/milieuinfo-database.xml">
-			<testlist>
-				<test name="SOURCE milieuinfo:baseurl">
-					<request>
-						<identifier>milieuinfo:baseurl</identifier>
-						<verb>SOURCE</verb>
-					</request>
-					
-					<assert>
-						<stringEquals>http://id.milieuinfo.be</stringEquals>
-					</assert>
-				</test>
-			</testlist>
-		</literal>	
-		
-		<import>
-			<!-- public space we want to test -->
-			<uri>urn:com:proxml:milieuinfo:database</uri>
-		</import>
-		
-		<import>
-			<!-- contains Limiter prototype -->
-			<uri>urn:org:netkernel:ext:layer1</uri>
-		</import>	
-	</rootspace>
+	</rootspace>	
 </module>

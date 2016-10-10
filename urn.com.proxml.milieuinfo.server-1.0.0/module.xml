@@ -35,18 +35,19 @@
 		<overlay>
 			<prototype>RESTOverlay</prototype>
 			<config>
-				<basepath>/BO/</basepath>
+				<basepath>/meta/</basepath>
 				<auto404/>
 			</config>
 			
 			<space>
 				<mapper>
 					<config>
-						<!-- /BO/(concept|conceptscheme)/xxxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<!-- /meta/(BO|cbb|DABM|imjv|OD/vlaremII)/(concept|conceptscheme)/xxxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<!-- /meta/(BO|cbb|DABM|imjv|OD/vlaremII)/conceptscheme.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(concept|conceptscheme)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<simple>{owner}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -55,7 +56,7 @@
 							
 							<grammar>
 								<active>
-									<identifier>active:milieuinfoboconceptwithextensionrestoverlay</identifier>
+									<identifier>active:milieuinfometawithextensionrestoverlay</identifier>
 									<argument name="owner"/>
 									<argument name="id"/>
 									<argument name="extension"/>
@@ -63,18 +64,19 @@
 							</grammar>
 
 							<request>
-								<identifier>active:milieuinfoboconceptwithextension</identifier>
-								<argument name="owner" method="as-string">BO/[[arg:owner]]</argument>
+								<identifier>active:milieuinfometawithextension</identifier>
+								<argument name="owner" method="as-string">meta/[[arg:owner]]</argument>
 								<argument name="id" method="as-string">[[arg:id]]</argument>
 								<argument name="extension" method="as-string">[[arg:extension]]</argument>
 							</request>
 						</endpoint>
 						
-						<!-- /BO/(concept|conceptscheme)/xxxxxxxx -->
+						<!-- /meta/(BO|cbb|DABM|imjv|OD/vlaremII)/(concept|conceptscheme)/xxxxxxxx -->
+						<!-- /meta/(BO|cbb|DABM|imjv|OD/vlaremII)/conceptscheme -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(concept|conceptscheme)}/{id}</simple>
+									<simple>{owner}/{id}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -83,78 +85,22 @@
 									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
 									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
 									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlimjvconcept.xsl">text/html</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlmeta.xsl">text/html</produces>
 								</rest>
 							</meta>
 							
 							<grammar>
 								<active>
-									<identifier>active:milieuinfoboconceptrestoverlay</identifier>
+									<identifier>active:milieuinfometarestoverlay</identifier>
 									<argument name="owner"/>
 									<argument name="id"/>
 								</active>
 							</grammar>
 
 							<request>
-								<identifier>active:milieuinfoboconcept</identifier>
-								<argument name="owner" method="as-string">BO/[[arg:owner]]</argument>
+								<identifier>active:milieuinfometa</identifier>
+								<argument name="owner" method="as-string">meta/[[arg:owner]]</argument>
 								<argument name="id" method="as-string">[[arg:id]]</argument>
-							</request>
-						</endpoint>
-						
-						<!-- /BO/conceptscheme.(rdf|ttl|nt|jsonld|html) -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>conceptscheme.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfoboconceptschemewithextensionrestoverlay</identifier>
-									<argument name="extension"/>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfoboconceptschemewithextension</identifier>
-								<argument name="owner" method="as-string">BO/conceptscheme</argument>
-								<argument name="id" method="as-string">theidisempty</argument>
-								<argument name="extension" method="as-string">[[arg:extension]]</argument>
-							</request>
-						</endpoint>
-
-						<!-- /BO/conceptscheme -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>conceptscheme</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-									<produces>text/xml</produces>
-									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
-									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
-									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
-									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlimjvconcept.xsl">text/html</produces>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfoboconceptschemerestoverlay</identifier>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfoboconceptscheme</identifier>
-								<argument name="owner" method="as-string">BO/conceptscheme</argument>
-								<argument name="id" method="as-string">theidisempty</argument>
 							</request>
 						</endpoint>
 					</config>
@@ -188,478 +134,7 @@
 				</import>
 			</space>
 		</overlay>
-		
-		<overlay>
-			<prototype>RESTOverlay</prototype>
-			<config>
-				<basepath>/DABM/</basepath>
-				<auto404/>
-			</config>
-			
-			<space>
-				<mapper>
-					<config>
-						<!-- /DABM/(concept|conceptscheme)/xxxxxxxx.(rdf|ttl|nt|jsonld|html) -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>{owner:(concept|conceptscheme)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfodabmconceptwithextensionrestoverlay</identifier>
-									<argument name="owner"/>
-									<argument name="id"/>
-									<argument name="extension"/>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfodabmconceptwithextension</identifier>
-								<argument name="owner" method="as-string">DABM/[[arg:owner]]</argument>
-								<argument name="id" method="as-string">[[arg:id]]</argument>
-								<argument name="extension" method="as-string">[[arg:extension]]</argument>
-							</request>
-						</endpoint>
-						
-						<!-- /DABM/(concept|conceptscheme)/xxxxxxxx -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>{owner:(concept|conceptscheme)}/{id}</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-									<produces>text/xml</produces>
-									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
-									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
-									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
-									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlimjvconcept.xsl">text/html</produces>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfodabmconceptrestoverlay</identifier>
-									<argument name="owner"/>
-									<argument name="id"/>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfodabmconcept</identifier>
-								<argument name="owner" method="as-string">DABM/[[arg:owner]]</argument>
-								<argument name="id" method="as-string">[[arg:id]]</argument>
-							</request>
-						</endpoint>
-						
-						<!-- /DABM/conceptscheme.(rdf|ttl|nt|jsonld|html) -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>conceptscheme.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfodabmconceptschemewithextensionrestoverlay</identifier>
-									<argument name="extension"/>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfodabmconceptschemewithextension</identifier>
-								<argument name="owner" method="as-string">DABM/conceptscheme</argument>
-								<argument name="id" method="as-string">theidisempty</argument>
-								<argument name="extension" method="as-string">[[arg:extension]]</argument>
-							</request>
-						</endpoint>
-
-						<!-- /DABM/conceptscheme -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>conceptscheme</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-									<produces>text/xml</produces>
-									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
-									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
-									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
-									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlimjvconcept.xsl">text/html</produces>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfodabmconceptschemerestoverlay</identifier>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfodabmconceptscheme</identifier>
-								<argument name="owner" method="as-string">DABM/conceptscheme</argument>
-								<argument name="id" method="as-string">theidisempty</argument>
-							</request>
-						</endpoint>
-					</config>
-					
-					<space>
-						<import>
-							<!-- database constants -->
-							<uri>urn:com:proxml:milieuinfo:database</uri>
-							<private/>
-						</import>			
-
-						<import>
-							<!-- tools needed inside the RESTOverlay -->
-							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
-							<private/>
-						</import>
-					</space>
-				</mapper>
 				
-				<import>
-					<!-- database constants -->
-					<uri>urn:com:proxml:milieuinfo:database</uri>
-					<private/>
-				</import>			
-
-				<import>
-					<!-- needed here as well if the RESTOverlay itself
-						 launches the request -->
-					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
-					<private/>
-				</import>
-			</space>
-		</overlay>
-
-		<overlay>
-			<prototype>RESTOverlay</prototype>
-			<config>
-				<basepath>/OD/</basepath>
-				<auto404/>
-			</config>
-			
-			<space>
-				<mapper>
-					<config>
-						<!-- /OD/(concept|conceptscheme)/xxxxxxxx.(rdf|ttl|nt|jsonld|html) -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>{owner:(concept|conceptscheme)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfoodconceptwithextensionrestoverlay</identifier>
-									<argument name="owner"/>
-									<argument name="id"/>
-									<argument name="extension"/>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfoodconceptwithextension</identifier>
-								<argument name="owner" method="as-string">OD/[[arg:owner]]</argument>
-								<argument name="id" method="as-string">[[arg:id]]</argument>
-								<argument name="extension" method="as-string">[[arg:extension]]</argument>
-							</request>
-						</endpoint>
-						
-						<!-- /OD/(concept|conceptscheme)/xxxxxxxx -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>{owner:(concept|conceptscheme)}/{id}</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-									<produces>text/xml</produces>
-									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
-									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
-									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
-									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlimjvconcept.xsl">text/html</produces>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfoodconceptrestoverlay</identifier>
-									<argument name="owner"/>
-									<argument name="id"/>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfoodconcept</identifier>
-								<argument name="owner" method="as-string">OD/[[arg:owner]]</argument>
-								<argument name="id" method="as-string">[[arg:id]]</argument>
-							</request>
-						</endpoint>
-						
-						<!-- /OD/conceptscheme.(rdf|ttl|nt|jsonld|html) -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>conceptscheme.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfoodconceptschemewithextensionrestoverlay</identifier>
-									<argument name="extension"/>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfoodconceptschemewithextension</identifier>
-								<argument name="owner" method="as-string">OD/conceptscheme</argument>
-								<argument name="id" method="as-string">theidisempty</argument>
-								<argument name="extension" method="as-string">[[arg:extension]]</argument>
-							</request>
-						</endpoint>
-
-						<!-- /OD/conceptscheme -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>conceptscheme</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-									<produces>text/xml</produces>
-									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
-									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
-									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
-									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlimjvconcept.xsl">text/html</produces>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfoodconceptschemerestoverlay</identifier>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfoodconceptscheme</identifier>
-								<argument name="owner" method="as-string">OD/conceptscheme</argument>
-								<argument name="id" method="as-string">theidisempty</argument>
-							</request>
-						</endpoint>
-					</config>
-					
-					<space>
-						<import>
-							<!-- database constants -->
-							<uri>urn:com:proxml:milieuinfo:database</uri>
-							<private/>
-						</import>			
-
-						<import>
-							<!-- tools needed inside the RESTOverlay -->
-							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
-							<private/>
-						</import>
-					</space>
-				</mapper>
-				
-				<import>
-					<!-- database constants -->
-					<uri>urn:com:proxml:milieuinfo:database</uri>
-					<private/>
-				</import>			
-
-				<import>
-					<!-- needed here as well if the RESTOverlay itself
-						 launches the request -->
-					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
-					<private/>
-				</import>
-			</space>
-		</overlay>
-		
-		<overlay>
-			<prototype>RESTOverlay</prototype>
-			<config>
-				<basepath>/vlaremII/</basepath>
-				<auto404/>
-			</config>
-			
-			<space>
-				<mapper>
-					<config>
-						<!-- /vlaremII/(concept|conceptscheme)/xxxxxxxx.(rdf|ttl|nt|jsonld|html) -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>{owner:(concept|conceptscheme)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfovlaremIIconceptwithextensionrestoverlay</identifier>
-									<argument name="owner"/>
-									<argument name="id"/>
-									<argument name="extension"/>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfovlaremIIconceptwithextension</identifier>
-								<argument name="owner" method="as-string">vlaremII/[[arg:owner]]</argument>
-								<argument name="id" method="as-string">[[arg:id]]</argument>
-								<argument name="extension" method="as-string">[[arg:extension]]</argument>
-							</request>
-						</endpoint>
-						
-						<!-- /vlaremII/(concept|conceptscheme)/xxxxxxxx -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>{owner:(concept|conceptscheme)}/{id}</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-									<produces>text/xml</produces>
-									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
-									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
-									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
-									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlimjvconcept.xsl">text/html</produces>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfovlaremIIconceptrestoverlay</identifier>
-									<argument name="owner"/>
-									<argument name="id"/>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfovlaremIIconcept</identifier>
-								<argument name="owner" method="as-string">vlaremII/[[arg:owner]]</argument>
-								<argument name="id" method="as-string">[[arg:id]]</argument>
-							</request>
-						</endpoint>
-						
-						<!-- /vlaremII/conceptscheme.(rdf|ttl|nt|jsonld|html) -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>conceptscheme.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfovlaremIIconceptschemewithextensionrestoverlay</identifier>
-									<argument name="extension"/>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfovlaremIIconceptschemewithextension</identifier>
-								<argument name="owner" method="as-string">vlaremII/conceptscheme</argument>
-								<argument name="id" method="as-string">theidisempty</argument>
-								<argument name="extension" method="as-string">[[arg:extension]]</argument>
-							</request>
-						</endpoint>
-
-						<!-- /vlaremII/conceptscheme -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>conceptscheme</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-									<produces>text/xml</produces>
-									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
-									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
-									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
-									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlimjvconcept.xsl">text/html</produces>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfovlaremIIconceptschemerestoverlay</identifier>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfovlaremIIconceptscheme</identifier>
-								<argument name="owner" method="as-string">vlaremII/conceptscheme</argument>
-								<argument name="id" method="as-string">theidisempty</argument>
-							</request>
-						</endpoint>
-					</config>
-					
-					<space>
-						<import>
-							<!-- database constants -->
-							<uri>urn:com:proxml:milieuinfo:database</uri>
-							<private/>
-						</import>			
-
-						<import>
-							<!-- tools needed inside the RESTOverlay -->
-							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
-							<private/>
-						</import>
-					</space>
-				</mapper>
-				
-				<import>
-					<!-- database constants -->
-					<uri>urn:com:proxml:milieuinfo:database</uri>
-					<private/>
-				</import>			
-
-				<import>
-					<!-- needed here as well if the RESTOverlay itself
-						 launches the request -->
-					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
-					<private/>
-				</import>
-			</space>
-		</overlay>
-		
 		<overlay>
 			<prototype>RESTOverlay</prototype>
 			<config>
@@ -669,67 +144,7 @@
 			
 			<space>
 				<mapper>
-					<config>
-						<!-- /imjv/(concept|conceptscheme)/xxxxxxxx.(rdf|ttl|nt|jsonld|html) -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>{owner:(concept|conceptscheme)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfoimjvconceptwithextensionrestoverlay</identifier>
-									<argument name="owner"/>
-									<argument name="id"/>
-									<argument name="extension"/>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfoimjvconceptwithextension</identifier>
-								<argument name="owner" method="as-string">imjv/[[arg:owner]]</argument>
-								<argument name="id" method="as-string">[[arg:id]]</argument>
-								<argument name="extension" method="as-string">[[arg:extension]]</argument>
-							</request>
-						</endpoint>
-						
-						<!-- /imjv/(concept|conceptscheme)/xxxxxxxx -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>{owner:(concept|conceptscheme)}/{id}</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-									<produces>text/xml</produces>
-									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
-									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
-									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
-									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlimjvconcept.xsl">text/html</produces>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfoimjvconceptrestoverlay</identifier>
-									<argument name="owner"/>
-									<argument name="id"/>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfoimjvconcept</identifier>
-								<argument name="owner" method="as-string">imjv/[[arg:owner]]</argument>
-								<argument name="id" method="as-string">[[arg:id]]</argument>
-							</request>
-						</endpoint>
-						
+					<config>						
 						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)/xxxxxxx/<remainder>.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
@@ -846,62 +261,6 @@
 								<identifier>active:milieuinfoimjvbyid</identifier>
 								<argument name="owner" method="as-string">imjv/[[arg:owner]]</argument>
 								<argument name="id" method="as-string">[[arg:id]]</argument>
-							</request>
-						</endpoint>
-
-						<!-- /imjv/conceptscheme.(rdf|ttl|nt|jsonld|html) -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>conceptscheme.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfoimjvconceptschemewithextensionrestoverlay</identifier>
-									<argument name="extension"/>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfoimjvconceptschemewithextension</identifier>
-								<argument name="owner" method="as-string">imjv/conceptscheme</argument>
-								<argument name="id" method="as-string">theidisempty</argument>
-								<argument name="extension" method="as-string">[[arg:extension]]</argument>
-							</request>
-						</endpoint>
-
-						<!-- /imjv/conceptscheme -->
-						<endpoint>
-							<meta>
-								<rest>
-									<simple>conceptscheme</simple>
-									<method>GET</method>
-									<Etag>MD5</Etag>
-									<compress/>
-									<produces>text/xml</produces>
-									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
-									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
-									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
-									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlimjvconcept.xsl">text/html</produces>
-								</rest>
-							</meta>
-							
-							<grammar>
-								<active>
-									<identifier>active:milieuinfoimjvconceptschemerestoverlay</identifier>
-								</active>
-							</grammar>
-
-							<request>
-								<identifier>active:milieuinfoimjvconceptscheme</identifier>
-								<argument name="owner" method="as-string">imjv/conceptscheme</argument>
-								<argument name="id" method="as-string">theidisempty</argument>
 							</request>
 						</endpoint>
 
@@ -1903,21 +1262,12 @@
 		</accessor>
 		
 		<accessor>
-			<id>com:proxml:milieuinfo:server:imjvconcept:groovy:accessor</id>
+			<id>com:proxml:milieuinfo:server:meta:groovy:accessor</id>
 			<prototype>GroovyPrototype</prototype>
-			<script>res:/resources/groovy/milieuinfoimjvconcept.groovy</script>
+			<script>res:/resources/groovy/milieuinfometa.groovy</script>
 			<grammar>
 				<active>
-					<identifier>active:milieuinfoimjvconcept</identifier>
-					<identifier>active:milieuinfoimjvconceptscheme</identifier>
-					<identifier>active:milieuinfovlaremIIconcept</identifier>
-					<identifier>active:milieuinfovlaremIIconceptscheme</identifier>
-					<identifier>active:milieuinfodabmconcept</identifier>
-					<identifier>active:milieuinfodabmconceptscheme</identifier>
-					<identifier>active:milieuinfoboconcept</identifier>
-					<identifier>active:milieuinfoboconceptscheme</identifier>
-					<identifier>active:milieuinfoodconcept</identifier>
-					<identifier>active:milieuinfoodconceptscheme</identifier>
+					<identifier>active:milieuinfometa</identifier>
 					<argument name="owner" desc="owner" max="1" min="1"/>
 					<argument name="id" desc="id" max="1" min="1"/>
 				</active>
@@ -2017,21 +1367,12 @@
 		</accessor>
 
 		<accessor>
-			<id>com:proxml:milieuinfo:server:imjvconceptwithextension:groovy:accessor</id>
+			<id>com:proxml:milieuinfo:server:metawithextension:groovy:accessor</id>
 			<prototype>GroovyPrototype</prototype>
-			<script>res:/resources/groovy/milieuinfoimjvconceptwithextension.groovy</script>
+			<script>res:/resources/groovy/milieuinfometawithextension.groovy</script>
 			<grammar>
 				<active>
-					<identifier>active:milieuinfoimjvconceptwithextension</identifier>
-					<identifier>active:milieuinfoimjvconceptschemewithextension</identifier>
-					<identifier>active:milieuinfovlaremIIconceptwithextension</identifier>
-					<identifier>active:milieuinfovlaremIIconceptschemewithextension</identifier>
-					<identifier>active:milieuinfodabmconceptwithextension</identifier>
-					<identifier>active:milieuinfodabmconceptschemewithextension</identifier>
-					<identifier>active:milieuinfoboconceptwithextension</identifier>
-					<identifier>active:milieuinfoboconceptschemewithextension</identifier>
-					<identifier>active:milieuinfoodconceptwithextension</identifier>
-					<identifier>active:milieuinfoodconceptschemewithextension</identifier>
+					<identifier>active:milieuinfometawithextension</identifier>
 					<argument name="owner" desc="owner" max="1" min="1"/>
 					<argument name="id" desc="id" max="1" min="1"/>
 					<argument name="extension" desc="extension" max="1" min="1"/>

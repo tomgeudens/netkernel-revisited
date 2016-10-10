@@ -47,7 +47,7 @@
 		</xsl:variable>		
 		<html>
 			<head>
-			    <title>Data Integraal Milieu Jaarverslag</title>
+			    <title>Meta Data</title>
 				<link rel="alternate" type="application/rdf+xml" href="{$modifieddocid}.rdf"/>
 				<link rel="alternate" type="text/turtle" href="{$modifieddocid}.ttl"/>
 				<link rel="alternate" type="text/plain" href="{$modifieddocid}.nt"/>
