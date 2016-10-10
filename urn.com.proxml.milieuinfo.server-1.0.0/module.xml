@@ -1602,12 +1602,60 @@
 						<stringEquals>/* milieuinfo-cbb-config.js */</stringEquals>
 					</assert>
 				</test>
+
+				<assertDefinition name="nodeEquals">
+					<identifier>active:groovy</identifier>
+					<argument name="operator">res:/resources/groovy/test_nodeequals.groovy</argument>
+					<argument name="response">arg:test:response</argument>
+					<argument name="tagvalue">arg:test:tagValue</argument>
+				</assertDefinition>
+
+				<test name="SOURCE active:rdfxml2html">
+					<request>
+						<identifier>active:rdfxml2html</identifier>
+						<argument name="operand">res:/resources/test/rdf.xml</argument>
+						<argument name="operator">res:/resources/test/rdfxml2html.xsl</argument>
+						<representation>org.netkernel.layer0.representation.IReadableBinaryStreamRepresentation</representation>
+					</request>
+					
+					<assert>
+						<nodeEquals>/html/body/h1/Jan Egil Refsnes</nodeEquals>
+					</assert>
+				</test>
+
+				<test name="SOURCE active:rdfxml2htmljason">
+					<request>
+						<identifier>active:rdfxml2htmlsaxon</identifier>
+						<argument name="operand">res:/resources/test/rdf.xml</argument>
+						<argument name="operator">res:/resources/test/rdfxml2htmlsaxon.xsl</argument>
+						<representation>org.netkernel.layer0.representation.IReadableBinaryStreamRepresentation</representation>
+					</request>
+					
+					<assert>
+						<nodeEquals>/html/body/h1/Tom Egil Refsnes</nodeEquals>
+					</assert>
+				</test>
 			</testlist>
 		</literal>	
 		
 		<import>
 			<!-- private space we want to test -->
 			<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+		</import>
+		
+		<fileset>
+			<!-- contains test resources -->
+			<regex>res:/resources/test/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains groovy resources -->
+			<regex>res:/resources/groovy/.*</regex>
+		</fileset>
+		
+		<import>
+			<!-- contains active:groovy -->
+			<uri>urn:org:netkernel:lang:groovy</uri>
 		</import>
 		
 		<import>

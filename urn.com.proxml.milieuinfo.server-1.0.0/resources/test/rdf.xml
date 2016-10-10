@@ -1,0 +1,9 @@
+<!DOCTYPE rdf:rdf>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:si="http://www.w3schools.com/rdf/">
+	
+	<rdf:Description rdf:about="http://www.w3schools.com">
+		<si:author>Jan Egil Refsnes</si:author>
+	</rdf:Description>
+</rdf:RDF>

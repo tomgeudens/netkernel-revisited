@@ -59,6 +59,18 @@ if (aWith == null || aWith == "") {
 	// sensible default
 	aWith = "http://localhost:8080";
 }
+
+String aReplace = null;
+try {
+	aReplace = (String)aContext.source("milieuinfo:baseurl", String.class);
+}
+catch (Exception e) {
+	//
+}
+if (aReplace == null || aReplace == "") {
+	// sensible default
+	aReplace = "http://localhost:8080";
+}
 //
 
 // processing
@@ -77,7 +89,7 @@ else {
 	xslt2request.addArgumentByValue("operand", vRDFXML);
 }
 xslt2request.addArgument("operator","arg:operator");
-xslt2request.addArgument("replace","milieuinfo:baseurl");
+xslt2request.addArgumentByValue("replace", aReplace);
 xslt2request.addArgumentByValue("with", aWith);
 
 INKFRequest serializerequest = aContext.createRequest("active:saxonSerialize");
