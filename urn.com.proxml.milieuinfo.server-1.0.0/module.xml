@@ -35,15 +35,15 @@
 		<overlay>
 			<prototype>RESTOverlay</prototype>
 			<config>
-				<basepath>/meta/</basepath>
+				<basepath>/vocab/</basepath>
 				<auto404/>
 			</config>
 			
 			<space>
 				<mapper>
 					<config>
-						<!-- /meta/(BO|cbb|DABM|imjv|OD/vlaremII)/(concept|conceptscheme)/xxxxxxxx.(rdf|ttl|nt|jsonld|html) -->
-						<!-- /meta/(BO|cbb|DABM|imjv|OD/vlaremII)/conceptscheme.(rdf|ttl|nt|jsonld|html) -->
+						<!-- /vocab/(BO|cbb|DABM|imjv|OD/vlaremII)/(concept|conceptscheme)/xxxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<!-- /vocab/(BO|cbb|DABM|imjv|OD/vlaremII)/conceptscheme.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
 								<rest>
@@ -56,7 +56,7 @@
 							
 							<grammar>
 								<active>
-									<identifier>active:milieuinfometawithextensionrestoverlay</identifier>
+									<identifier>active:milieuinfovocabwithextensionrestoverlay</identifier>
 									<argument name="owner"/>
 									<argument name="id"/>
 									<argument name="extension"/>
@@ -64,15 +64,15 @@
 							</grammar>
 
 							<request>
-								<identifier>active:milieuinfometawithextension</identifier>
-								<argument name="owner" method="as-string">meta/[[arg:owner]]</argument>
+								<identifier>active:milieuinfovocabwithextension</identifier>
+								<argument name="owner" method="as-string">vocab/[[arg:owner]]</argument>
 								<argument name="id" method="as-string">[[arg:id]]</argument>
 								<argument name="extension" method="as-string">[[arg:extension]]</argument>
 							</request>
 						</endpoint>
 						
-						<!-- /meta/(BO|cbb|DABM|imjv|OD/vlaremII)/(concept|conceptscheme)/xxxxxxxx -->
-						<!-- /meta/(BO|cbb|DABM|imjv|OD/vlaremII)/conceptscheme -->
+						<!-- /vocab/(BO|cbb|DABM|imjv|OD/vlaremII)/(concept|conceptscheme)/xxxxxxxx -->
+						<!-- /vocab/(BO|cbb|DABM|imjv|OD/vlaremII)/conceptscheme -->
 						<endpoint>
 							<meta>
 								<rest>
@@ -85,21 +85,21 @@
 									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
 									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
 									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlmeta.xsl">text/html</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlvocab.xsl">text/html</produces>
 								</rest>
 							</meta>
 							
 							<grammar>
 								<active>
-									<identifier>active:milieuinfometarestoverlay</identifier>
+									<identifier>active:milieuinfovocabrestoverlay</identifier>
 									<argument name="owner"/>
 									<argument name="id"/>
 								</active>
 							</grammar>
 
 							<request>
-								<identifier>active:milieuinfometa</identifier>
-								<argument name="owner" method="as-string">meta/[[arg:owner]]</argument>
+								<identifier>active:milieuinfovocab</identifier>
+								<argument name="owner" method="as-string">vocab/[[arg:owner]]</argument>
 								<argument name="id" method="as-string">[[arg:id]]</argument>
 							</request>
 						</endpoint>
@@ -1262,12 +1262,12 @@
 		</accessor>
 		
 		<accessor>
-			<id>com:proxml:milieuinfo:server:meta:groovy:accessor</id>
+			<id>com:proxml:milieuinfo:server:vocab:groovy:accessor</id>
 			<prototype>GroovyPrototype</prototype>
-			<script>res:/resources/groovy/milieuinfometa.groovy</script>
+			<script>res:/resources/groovy/milieuinfovocab.groovy</script>
 			<grammar>
 				<active>
-					<identifier>active:milieuinfometa</identifier>
+					<identifier>active:milieuinfovocab</identifier>
 					<argument name="owner" desc="owner" max="1" min="1"/>
 					<argument name="id" desc="id" max="1" min="1"/>
 				</active>
@@ -1367,12 +1367,12 @@
 		</accessor>
 
 		<accessor>
-			<id>com:proxml:milieuinfo:server:metawithextension:groovy:accessor</id>
+			<id>com:proxml:milieuinfo:server:vocabwithextension:groovy:accessor</id>
 			<prototype>GroovyPrototype</prototype>
-			<script>res:/resources/groovy/milieuinfometawithextension.groovy</script>
+			<script>res:/resources/groovy/milieuinfovocabwithextension.groovy</script>
 			<grammar>
 				<active>
-					<identifier>active:milieuinfometawithextension</identifier>
+					<identifier>active:milieuinfovocabwithextension</identifier>
 					<argument name="owner" desc="owner" max="1" min="1"/>
 					<argument name="id" desc="id" max="1" min="1"/>
 					<argument name="extension" desc="extension" max="1" min="1"/>
