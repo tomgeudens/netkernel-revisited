@@ -657,7 +657,7 @@
 							</request>
 						</endpoint>
 						
-						<!-- /cbb/sparql -->
+						<!-- /cbb/sparql
 						<endpoint>
 							<meta>
 								<rest>
@@ -675,7 +675,7 @@
 							<request>
 								<identifier>active:milieuinfocbbsparql</identifier>
 							</request>
-						</endpoint>
+						</endpoint>-->
 					</config>
 					
 					<space>

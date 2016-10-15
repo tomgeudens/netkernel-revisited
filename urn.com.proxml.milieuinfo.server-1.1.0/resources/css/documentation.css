@@ -1,0 +1,75 @@
+
+/* documentation.css */
+
+#content > p,
+#content > ul,
+#content > pre {
+    background-color: #fff;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    position: relative;
+    font-size: 18px;
+    line-height: 1.5em;
+}
+
+#content > p {
+    padding: 16px 16px 16px 16px;
+}
+
+#content > ul {
+    padding-top: 1px;
+    padding-bottom: 8px;
+}
+
+#content > p + p,
+#content > p + ul,
+#content > pre + ul,
+#content > pre + p,
+#content > p + pre,
+#content > ul + p {
+    margin-top: -1px;
+}
+
+#content h3 {
+    margin-bottom: 0;
+    margin-top: 32px;
+    font-size: 18px;
+}
+
+#content > *:last-child {
+    margin-bottom: 40px;
+}
+
+#content > pre {
+    display: block;
+    position: relative;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    padding: 0 16px;
+}
+
+pre code {
+    display: block;
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5em;
+    border: 1px solid #d9d9d9;
+    padding: 8px;
+    background-color: #f0f0f0;
+}
+
+/* table */
+
+table {
+    width: 100%;
+    max-width: 100%;
+    margin: -1px 0 0 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+}
+
+table tbody td:first-child {
+    width: 30%;
+}

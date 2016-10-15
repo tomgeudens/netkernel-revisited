@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:proxml:etldata:server</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>proxml / etldata / server</name>
+			<description>proxml / etldata / server</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="proxml etldata server"
+		public="true"
+		uri="urn:com:proxml:etldata:server">
+
+		<fileset>
+			<regex>res:/etc/system/(SimpleDynamicImportHook).xml</regex>
+		</fileset>
+
+		<!-- this endpoint makes sure no other /etc/system resource
+		     gets pulled in -->
+		<endpoint>
+			<prototype>Limiter</prototype>
+			<grammar>res:/etc/system<regex type="anything"/></grammar>
+		</endpoint>
+		
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/etldata/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>
+						<!-- /etldata/xxxxxxxx -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{filename}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:etldatafilerestoverlay</identifier>
+									<argument name="filename"/>
+								</active>
+							</grammar>
+
+							<request>
+								<identifier>file:/N:/tmp/ETLData/[[arg:filename]]</identifier>
+							</request>
+						</endpoint>			
+					</config>
+					
+					<space>		
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:proxml:etldata:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+			</space>
+		</overlay>
+		
+		
+		<import>
+			<uri>urn:com:proxml:etldata:server:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="proxml etldata server import"
+		public="false"
+		uri="urn:com:proxml:etldata:server:import">
+		
+		<import>
+			<!-- contains RESTOverlay prototype -->
+			<uri>urn:org:netkernel:tpt:http</uri>
+		</import>
+		
+		<import>
+			<!-- contains Limiter prototype -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="proxml etldata server import overlay"
+		public="false"
+		uri="urn:com:proxml:etldata:server:import:overlay">
+		
+		<import>
+			<!-- contains file:/ scheme -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+	</rootspace>
+</module>

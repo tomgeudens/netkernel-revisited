@@ -1,0 +1,4 @@
+# one entry per line => {uri}{space}{label}
+http://id.milieuinfo.be/imjv/dossier/2004_00572465000131#id IMJV Dossier - 2004 - Ceulemans Glastuinbouw - 00572465000131
+http://id.milieuinfo.be/imjv/exploitatie/00572465000131/jaar/2004#id Ceulemans Glastuinbouw
+http://id.milieuinfo.be/imjv/dossier/2004_00572465000131/aangifte/identificatie#id IMJV - Aangifte Identificatie - 2004 - Ceulemans Glastuinbouw - 00572465000131

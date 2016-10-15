@@ -1,0 +1,81 @@
+CONSTRUCT {
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://rdfs.org/ns/void#Dataset> .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://www.w3.org/2000/01/rdf-schema#label> "IMJV"@nl .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://purl.org/dc/terms/title> "Dataset IMJV"@nl .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://purl.org/dc/terms/description> "Dataset Integraal Milieujaarverslag"@nl .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://purl.org/dc/terms/license> <http://economie.fgov.be/nl/binaries/Licence%20open%20data_Nl_final2_tcm325-272764.pdf> .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#sparqlEndpoint> <http://id.milieuinfo.be/imjv/sparql> .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?dossier .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?document .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?activiteit .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?zuiveringsaparaat .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?emissie .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?emissiepunt .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?lozing .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?lozingspunt .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#triples> ?triples .
+}
+WHERE {
+  { 
+    SELECT (count(*) as ?triples) 
+    WHERE {
+      ?a ?b ?c .
+    }
+  }
+  {
+    SELECT ?dossier
+    WHERE {
+      ?dossier <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Case> .
+    }
+    LIMIT 2
+  }
+  {
+    SELECT ?document
+    WHERE {
+      ?document <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Document> .
+    }
+    LIMIT 2
+  }
+  {
+    SELECT ?activiteit
+    WHERE {
+      ?activiteit <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/ns/prov#Activity> .
+    }
+    LIMIT 2
+  }
+  {
+    SELECT ?zuiveringsaparaat
+    WHERE {
+      ?zuiveringsaparaat <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Device> .
+    }
+    LIMIT 2
+  }
+  {
+    SELECT ?emissie
+    WHERE {
+      ?emissie <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Emissie> .
+    }
+    LIMIT 2
+  }
+  {
+    SELECT ?emissiepunt
+    WHERE {
+      ?emissiepunt <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Emissiepunt> .
+    }
+    LIMIT 2
+  }
+  {
+    SELECT ?lozing
+    WHERE {
+      ?lozing <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#GeleideLozing> .
+    }
+    LIMIT 2
+  }
+  {
+    SELECT ?lozingspunt
+    WHERE {
+      ?lozingspunt <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Lozingspunt> .
+    }
+    LIMIT 2
+  }
+}

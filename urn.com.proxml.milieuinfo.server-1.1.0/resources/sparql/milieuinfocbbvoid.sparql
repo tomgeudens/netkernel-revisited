@@ -1,0 +1,26 @@
+CONSTRUCT {
+  <http://id.milieuinfo.be/dataset/cbb#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://rdfs.org/ns/void#Dataset> .
+  <http://id.milieuinfo.be/dataset/cbb#id> <http://www.w3.org/2000/01/rdf-schema#label> "CBB"@nl .
+  <http://id.milieuinfo.be/dataset/cbb#id> <http://purl.org/dc/terms/title> "Dataset CBB"@nl .
+  <http://id.milieuinfo.be/dataset/cbb#id> <http://purl.org/dc/terms/description> "Dataset Centraal Bedrijven Bestand"@nl .
+  <http://id.milieuinfo.be/dataset/cbb#id> <http://purl.org/dc/terms/license> <http://economie.fgov.be/nl/binaries/Licence%20open%20data_Nl_final2_tcm325-272764.pdf> .
+  <http://id.milieuinfo.be/dataset/cbb#id> <http://rdfs.org/ns/void#sparqlEndpoint> <http://id.milieuinfo.be/cbb/sparql> .
+  <http://id.milieuinfo.be/dataset/cbb#id> <http://rdfs.org/ns/void#exampleResource> ?exploitatie .
+  <http://id.milieuinfo.be/dataset/cbb#id> <http://rdfs.org/ns/void#exampleResource> ?exploitant .
+}
+WHERE {
+  {
+    SELECT ?exploitatie 
+    WHERE {
+      ?exploitatie <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Exploitatie> .
+    }
+    LIMIT 2
+  }
+  {
+    SELECT ?exploitant
+    WHERE {
+      ?exploitant <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Exploitant> .
+    }
+    LIMIT 2
+  }
+}

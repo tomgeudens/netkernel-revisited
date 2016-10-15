@@ -1,0 +1,1666 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:proxml:milieuinfo:server</uri>
+			<version>1.1.0</version>
+		</identity>
+		<info>
+			<name>proxml / milieuinfo / server</name>
+			<description>proxml / milieuinfo / server</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="proxml milieuinfo server"
+		public="true"
+		uri="urn:com:proxml:milieuinfo:server">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig|SimpleDynamicImportHook).xml</regex>
+		</fileset>
+
+		<!-- this endpoint makes sure no other /etc/system resource
+		     gets pulled in -->
+		<endpoint>
+			<prototype>Limiter</prototype>
+			<grammar>res:/etc/system<regex type="anything"/></grammar>
+		</endpoint>
+		
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/vocab/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>
+						<!-- /vocab/(BO|cbb|DABM|imjv|OD/vlaremII)/(concept|conceptscheme)/xxxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<!-- /vocab/(BO|cbb|DABM|imjv|OD/vlaremII)/conceptscheme.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfovocabwithextensionrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+
+							<request>
+								<identifier>active:milieuinfovocabwithextension</identifier>
+								<argument name="owner" method="as-string">vocab/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>
+						</endpoint>
+						
+						<!-- /vocab/(BO|cbb|DABM|imjv|OD/vlaremII)/(concept|conceptscheme)/xxxxxxxx -->
+						<!-- /vocab/(BO|cbb|DABM|imjv|OD/vlaremII)/conceptscheme -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner}/{id}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlvocab.xsl">text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfovocabrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+								</active>
+							</grammar>
+
+							<request>
+								<identifier>active:milieuinfovocab</identifier>
+								<argument name="owner" method="as-string">vocab/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+							</request>
+						</endpoint>
+					</config>
+					
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:proxml:milieuinfo:database</uri>
+							<private/>
+						</import>			
+
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+				
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:proxml:milieuinfo:database</uri>
+					<private/>
+				</import>			
+
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+				
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/imjv/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>						
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)/xxxxxxx/<remainder>.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)}/{id}/{remainder}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvbyidremainderwithextensionrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+									<argument name="remainder"/>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfoimjvbyidremainderwithextension</identifier>
+								<argument name="owner" method="as-string">imjv/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="remainder" method="as-string">[[arg:remainder]]</argument>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
+
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)/xxxxxxx/<remainder> -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)}/{id}/{remainder}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2htmlsaxon+operator@res:/resources/xsl/rdfxml2htmlimjv.xsl">text/html</produces>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvbyidremainderrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+									<argument name="remainder"/>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfoimjvbyidremainder</identifier>
+								<argument name="owner" method="as-string">imjv/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="remainder" method="as-string">[[arg:remainder]]</argument>
+							</request>
+						</endpoint>
+>
+						
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)/xxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvbyidwithextensionrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfoimjvbyidwithextension</identifier>
+								<argument name="owner" method="as-string">imjv/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>
+						</endpoint>
+
+						<!-- /imjv/(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)/xxxxxxx -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(dossier|exploitatie|emissiepunt|emissie|lozingspunt|lozing|observatie|activiteit|zuiveringsapparaat|kubus|adres)}/{id}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2htmlsaxon+operator@res:/resources/xsl/rdfxml2htmlimjv.xsl">text/html</produces>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvbyidrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfoimjvbyid</identifier>
+								<argument name="owner" method="as-string">imjv/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+							</request>
+						</endpoint>
+
+						<!-- /imjv/def.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>def.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvdefwithextensionrestoverlay</identifier>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfodefwithextension</identifier>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
+
+					    <!-- /imjv/def -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>def</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmldef.xsl">text/html</produces>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvdefrestoverlay</identifier>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfodef</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /imjv/home -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>home</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvhome</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/html/milieuinfoimjv.html</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /imjv/keywordsearch -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>keywordsearch</simple>
+									<method>GET,POST</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvkeywordsearchrestoverlay</identifier>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfoimjvkeywordsearch</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /imjv/sparql -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>sparql</simple>
+									<method>GET,POST</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvsparqlrestoverlay</identifier>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfoimjvsparql</identifier>
+							</request>
+						</endpoint>
+					</config>
+					
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:proxml:milieuinfo:database</uri>
+							<private/>
+						</import>			
+
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+				
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:proxml:milieuinfo:database</uri>
+					<private/>
+				</import>			
+
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/cbb/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>
+						<!-- /cbb/(adres|exploitatie|exploitant)/xxxxx/<remainder>.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(exploitatie)}/{id}/{remainder}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbbyidremainderwithextensionrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+									<argument name="remainder"/>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfocbbbyidremainderwithextension</identifier>
+								<argument name="owner" method="as-string">cbb/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="remainder" method="as-string">[[arg:remainder]]</argument>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
+						
+						<!-- /cbb/(adres|exploitatie|exploitant)/xxxxx/<remainder> -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(exploitatie)}/{id}/{remainder}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlcbb.xsl">text/html</produces>
+								</rest>
+							</meta>
+
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbbyidremainderrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+									<argument name="remainder"/>
+								</active>
+							</grammar>
+
+							<request>
+								<identifier>active:milieuinfocbbbyidremainder</identifier>
+								<argument name="owner" method="as-string">cbb/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="remainder" method="as-string">[[arg:remainder]]</argument>								
+							</request>
+						</endpoint>
+						
+						<!-- /cbb/(adres|exploitatie|exploitant)/xxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(adres|exploitatie|exploitant)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbbyidwithextensionrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfocbbbyidwithextension</identifier>
+								<argument name="owner" method="as-string">cbb/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>
+						</endpoint>
+
+						<!-- /cbb/(adres|exploitatie|exploitant)/xxxxx -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(adres|exploitatie|exploitant)}/{id}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlcbb.xsl">text/html</produces>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbbyidrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfocbbbyid</identifier>
+								<argument name="owner" method="as-string">cbb/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+							</request>
+						</endpoint>
+
+						<!-- /cbb/def.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>def.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbdefwithextensionrestoverlay</identifier>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfodefwithextension</identifier>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
+
+					    <!-- /def -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>def</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmldef.xsl">text/html</produces>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbdefrestoverlay</identifier>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfodef</identifier>
+							</request>
+						</endpoint>
+
+						<!-- /cbb/fragments -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>fragments</simple>
+									<method>GET,POST</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlcbb.xsl">text/html</produces>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbfragmentsrestoverlay</identifier>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfocbbfragments</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /cbb/home -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>home</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbhome</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/html/milieuinfocbb.html</identifier>
+							</request>
+						</endpoint>
+
+						<!-- /cbb/keywordsearch -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>keywordsearch</simple>
+									<method>GET,POST</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbkeywordsearchrestoverlay</identifier>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfocbbkeywordsearch</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /cbb/sparql
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>sparql</simple>
+									<method>GET,POST</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbsparqlrestoverlay</identifier>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfocbbsparql</identifier>
+							</request>
+						</endpoint>-->
+					</config>
+					
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:proxml:milieuinfo:database</uri>
+							<private/>
+						</import>
+						
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:proxml:milieuinfo:database</uri>
+					<private/>
+				</import>
+						
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+		
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>
+						<!-- / -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple></simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfohome</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/html/milieuinfo.html</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /css/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>css/{cssfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/css</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocss</identifier>
+									<argument name="cssfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/css/[[arg:cssfile]]</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /dataset/cbb.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>dataset/cbb.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbvoidwithextensionrestoverlay</identifier>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfocbbvoidwithextension</identifier>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
+
+						
+						<!-- /dataset/cbb -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>dataset/cbb</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlcbb.xsl">text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfocbbvoidrestoverlay</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfocbbvoid</identifier>
+							</request>
+						</endpoint>
+
+						<!-- /dataset/imjv.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>dataset/imjv.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvvoidwithextensionrestoverlay</identifier>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfoimjvvoidwithextension</identifier>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
+
+						
+						<!-- /dataset/imjv -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>dataset/imjv</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2htmlsaxon+operator@res:/resources/xsl/rdfxml2htmlimjv.xsl">text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimjvvoidrestoverlay</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfoimjvvoid</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /def.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>def.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+
+							<grammar>
+								<active>
+									<identifier>active:milieuinfodefwithextensionrestoverlay</identifier>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfodefwithextension</identifier>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
+
+					    <!-- /def -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>def</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmldef.xsl">text/html</produces>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfodefrestoverlay</identifier>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfodef</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /fonts/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>fonts/{fontsfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfofonts</identifier>
+									<argument name="fontsfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/fonts/[[arg:fontsfile]]</identifier>
+							</request>
+						</endpoint>
+
+						<!-- /img/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>img/{imgfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoimg</identifier>
+									<argument name="imgfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/img/[[arg:imgfile]]</identifier>
+							</request>
+						</endpoint>
+
+						<!-- /js/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>js/{jsfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>application/javascript</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfojs</identifier>
+									<argument name="jsfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:parsejavascript</identifier>
+								<argument name="operand">res:/resources/js/[[arg:jsfile]]</argument>
+							</request>
+						</endpoint>
+						
+						<!-- /txt/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>txt/{txtfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/plain</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfotxt</identifier>
+									<argument name="txtfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:parsetext</identifier>
+								<argument name="operand">res:/resources/txt/[[arg:txtfile]]</argument>
+							</request>
+						</endpoint>
+					</config>
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:proxml:milieuinfo:database</uri>
+							<private/>
+						</import>
+
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+				
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:proxml:milieuinfo:database</uri>
+					<private/>
+				</import>
+				
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+		
+		
+		<import>
+			<uri>urn:com:proxml:milieuinfo:server:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="proxml milieuinfo server import"
+		public="false"
+		uri="urn:com:proxml:milieuinfo:server:import">
+		
+		<import>
+			<!-- contains RESTOverlay prototype -->
+			<uri>urn:org:netkernel:tpt:http</uri>
+		</import>
+		
+		<import>
+			<!-- contains Limiter prototype -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="proxml milieuinfo server import overlay"
+		public="false"
+		uri="urn:com:proxml:milieuinfo:server:import:overlay">
+		<fileset>
+			<!-- contains html resources -->
+			<regex>res:/resources/html/.*</regex>
+		</fileset>
+		
+		<fileset>
+			<!-- contains css resources -->
+			<regex>res:/resources/css/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains fonts resources -->
+			<regex>res:/resources/fonts/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains img resources -->
+			<regex>res:/resources/img/.*</regex>
+		</fileset>
+		
+		<fileset>
+			<!-- contains groovy scripts -->
+			<regex>res:/resources/groovy/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains freemarker resources -->
+			<regex>res:/resources/freemarker/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains xsl resources -->
+			<regex>res:/resources/xsl/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains rdf resources -->
+			<regex>res:/resources/rdf/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains txt resources -->
+			<regex>res:/resources/txt/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains js resources -->
+			<regex>res:/resources/js/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains sparql resources -->
+			<regex>res:/resources/sparql/.*</regex>
+		</fileset>
+
+		<import>
+			<!-- contains GroovyPrototype -->
+			<uri>urn:org:netkernel:lang:groovy</uri>
+		</import>
+
+		<import>
+			<!-- contains active:freemarker -->
+			<uri>urn:org:netkernel:lang:freemarker</uri>
+		</import>
+
+		<import>
+			<!-- contains active:xsltc -->
+			<uri>urn:org:netkernel:xml:core</uri>
+		</import>
+		
+		<import>
+			<!-- contains active:xslt2 -->
+			<uri>urn:org:netkernel:xml:saxon</uri>
+		</import>
+		
+		<import>
+			<!-- contains active:tagSoup -->
+			<uri>urn:org:netkernel:web:core</uri>
+		</import>
+
+		<import>
+			<!-- contains active:sed -->
+			<uri>urn:org:netkernel:lang:trl</uri>
+		</import>
+		
+		<import>
+			<!-- contains pds:/ scheme -->
+			<uri>urn:org:netkernel:mod:pds</uri>
+		</import>
+		
+		<import>
+			<!-- contains transreptors used when the commands are 
+				 launched manually (e.g. request trace tool) -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+
+		<import>
+			<!-- contains                                    -->
+			<!-- active:rdfxml2rdfxml, active:rdfxml2turtle  -->
+			<!-- active:rdfxml2ntriple, active:rdfxml2jsonld -->
+			<uri>urn:com:ebc:triplestore:utility</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+
+		<import>
+			<!-- contains active:sparql -->
+			<uri>urn:com:ebc:triplestore:httpclient:sparql</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+
+		<import>
+			<!-- contains active:fragments -->
+			<uri>urn:com:ebc:triplestore:httpclient:fragments</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+
+		<import>
+			<!-- contains active:keywordsearch -->
+			<uri>urn:com:ebc:triplestore:httpclient:kws:bigdata</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+		
+		<import>
+			<!-- contains active:pds -->
+			<uri>urn:com:ebc:tool:pdsfile</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:def:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfodef.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfodef</identifier>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:cbbvoid:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfocbbvoid.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfocbbvoid</identifier>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:imjvvoid:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoimjvvoid.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoimjvvoid</identifier>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:proxml:milieuinfo:server:cbbbyid:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfocbbbyid.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfocbbbyid</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:proxml:milieuinfo:server:imjvbyid:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoimjvbyid.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoimjvbyid</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:proxml:milieuinfo:server:vocab:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfovocab.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfovocab</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:cbbbyidremainder:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfocbbbyidremainder.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfocbbbyidremainder</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="remainder" desc="remainder" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:imjvbyidremainder:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoimjvbyidremainder.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoimjvbyidremainder</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="remainder" desc="remainder" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:defwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfodefwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfodefwithextension</identifier>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:cbbvoidwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfocbbvoidwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfocbbvoidwithextension</identifier>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:imjvvoidwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoimjvvoidwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoimjvvoidwithextension</identifier>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:cbbbyidwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfocbbbyidwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfocbbbyidwithextension</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:imjvbyidwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoimjvbyidwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoimjvbyidwithextension</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:vocabwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfovocabwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfovocabwithextension</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:proxml:milieuinfo:server:cbbbyidremainderwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfocbbbyidremainderwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfocbbbyidremainderwithextension</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="remainder" desc="remainder" max="1" min="1"/>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:imjvbyidremainderwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoimjvbyidremainderwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoimjvbyidremainderwithextension</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="remainder" desc="remainder" max="1" min="1"/>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:proxml:milieuinfo:server:cbbsparql:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfocbbsparql.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfocbbsparql</identifier>
+					<argument name="query" desc="query" max="1" min="0"/>
+					<argument name="accept" desc="accept header" max="1" min="0"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:proxml:milieuinfo:server:imjvsparql:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoimjvsparql.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoimjvsparql</identifier>
+					<argument name="query" desc="query" max="1" min="0"/>
+					<argument name="accept" desc="accept header" max="1" min="0"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:cbbfragments:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfocbbfragments.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfocbbfragments</identifier>
+					<argument name="subject" desc="subject" max="1" min="0"/>
+					<argument name="predicate" desc="predicate" max="1" min="0"/>
+					<argument name="object" desc="object" max="1" min="0"/>
+					<argument name="limit" desc="limit" max="1" min="0"/>
+					<argument name="offset" desc="offset" max="1" min="0"/>
+					<argument name="accept" desc="accept header" max="1" min="0"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:cbbkeywordsearch:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfocbbkeywordsearch.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfocbbkeywordsearch</identifier>
+					<argument name="search" desc="search" max="1" min="0"/>
+					<argument name="limit" desc="limit" max="1" min="0"/>
+					<argument name="accept" desc="accept header" max="1" min="0"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:imjvkeywordsearch:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoimjvkeywordsearch.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoimjvkeywordsearch</identifier>
+					<argument name="search" desc="search" max="1" min="0"/>
+					<argument name="limit" desc="limit" max="1" min="0"/>
+					<argument name="accept" desc="accept header" max="1" min="0"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:parsejavascript:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/parsejavascript.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:parsejavascript</identifier>
+					<argument name="operand" desc="javascript" max="1" min="1"/>
+					<argument name="replace" desc="string to replace" max="1" min="0"/>
+					<argument name="with" desc="string to replace with" max="1" min="0"/>
+				</active>
+			</grammar>			
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:parsetext:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/parsetext.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:parsetext</identifier>
+					<argument name="operand" desc="text" max="1" min="1"/>
+					<argument name="replace" desc="string to replace" max="1" min="0"/>
+					<argument name="with" desc="string to replace with" max="1" min="0"/>
+				</active>
+			</grammar>			
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:rdfxml2html:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/rdfxml2html.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:rdfxml2html</identifier>
+					<argument name="operand" desc="unfiltered rdfxml" max="1" min="1"/>
+					<argument name="operator" desc="xsl stylesheet" max="1" min="1"/>
+				</active>
+			</grammar>			
+		</accessor>
+		
+		<accessor>
+			<id>com:proxml:milieuinfo:server:rdfxml2htmlsaxon:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/rdfxml2htmlsaxon.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:rdfxml2htmlsaxon</identifier>
+					<argument name="operand" desc="unfiltered rdfxml" max="1" min="1"/>
+					<argument name="operator" desc="xsl stylesheet" max="1" min="1"/>
+				</active>
+			</grammar>			
+		</accessor>
+	</rootspace>
+	
+	<rootspace
+		name="proxml milieuinfo server unittest"
+		public="true"
+		uri="urn:com:proxml:milieuinfo:server:unittest">
+		
+		<literal type="hds" uri="res:/etc/system/Tests.xml">
+			<tests>
+				<test>
+					<id>test:urn:com:proxml:milieuinfo:server</id>
+					<name>proxml milieuinfo server unittest</name>
+					<desc>proxml milieuinfo server unittest</desc>
+					<uri>res:/resources/unittest/milieuinfo-server.xml</uri>
+				</test>
+			</tests>
+		</literal>
+		
+		<!-- this endpoint makes sure no other /etc/system resource
+		     gets pulled into the testing framework -->
+		<endpoint>
+			<prototype>Limiter</prototype>
+			<grammar>res:/etc/system<regex type="anything"/></grammar>
+		</endpoint>
+
+		<literal type="hds" uri="res:/resources/unittest/milieuinfo-server.xml">
+			<testlist>
+				<test name="SOURCE active:parsetext">
+					<request>
+						<identifier>active:parsetext</identifier>
+						<argument name="operand">
+							<literal type="string">Tom LastName</literal>
+						</argument>
+						<argument name="replace">
+							<literal type="string">LastName</literal>
+						</argument>
+						<argument name="with">
+							<literal type="string">Geudens</literal>
+						</argument>
+						<representation>java.lang.String</representation>
+						<verb>SOURCE</verb>
+					</request>
+					
+					<assert>
+						<stringEquals>Tom Geudens</stringEquals>
+					</assert>
+				</test>
+
+				<test name="SOURCE active:parsejavascript">
+					<request>
+						<identifier>active:parsejavascript</identifier>
+						<argument name="operand">
+							<literal type="string">/* milieuinfo-database-config.js */</literal>
+						</argument>
+						<argument name="replace">
+							<literal type="string">database</literal>
+						</argument>
+						<argument name="with">
+							<literal type="string">cbb</literal>
+						</argument>
+						<representation>java.lang.String</representation>
+						<verb>SOURCE</verb>
+					</request>
+					
+					<assert>
+						<stringEquals>/* milieuinfo-cbb-config.js */</stringEquals>
+					</assert>
+				</test>
+
+				<assertDefinition name="nodeEquals">
+					<identifier>active:groovy</identifier>
+					<argument name="operator">res:/resources/groovy/test_nodeequals.groovy</argument>
+					<argument name="response">arg:test:response</argument>
+					<argument name="tagvalue">arg:test:tagValue</argument>
+				</assertDefinition>
+
+				<test name="SOURCE active:rdfxml2html">
+					<request>
+						<identifier>active:rdfxml2html</identifier>
+						<argument name="operand">res:/resources/test/rdf.xml</argument>
+						<argument name="operator">res:/resources/test/rdfxml2html.xsl</argument>
+						<representation>org.netkernel.layer0.representation.IReadableBinaryStreamRepresentation</representation>
+					</request>
+					
+					<assert>
+						<nodeEquals>/html/body/h1/Jan Egil Refsnes</nodeEquals>
+					</assert>
+				</test>
+
+				<test name="SOURCE active:rdfxml2htmlsaxon">
+					<request>
+						<identifier>active:rdfxml2htmlsaxon</identifier>
+						<argument name="operand">res:/resources/test/rdf.xml</argument>
+						<argument name="operator">res:/resources/test/rdfxml2htmlsaxon.xsl</argument>
+						<representation>org.netkernel.layer0.representation.IReadableBinaryStreamRepresentation</representation>
+					</request>
+					
+					<assert>
+						<nodeEquals>/html/body/h1/Tom Egil Refsnes</nodeEquals>
+					</assert>
+				</test>
+			</testlist>
+		</literal>	
+		
+		<import>
+			<!-- private space we want to test -->
+			<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+		</import>
+		
+		<fileset>
+			<!-- contains test resources -->
+			<regex>res:/resources/test/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains groovy resources -->
+			<regex>res:/resources/groovy/.*</regex>
+		</fileset>
+		
+		<import>
+			<!-- contains active:groovy -->
+			<uri>urn:org:netkernel:lang:groovy</uri>
+		</import>
+		
+		<import>
+			<!-- contains Limiter prototype -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+	</rootspace>
+</module>

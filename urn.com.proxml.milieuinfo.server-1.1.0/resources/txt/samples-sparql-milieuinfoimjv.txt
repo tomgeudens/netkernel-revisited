@@ -1,0 +1,18 @@
+# Use 2 hash characters to mark the beginning of a query.
+# The double-hashed line is used as query label
+
+
+## Een aantal dossiers
+SELECT ?subject
+WHERE {
+	?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Case> . 
+}
+LIMIT 5
+
+
+## Een aantal documenten
+SELECT ?subject
+WHERE {
+	?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Document> . 
+}
+LIMIT 5
