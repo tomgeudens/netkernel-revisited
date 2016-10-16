@@ -28,30 +28,25 @@
 	<xsl:key name="predicates-by-tag-incoming-links" match="rdf:RDF/rdf:Description[not(rdf:type)]/*" use="name()" />
 	
 	<xsl:template match="rdf:RDF">
-		<xsl:variable name="doc-id" select="substring-before(rdf:Description[@rdf:about][rdf:type]/@rdf:about,'#')"/>
-		<xsl:copy-of select="fun:html-skin(., fun:replace-string($doc-id))"></xsl:copy-of>
+		<xsl:variable name="start-point-resource" select="rdf:Description[fun:is-starting-point(.)]"/>
+		<xsl:variable name="doc-id" select="substring-before($start-point-resource/@rdf:about, '#')"/>
+		<xsl:copy-of select="fun:html-skin(., fun:domain-modify-uri($doc-id))"></xsl:copy-of>
 	</xsl:template>
 	
 	<!-- materialisation of the function that renders the actual content -->
 	<xsl:function name="fun:build-html-body">
 		<xsl:param name="root" as="element()"/>
-		<xsl:apply-templates select="$root/rdf:Description[@rdf:about][rdf:type]"/>
+		<xsl:apply-templates select="$root/rdf:Description[fun:is-starting-point(.)]" mode="starting-point"/>
 	</xsl:function>
 	
-	<!-- starting point content
-		- door de manier waarop we de data klaarzetten heeft ieder startpunt een rdf:type
-		- JENA zorgt er voor dat enkel de niet blanke nodes een @rdf:about hebben
-			(blank nodes krijgen een @rdf:nodeID)
-		=> aanpak is dus veilig
-	-->
+	<!-- starting point content	-->
 	
-	<xsl:template match="rdf:Description[@rdf:about][rdf:type]">
+	<xsl:template match="rdf:Description" mode="starting-point">
 		<xsl:variable name="this-about" select="@rdf:about"/>
-		<xsl:variable name="modified-id-url" select="fun:replace-string($this-about)"/>
 		<xsl:variable name="doc-id" select="substring-before($this-about,'#')"/>
 		
 		<div id="content">
-			<xsl:copy-of select="fun:export-options(fun:replace-string($doc-id))"/>
+			<xsl:copy-of select="fun:export-options(fun:domain-modify-uri($doc-id))"/>
 			
 			<xsl:if test="purl:title">
 				<h1><xsl:value-of select="purl:title"/></h1>
@@ -94,10 +89,13 @@
 								<!-- loop through the occurences for the unique predicates -->
 								<xsl:for-each select="key('predicates-by-tag-incoming-links', name())">
 									<!-- we have to go a level up to find the inbound link -->
-									<xsl:variable name="abouturl" select="../@rdf:about"/>
-									<xsl:variable name="modifiedabouturl" select="fun:replace-string($abouturl)"/>
-									<p><a href="{$modifiedabouturl}"><xsl:value-of select="$abouturl"/>
-									</a></p>
+									<xsl:variable name="about-url" select="../@rdf:about"/>
+									<p>
+										<a>
+											<xsl:copy-of select="fun:set-domain-modified-href($about-url)"></xsl:copy-of>
+											<xsl:value-of select="$about-url"/>
+										</a>
+									</p>
 								</xsl:for-each>
 							</div>
 						</div>							

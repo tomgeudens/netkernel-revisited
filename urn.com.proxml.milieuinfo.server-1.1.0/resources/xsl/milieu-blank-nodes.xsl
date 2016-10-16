@@ -21,7 +21,9 @@
 	<xsl:template match="*[rdf:value]" mode="blank-nodes">
 		<xsl:value-of select="rdf:value"/>
 		<xsl:text> </xsl:text>
-		<a href="{sdmx-attribute:unitMeasure/@rdf:resource}">
+		<a>
+			<xsl:copy-of select="fun:set-domain-modified-href(sdmx-attribute:unitMeasure/@rdf:resource)"></xsl:copy-of>
+			
 			<xsl:value-of select="fun:set-property-label(key('resource-by-about', sdmx-attribute:unitMeasure/@rdf:resource), sdmx-attribute:unitMeasure/@rdf:resource)"/>
 		</a>
 	</xsl:template>

@@ -17,6 +17,32 @@
 	<xsl:param name="replace" as="xs:string" select="'#rep'"/><!-- void default waarde om geen inf. loops te hebben-->
 	<xsl:param name="with" as="xs:string" select="'#with'"/><!-- void default waarde om geen inf. loops te hebben-->
 	
+	<!--
+	- door de manier waarop we de data klaarzetten heeft ieder startpunt een rdf:type
+	- JENA zorgt er voor dat enkel de niet blanke nodes een @rdf:about hebben
+	(blank nodes krijgen een @rdf:nodeID)
+	- verder andere discriminatoren voor de edge cases
+	-->
+	<xsl:function name="fun:is-starting-point" as="xs:boolean">
+		<xsl:param name="resource" as="element(rdf:Description)"/>
+		<xsl:variable name="this-about" select="$resource/@rdf:about"/>
+		<xsl:choose>
+			<xsl:when test="not(exists($resource/@rdf:about) and exists($resource/rdf:type))">
+				<xsl:value-of select="false()"/>
+			</xsl:when>
+			<xsl:when test="count($resource/ancestor::rdf:RDF/rdf:Description[@rdf:about][rdf:type]) = 1">
+				<xsl:value-of select="true()"/>
+			</xsl:when>
+			<xsl:when test="$resource/rdfs:isDefinedBy and count($resource/ancestor::rdf:RDF/rdf:Description[@rdf:about][rdf:type][rdfs:isDefinedBy]) = 1">
+				<xsl:value-of select="true()"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="false()"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+	
+	
 	<xsl:function name="fun:export-options" as="element(div)">
 		<xsl:param name="doc-id"/>
 		<div class="export-options">
@@ -28,25 +54,27 @@
 		</div>
 	</xsl:function>
 	
-	<xsl:function name="fun:replace-string"> <!-- wrapper -->
-		<xsl:param name="text" as="xs:string"/>
-		<xsl:value-of select="string-join(fun:__replace-string($text), '')"/>
+	<xsl:function name="fun:set-domain-modified-href" as="attribute(href)">
+		<xsl:param name="uri" as="xs:string"/>
+		<xsl:attribute name="href" select="fun:domain-modify-uri($uri)"/>
 	</xsl:function>
-		
 	
-	<xsl:function name="fun:__replace-string">
-		<xsl:param name="text" as="xs:string"/>
-		<xsl:choose>
-			<xsl:when test="contains($text, $replace)">
-				<xsl:value-of select="substring-before($text, $replace)"/>
-				<xsl:value-of select="$with"/>
-				<xsl:value-of select="fun:__replace-string(substring-after($text, $replace))"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="$text"/>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:function>	
+	<xsl:function name="fun:domain-modify-uri" as="xs:string">
+		<xsl:param name="uri" as="xs:string"/>
+		<xsl:variable name="return">
+			<xsl:choose>
+				<xsl:when test="contains($uri, $replace)">
+					<xsl:value-of select="substring-before($uri, $replace)"/>
+					<xsl:value-of select="$with"/>
+					<xsl:value-of select="substring-after($uri, $replace)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$uri"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:value-of select="$return"/>
+	</xsl:function>
 	
 	
 	<xsl:function name="fun:set-label">
@@ -79,7 +107,8 @@
 					<xsl:choose>
 						<xsl:when test="@rdf:resource">
 							<xsl:variable name="this-resource" select="normalize-space(@rdf:resource)"/>
-							<a href="{fun:replace-string($this-resource)}">
+							<a>
+								<xsl:copy-of select="fun:set-domain-modified-href($this-resource)"></xsl:copy-of>
 								<xsl:value-of select="fun:set-property-label(key('resource-by-about', $this-resource), $this-resource)"/>
 							</a>
 						</xsl:when>

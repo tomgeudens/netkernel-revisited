@@ -65,24 +65,15 @@ CONSTRUCT {
 	}
 WHERE { 
  {graph ?g
-	 {<http://id.milieuinfo.be/${owner}/${id}/${remainder}#id> ?vp ?v.
-	  FILTER (isLiteral(?v))
-	  <http://id.milieuinfo.be/${owner}/${id}/${remainder}#id> ?op ?o.
-	  FILTER (isURI(?o))
-	  OPTIONAL 
-		  {
-		  <http://id.milieuinfo.be/${owner}/${id}/${remainder}#id> ?bnp ?bn.
-		  FILTER (isBlank(?bn))
-		  }
-	  OPTIONAL 
-		  {
-		  <http://id.milieuinfo.be/${owner}/${id}/${remainder}#id> ?bnp ?bn.
-		 	?bn ?bnl2p ?bnl2o.
-		  }
-	  OPTIONAL {?bnl2o ?bnl3p ?bnl3o.}
+	 {
+	  <http://id.milieuinfo.be/${owner}/${id}/${remainder}#id> ?vp ?v.
+    FILTER (isLiteral(?v))
 
 	  OPTIONAL {graph ?g01v{?vp rdfs:label ?vplbl.}}
 	  OPTIONAL {graph ?g02v{?vp skos:prefLabel ?vpslbl.}}
+
+	  <http://id.milieuinfo.be/${owner}/${id}/${remainder}#id> ?op ?o.
+	  FILTER (isURI(?o))
 
 	  OPTIONAL {graph ?g01o{?op rdfs:label ?oplbl.}}
 	  OPTIONAL {graph ?g02o{?op skos:prefLabel ?opslbl.}}
@@ -90,14 +81,27 @@ WHERE {
 	  OPTIONAL {graph ?g03o{?o rdfs:label ?olbl.}}
 	  OPTIONAL {graph ?g04o{?o skos:prefLabel ?oslbl.}}
 
-	  OPTIONAL {graph ?g01b{?bnp rdfs:label ?bnplbl.}}
-	  OPTIONAL {graph ?g02b{?bnp skos:prefLabel ?bnpslbl.}}
+	  OPTIONAL 
+		  {
+		  <http://id.milieuinfo.be/${owner}/${id}/${remainder}#id> ?bnp ?bn.
+		  FILTER (isBlank(?bn))
+		  
+		  OPTIONAL {graph ?g01b{?bnp rdfs:label ?bnplbl.}}
+		  OPTIONAL {graph ?g02b{?bnp skos:prefLabel ?bnpslbl.}}
 
-	  OPTIONAL {graph ?g01b2{?bnl2p rdfs:label ?bnplbl2.}}
-	  OPTIONAL {graph ?g02b2{?bnl2p skos:prefLabel ?bnpslbl2.}}
+		  OPTIONAL 
+			  {
+			 	?bn ?bnl2p ?bnl2o.
 
-	  OPTIONAL {graph ?g07{?bnl2o rdfs:label ?ol3lbl.}}
-	  OPTIONAL {graph ?g08{?bnl2o skos:prefLabel ?osl3lbl.}}
+			  OPTIONAL {graph ?g01b2{?bnl2p rdfs:label ?bnplbl2.}}
+			  OPTIONAL {graph ?g02b2{?bnl2p skos:prefLabel ?bnpslbl2.}}
+
+			  OPTIONAL {graph ?g07{?bnl2o rdfs:label ?ol3lbl.}}
+			  OPTIONAL {graph ?g08{?bnl2o skos:prefLabel ?osl3lbl.}}
+
+	  		OPTIONAL {?bnl2o ?bnl3p ?bnl3o.}
+			  }
+		  }
 	 }
  }
  UNION
