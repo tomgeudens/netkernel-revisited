@@ -60,7 +60,7 @@
 							</grammar>
 
 							<request>
-								<identifier>file:/N:/tmp/ETLData/[[arg:filename]]</identifier>
+								<identifier>file:/C:/nkwork/tmp/ETLData/[[arg:filename]]</identifier>
 							</request>
 						</endpoint>			
 					</config>
