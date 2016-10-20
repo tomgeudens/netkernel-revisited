@@ -38,7 +38,21 @@
 				</div>
 				
 				<div id="content">
-					<xsl:apply-templates/>
+					<xsl:apply-templates select="*[rdf:type/@rdf:resource='http://www.w3.org/2002/07/owl#Class']">
+						<xsl:sort select="@rdf:about"/>
+					</xsl:apply-templates>
+
+					<xsl:apply-templates select="*[rdf:type/@rdf:resource='http://www.w3.org/2000/01/rdf-schema#Class']">
+						<xsl:sort select="@rdf:about"/>
+					</xsl:apply-templates>
+
+					<xsl:apply-templates select="*[rdf:type/@rdf:resource='http://www.w3.org/2002/07/owl#ObjectProperty']">
+						<xsl:sort select="@rdf:about"/>
+					</xsl:apply-templates>
+					
+					<xsl:apply-templates select="*[rdf:type/@rdf:resource='http://www.w3.org/2002/07/owl#DatatypeProperty']">
+						<xsl:sort select="@rdf:about"/>
+					</xsl:apply-templates>
 				</div>
 				
 				<div id="footer">

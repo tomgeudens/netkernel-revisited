@@ -35,7 +35,7 @@
 
 		<literal type="string" uri="milieuinfo:database-vocab">http://localhost:9999/blazegraph/namespace/lne/sparql</literal>
 
-		<literal type="string" uri="milieuinfo:database-def">http://localhost:9999/blazegraph/namespace/def/sparql</literal>
+		<literal type="string" uri="milieuinfo:database-def">http://localhost:9999/blazegraph/namespace/lne/sparql</literal>
 
 		<literal type="string" uri="milieuinfo:query-cbb">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
 
@@ -92,7 +92,7 @@
 		<literal type="hds" uri="res:/etc/pdsConfig.xml">
 			<config>
 				<zone>Milieuinfo</zone>
-				<pdsfiledirectory>file:/N:/tmp/</pdsfiledirectory>
+				<pdsfiledirectory>file:/C:/nkwork/tmp/</pdsfiledirectory>
 			</config>
 		</literal>
 		

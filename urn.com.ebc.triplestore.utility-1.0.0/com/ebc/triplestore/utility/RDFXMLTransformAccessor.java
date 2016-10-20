@@ -42,12 +42,15 @@ public class RDFXMLTransformAccessor extends StandardAccessorImpl {
 		//
 		
 		// processing
-		INKFRequest jenaparserequest = aContext.createRequest("active:jRDFParseXML");
-		jenaparserequest.addArgument("operand", "arg:operand");
-		Object vJenaParseResult = aContext.issueRequest(jenaparserequest);
+		
+		//parse no longer necessary
+		//INKFRequest jenaparserequest = aContext.createRequest("active:jRDFParseXML");
+		//jenaparserequest.addArgument("operand", "arg:operand");
+		//Object vJenaParseResult = aContext.issueRequest(jenaparserequest);
 		
 		INKFRequest modelemptyrequest = aContext.createRequest("active:jRDFModelIsEmpty");
-		modelemptyrequest.addArgumentByValue("operand", vJenaParseResult);
+		//modelemptyrequest.addArgumentByValue("operand", vJenaParseResult);
+		modelemptyrequest.addArgument("operand", "arg:operand");
 		modelemptyrequest.setRepresentationClass(Boolean.class);
 		Boolean vIsModelEmpty = (Boolean)aContext.issueRequest(modelemptyrequest);
 		
@@ -79,7 +82,8 @@ public class RDFXMLTransformAccessor extends StandardAccessorImpl {
 			break;
 		}
 		
-		jenaserializerequest.addArgumentByValue("operand", vJenaParseResult);
+		//jenaserializerequest.addArgumentByValue("operand", vJenaParseResult);
+		jenaserializerequest.addArgument("operand", "arg:operand");
 		jenaserializerequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
 		vRBS = (IReadableBinaryStreamRepresentation)aContext.issueRequest(jenaserializerequest);
 		//
