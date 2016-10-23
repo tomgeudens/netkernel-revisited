@@ -64,7 +64,7 @@ else {
 	vSPARQLResult = sparqlresponse.getRepresentation();
 	
 	if (vHTTPResponseCode == 200) {
-		aContext.sink("pds:/dataset/imjv", vSPARQLResult);
+		//aContext.sink("pds:/dataset/imjv", vSPARQLResult);
 	}
 }
 //

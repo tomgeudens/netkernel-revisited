@@ -99,7 +99,7 @@ else {
 	vSPARQLResult = sparqlresponse.getRepresentation();
 	
 	if (vHTTPResponseCode == 200) {
-		aContext.sink("pds:/" +aOwner + "/" + aRemainder + "/" + aID, vSPARQLResult);
+		//aContext.sink("pds:/" +aOwner + "/" + aRemainder + "/" + aID, vSPARQLResult);
 	}
 }
 //

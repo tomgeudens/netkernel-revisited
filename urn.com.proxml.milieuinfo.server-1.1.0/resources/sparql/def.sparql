@@ -1,9 +1,9 @@
-CONSTRUCT { 
+CONSTRUCT {
  ?subject ?predicate ?object .
 } 
 WHERE {
-	GRAPH <http://id.milieuinfo.be/graph/milieuvocab#id> {
-  		?subject ?predicate ?object .	  
-	} 
-	FILTER(STRSTARTS(STR(?subject), 'http://id.milieuinfo.be/def#'))
+    GRAPH <http://id.milieuinfo.be/graph/vocab/milieuvocab#id> {
+        ?subject ?predicate ?object .     
+    } 
+    FILTER(STRSTARTS(STR(?subject), 'http://id.milieuinfo.be/def#'))
 }

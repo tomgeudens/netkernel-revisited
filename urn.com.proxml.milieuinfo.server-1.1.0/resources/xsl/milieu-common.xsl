@@ -9,9 +9,13 @@
 	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	xmlns:skos="http://www.w3.org/2004/02/skos/core#"
-	xmlns:purl="http://purl.org/dc/terms/"
-	
-	exclude-result-prefixes="fun xs rdf purl rdfs skos"
+
+	xmlns:dct="http://purl.org/dc/terms/"
+	xmlns:foaf="http://xmlns.com/foaf/0.1/"
+
+	xmlns:sdmx-attribute="http://purl.org/linked-data/sdmx/2009/attribute#"
+
+	exclude-result-prefixes="fun xs rdf rdfs skos dct foaf sdmx-attribute"
 	version="2.0">
 	
 	<xsl:param name="replace" as="xs:string" select="'#rep'"/><!-- void default waarde om geen inf. loops te hebben-->
@@ -80,8 +84,9 @@
 	<xsl:function name="fun:set-label">
 		<xsl:param name="nodes" as="element()*"/>
 		<xsl:variable name="namespace" select="concat(namespace-uri($nodes[1]),local-name($nodes[1]))"/>
-		<xsl:variable name="property-resource" select="key('resource-by-about', $namespace, $nodes[1])"/>
-		<a href="{$namespace}" class="label">
+		<xsl:variable name="property-resource" select="key('resource-by-about', $namespace, $global-context)"/>
+		<a class="label">
+			<xsl:copy-of select="fun:set-domain-modified-href($namespace)"/>
 			<xsl:value-of select="fun:set-property-label($property-resource, local-name($nodes[1]))"/>
 		</a>
 	</xsl:function>
@@ -90,18 +95,34 @@
 	<xsl:function name="fun:set-property-label">
 		<xsl:param name="prop-resource"/>
 		<xsl:param name="fall-back"/>
-		<xsl:sequence select="
-			(
-			$prop-resource/rdfs:label, 
-			$prop-resource/skos:prefLabel, 
-			$fall-back
-			)[normalize-space()][1]"/>
+		<!-- omslachtige choose om markers te kunnen toevoegen en talen elegant te controleren-->
+		<xsl:variable name="return">
+			<xsl:choose>
+				<xsl:when test="normalize-space(fun:get-prefered-language-variant($prop-resource/rdfs:label))">
+					<xsl:value-of select="fun:get-prefered-language-variant($prop-resource/rdfs:label)"/>
+				</xsl:when>
+				<xsl:when test="normalize-space(fun:get-prefered-language-variant($prop-resource/skos:prefLabel))">
+					<xsl:value-of select="fun:get-prefered-language-variant($prop-resource/skos:prefLabel)"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$fall-back"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:value-of select="normalize-space($return)"/>
+	</xsl:function>
+	
+	<xsl:function name="fun:get-prefered-language-variant" as="xs:string">
+		<xsl:param name="label" as="element()*"/>
+		<xsl:variable name="return">
+			<xsl:sequence select="($label[not(@xml:lang)], $label[xml:lang = 'nl'], $label[matches(@xml:lang, '^en')], $label)[normalize-space()][1]"/>
+		</xsl:variable>
+		<xsl:value-of select="normalize-space($return)"/>
 	</xsl:function>
 	
 	<xsl:function name="fun:set-content">
 		<xsl:param name="nodes" as="element()*"/>
 		<div class="objects">
-			<!-- loop through the occurences for the unique predicates -->
 			<xsl:for-each select="$nodes">
 				<p>
 					<xsl:choose>
@@ -123,8 +144,80 @@
 				</p>
 			</xsl:for-each>
 		</div>
-
 	</xsl:function>
+	
+	<xsl:function name="fun:set-outbound-content">
+		<xsl:param name="nodes" as="element()*"/>
+		<div class="objects">
+			<xsl:for-each select="$nodes[position() &lt;= $maximum-inccoming-per-property]">
+				<xsl:variable name="that-about" select="../@rdf:about"/>
+				<p>
+					<a>
+						<xsl:copy-of select="fun:set-domain-modified-href($that-about)"></xsl:copy-of>
+						<xsl:value-of select="fun:set-property-label(key('resource-by-about', $that-about), $that-about)"/>
+					</a>
+				</p>
+			</xsl:for-each>
+		</div>
+	</xsl:function>
+	
+	<xsl:function name="fun:block-presentation">
+		<xsl:param name="about"/>
+		<xsl:param name="presentation-category"/>
+		<xsl:param name="class"/>
+		<xsl:if test="key('resource-by-about', $about, $global-context)/*[fun:presentation-category(.) = $presentation-category]">
+			<div class="{$class}">
+				<!-- loop through the unique predicates -->
+				<xsl:for-each-group select="key('resource-by-about', $about, $global-context)/*[fun:presentation-category(.) = $presentation-category]" group-by="name()">
+					<div class="predicate">
+						<xsl:copy-of select="fun:set-label(current-group())"/>
+						<xsl:copy-of select="fun:set-content(current-group())"/>
+					</div>
+				</xsl:for-each-group>
+			</div>
+		</xsl:if>
+	</xsl:function>
+	
+	<xsl:function name="fun:presentation-category">
+		<xsl:param name="node" as="element()"/>
+		<xsl:choose>
+			<xsl:when test="$node/self::rdfs:label">
+				<xsl:text>LABEL</xsl:text>
+			</xsl:when>
+			<xsl:when test="$node/self::skos:prefLabel">
+				<xsl:text>LABEL</xsl:text>
+			</xsl:when>
+			<xsl:when test="$node/self::rdf:type">
+				<xsl:text>LABEL</xsl:text>
+			</xsl:when>
+			<xsl:when test="$node/self::dct:title">
+				<xsl:text>LABEL</xsl:text>
+			</xsl:when>
+			<xsl:when test="$node/self::dct:identifier">
+				<xsl:text>LABEL</xsl:text>
+			</xsl:when>
+			<!--  -->
+			<xsl:when test="$node/self::rdfs:isDefinedBy">
+				<xsl:text>DEFINED</xsl:text>
+			</xsl:when>
+			<xsl:when test="$node/self::foaf:page">
+				<xsl:text>DEFINED</xsl:text>
+			</xsl:when>
+			<!--  -->
+			<xsl:when test="not($node/@rdf:resource)">
+				<xsl:text>VALUE</xsl:text>
+			</xsl:when>
+			<!--  -->
+			<xsl:when test="$node/@rdf:resource">
+				<xsl:text>OBJECT</xsl:text>
+			</xsl:when>
+			<!--  -->
+			<xsl:otherwise>
+				<xsl:text>UNMATCHED</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+	
 	
 
 </xsl:stylesheet>

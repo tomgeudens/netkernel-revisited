@@ -81,7 +81,7 @@
 			<xsl:with-param name="with" select="$with"/>															
 			</xsl:call-template>
 		</xsl:variable>
-		<h2>Identifier: <a href="{$modifiedabouturl}"><xsl:value-of select="@rdf:about"/></a></h2>
+		<h2 id="{substring-after(@rdf:about,'#')}">Identifier: <a href="{$modifiedabouturl}"><xsl:value-of select="@rdf:about"/></a></h2>
 		<table class="pure-table pure-table-bordered">
 			<xsl:for-each select="*[not(@rdf:resource)]">
 				<tr>

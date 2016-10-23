@@ -9,9 +9,13 @@
 	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
 	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 	xmlns:skos="http://www.w3.org/2004/02/skos/core#"
-	xmlns:purl="http://purl.org/dc/terms/"
 	
-	exclude-result-prefixes="fun xs rdf purl rdfs skos"
+	xmlns:dct="http://purl.org/dc/terms/"
+	xmlns:foaf="http://xmlns.com/foaf/0.1/"
+	
+	xmlns:sdmx-attribute="http://purl.org/linked-data/sdmx/2009/attribute#"
+	
+	exclude-result-prefixes="fun xs rdf rdfs skos dct foaf sdmx-attribute"
 	version="2.0">
 	
 	<xsl:output 
@@ -23,6 +27,11 @@
     	media-type="text/html"
 	/>
 	
+	<!-- moet overschreven worden in callers -->
+	<xsl:variable name="skin-html-head-title">
+		<xsl:text>DEFAULT</xsl:text>
+	</xsl:variable>
+	
 	<!-- noteer dat HTML5 doctype correct gezet wordt door Saxon door in de serialisatie de versie op 5.0 te zetten-->
 	
 	<xsl:function name="fun:html-skin">
@@ -30,7 +39,7 @@
 		<xsl:param name="param-1" as="xs:string"/>
 		<html>
 			<head>
-			    <title>Data Integraal Milieu Jaarverslag</title>
+			    <title><xsl:value-of select="$skin-html-head-title"/></title>
 				<link rel="alternate" type="application/rdf+xml" href="{$param-1}.rdf"/>
 				<link rel="alternate" type="text/turtle" href="{$param-1}.ttl"/>
 				<link rel="alternate" type="text/plain" href="{$param-1}.nt"/>

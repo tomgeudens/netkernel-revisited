@@ -85,7 +85,7 @@
 									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
 									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
 									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlvocab.xsl">text/html</produces>
+									<produces withTransform="active:rdfxml2htmlsaxon+operator@res:/resources/xsl/rdfxml2htmlvocab.xsl">text/html</produces>
 								</rest>
 							</meta>
 							
@@ -461,7 +461,7 @@
 									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
 									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
 									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlcbb.xsl">text/html</produces>
+									<produces withTransform="active:rdfxml2htmlsaxon+operator@res:/resources/xsl/rdfxml2htmlcbb.xsl">text/html</produces>
 								</rest>
 							</meta>
 
@@ -521,7 +521,7 @@
 									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
 									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
 									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlcbb.xsl">text/html</produces>
+									<produces withTransform="active:rdfxml2htmlsaxon+operator@res:/resources/xsl/rdfxml2htmlcbb.xsl">text/html</produces>
 								</rest>
 							</meta>
 							<grammar>
@@ -601,7 +601,7 @@
 									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
 									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
 									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlcbb.xsl">text/html</produces>
+									<produces withTransform="active:rdfxml2htmlsaxon+operator@res:/resources/xsl/rdfxml2htmlcbb.xsl">text/html</produces>
 								</rest>
 							</meta>
 							<grammar>
@@ -803,7 +803,7 @@
 									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
 									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
 									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmlcbb.xsl">text/html</produces>
+									<produces withTransform="active:rdfxml2htmlsaxon+operator@res:/resources/xsl/rdfxml2htmlcbb.xsl">text/html</produces>
 								</rest>
 							</meta>
 							

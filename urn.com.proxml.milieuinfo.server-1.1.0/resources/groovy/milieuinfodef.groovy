@@ -64,7 +64,7 @@ else {
 	vSPARQLResult = sparqlresponse.getRepresentation();
 	
 	if (vHTTPResponseCode == 200) {
-		aContext.sink("pds:/def", vSPARQLResult);
+		//aContext.sink("pds:/def", vSPARQLResult);
 	}
 }
 //

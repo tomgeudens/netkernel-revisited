@@ -23,6 +23,7 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX openorg: <http://purl.org/openorg/organization>
 PREFIX sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#>
 
+
 CONSTRUCT {
 	<http://id.milieuinfo.be/${owner}/${id?url}#id> ?vp ?v.
 	<http://id.milieuinfo.be/${owner}/${id?url}#id> ?op ?o.
@@ -57,60 +58,76 @@ CONSTRUCT {
 	?ip rdfs:label ?iplbl.
 	?ip skos:prefLabel ?ipslbl.
 
+	<http://id.milieuinfo.be/${owner}/${id?url}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id?url}> .
 	<http://id.milieuinfo.be/${owner}/${id?url}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id?url}.nt> .
 	<http://id.milieuinfo.be/${owner}/${id?url}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id?url}.rdf> .
 	<http://id.milieuinfo.be/${owner}/${id?url}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id?url}.ttl> .
 	<http://id.milieuinfo.be/${owner}/${id?url}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id?url}.jsonld> .
-	<http://id.milieuinfo.be/${owner}/${id?url}#id> foaf:page <http://id.milieuinfo.be/${owner}/${id?url}.html> .
+	<http://id.milieuinfo.be/${owner}/${id?url}#id> foaf:page <http://id.milieuinfo.be/imjv/dossier/2005_00236642000147/aangifte/afvalproducent.html> .
 	}
+	
+	FROM <http://id.fedstats.be/graph/conceptscheme/nace2003#id>
+	FROM <http://id.fedstats.be/graph/conceptscheme/nace2008#id>
+	FROM <http://id.fedstats.be/graph/correspondence/nace#id>
+	FROM <http://id.fedstats.be/graph/conceptscheme/nis#id>
+	FROM <http://id.milieuinfo.be/graph/imjv#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/BO#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/DABM#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/OD#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/eenheden#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/imjv#id>
+	FROM <http://id.milieuinfo.be/graph/vocab/milieuvocab#id>
+	FROM <http://id.milieuinfo.be/graph/mappingscheme/omgeving#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/substanties#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/vlaremII#id>
+
 WHERE { 
- {graph ?g
 	 {
 	  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?vp ?v.
     FILTER (isLiteral(?v))
 
-	  OPTIONAL {graph ?g01v{?vp rdfs:label ?vplbl.}}
-	  OPTIONAL {graph ?g02v{?vp skos:prefLabel ?vpslbl.}}
+	  OPTIONAL {?vp rdfs:label ?vplbl.}
+	  OPTIONAL {?vp skos:prefLabel ?vpslbl.}
 
 	  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?op ?o.
 	  FILTER (isURI(?o))
 
-	  OPTIONAL {graph ?g01o{?op rdfs:label ?oplbl.}}
-	  OPTIONAL {graph ?g02o{?op skos:prefLabel ?opslbl.}}
+	  OPTIONAL {?op rdfs:label ?oplbl.}
+	  OPTIONAL {?op skos:prefLabel ?opslbl.}
 
-	  OPTIONAL {graph ?g03o{?o rdfs:label ?olbl.}}
-	  OPTIONAL {graph ?g04o{?o skos:prefLabel ?oslbl.}}
+	  OPTIONAL {?o rdfs:label ?olbl.}
+	  OPTIONAL {?o skos:prefLabel ?oslbl.}
 
 	  OPTIONAL 
 		  {
 		  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?bnp ?bn.
 		  FILTER (isBlank(?bn))
 		  
-		  OPTIONAL {graph ?g01b{?bnp rdfs:label ?bnplbl.}}
-		  OPTIONAL {graph ?g02b{?bnp skos:prefLabel ?bnpslbl.}}
+		  OPTIONAL {?bnp rdfs:label ?bnplbl.}
+		  OPTIONAL {?bnp skos:prefLabel ?bnpslbl.}
 
 		  OPTIONAL 
 			  {
 			 	?bn ?bnl2p ?bnl2o.
 
-			  OPTIONAL {graph ?g01b2{?bnl2p rdfs:label ?bnplbl2.}}
-			  OPTIONAL {graph ?g02b2{?bnl2p skos:prefLabel ?bnpslbl2.}}
+			  OPTIONAL {?bnl2p rdfs:label ?bnplbl2.}
+			  OPTIONAL {?bnl2p skos:prefLabel ?bnpslbl2.}
 
-			  OPTIONAL {graph ?g07{?bnl2o rdfs:label ?ol3lbl.}}
-			  OPTIONAL {graph ?g08{?bnl2o skos:prefLabel ?osl3lbl.}}
+			  OPTIONAL {?bnl2o rdfs:label ?ol3lbl.}
+			  OPTIONAL {?bnl2o skos:prefLabel ?osl3lbl.}
 
 	  		OPTIONAL {?bnl2o ?bnl3p ?bnl3o.}
-			  }
 		  }
 	 }
  }
  UNION
-	{graph ?g
-		{?s ?ip <http://id.milieuinfo.be/${owner}/${id?url}#id>.
+		{
+		?s ?ip <http://id.milieuinfo.be/${owner}/${id?url}#id>.
 		OPTIONAL {?s rdfs:label ?ilbl.}
 		OPTIONAL {?s skos:prefLabel ?islbl.}
-		OPTIONAL {graph ?g20{?ip rdfs:label ?iplbl.}}
-		OPTIONAL {graph ?g21{?ip skos:prefLabel ?ipslbl.}}
+		OPTIONAL {?ip rdfs:label ?iplbl.}
+		OPTIONAL {?ip skos:prefLabel ?ipslbl.}
 		}
 	}
-}
+
+

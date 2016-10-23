@@ -1,12 +1,12 @@
 <!DOCTYPE log>
 <log>
-	<id>urn:com:ebc:triplestore:utility:log</id>
-	<name>Triplestore Utility Application Log</name>
+	<id>urn:com:proxml:etldata:server:log</id>
+	<name>ETLData Server Application Log</name>
 	<handlers>
 		<handler>
 			<instance>
 				<class>org.netkernel.layer0.logging.LogFileHandler</class>
-				<string>N:/log/triplestore_utility.%g.log</string>
+				<string>N:/log/etldata_server.%g.log</string>
 				<int>50000000</int>
 				<int>3</int>
 				<boolean>true</boolean>

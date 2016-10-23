@@ -93,7 +93,7 @@ else {
 		vResponse.setMimeType("application/ld+json");
 		break;
 	case "html":
-		INKFRequest rdfxml2htmlrequest = aContext.createRequest("active:rdfxml2html");
+		INKFRequest rdfxml2htmlrequest = aContext.createRequest("active:rdfxml2htmlsaxon");
 		rdfxml2htmlrequest.addArgumentByValue("operand", vVocabResult);
 		rdfxml2htmlrequest.addArgument("operator", "res:/resources/xsl/rdfxml2htmlvocab.xsl");
 		vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(rdfxml2htmlrequest));
