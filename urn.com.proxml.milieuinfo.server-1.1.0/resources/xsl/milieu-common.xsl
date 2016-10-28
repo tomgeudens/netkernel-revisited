@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE xsl:stylesheet>
 <xsl:stylesheet
 	xmlns:fun="http://www.proxml.be/functions/"
 	
@@ -13,10 +11,18 @@
 	xmlns:dct="http://purl.org/dc/terms/"
 	xmlns:foaf="http://xmlns.com/foaf/0.1/"
 
-	xmlns:sdmx-attribute="http://purl.org/linked-data/sdmx/2009/attribute#"
+	xmlns:cube="http://purl.org/linked-data/cube#"
 
-	exclude-result-prefixes="fun xs rdf rdfs skos dct foaf sdmx-attribute"
+	xmlns:milieu="http://id.milieuinfo.be/def#"
+	
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	xmlns:qudt="http://qudt.org/schema/qudt#"
+	xmlns:blazegeo="http://www.proxml.be/blazegeo/wgs84_pos#"
+	xmlns:sdmx-attribute="http://purl.org/linked-data/sdmx/2009/attribute#"
+	
+	exclude-result-prefixes="fun xs rdf rdfs skos dct foaf milieu geo blazegeo sdmx-attribute cube"
 	version="2.0">
+	
 	
 	<xsl:param name="replace" as="xs:string" select="'#rep'"/><!-- void default waarde om geen inf. loops te hebben-->
 	<xsl:param name="with" as="xs:string" select="'#with'"/><!-- void default waarde om geen inf. loops te hebben-->
@@ -105,11 +111,35 @@
 					<xsl:value-of select="fun:get-prefered-language-variant($prop-resource/skos:prefLabel)"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="$fall-back"/>
+					<xsl:value-of select="fun:process-label-fallback($fall-back)"/>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:value-of select="normalize-space($return)"/>
+	</xsl:function>
+	
+	<xsl:function name="fun:process-label-fallback">
+		<xsl:param name="fback" as="xs:string"/>
+		<xsl:choose>
+			<xsl:when test="contains($fback, 'id.milieuinfo.be/def#')">
+				<xsl:value-of select="substring-after($fback, 'id.milieuinfo.be/def#')"/>
+			</xsl:when>
+			<xsl:when test="contains($fback, 'id.milieuinfo.be/imjv/')">
+				<xsl:value-of select="fun:strip-domain($fback, 'id.milieuinfo.be/imjv/')"/>
+			</xsl:when>
+			<xsl:when test="contains($fback, 'id.milieuinfo.be/')">
+				<xsl:value-of select="fun:strip-domain($fback, 'id.milieuinfo.be/')"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$fback"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:function>
+	
+	<xsl:function name="fun:strip-domain">
+		<xsl:param name="uri"/>
+		<xsl:param name="domain"/>
+		<xsl:value-of select="replace(substring-after($uri, $domain), '^(.+?)(#id)?$', '$1')"/>
 	</xsl:function>
 	
 	<xsl:function name="fun:get-prefered-language-variant" as="xs:string">
@@ -123,25 +153,31 @@
 	<xsl:function name="fun:set-content">
 		<xsl:param name="nodes" as="element()*"/>
 		<div class="objects">
-			<xsl:for-each select="$nodes">
-				<p>
-					<xsl:choose>
-						<xsl:when test="@rdf:resource">
-							<xsl:variable name="this-resource" select="normalize-space(@rdf:resource)"/>
-							<a>
-								<xsl:copy-of select="fun:set-domain-modified-href($this-resource)"></xsl:copy-of>
-								<xsl:value-of select="fun:set-property-label(key('resource-by-about', $this-resource), $this-resource)"/>
-							</a>
-						</xsl:when>
-						<xsl:when test="@rdf:nodeID">
-							<xsl:variable name="this-node-id" select="normalize-space(@rdf:nodeID)"/>
-							<xsl:apply-templates select="key('resource-by-node-id', $this-node-id)" mode="blank-nodes"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="."/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</p>
+			<xsl:variable name="unsorted-p-block" as="element(p)*">
+				<xsl:for-each select="$nodes">
+					<p>
+						<xsl:choose>
+							<xsl:when test="@rdf:resource">
+								<xsl:variable name="this-resource" select="normalize-space(@rdf:resource)"/>
+								<a>
+									<xsl:copy-of select="fun:set-domain-modified-href($this-resource)"></xsl:copy-of>
+									<xsl:value-of select="fun:set-property-label(key('resource-by-about', $this-resource), $this-resource)"/>
+								</a>
+							</xsl:when>
+							<xsl:when test="@rdf:nodeID">
+								<xsl:variable name="this-node-id" select="normalize-space(@rdf:nodeID)"/>
+								<xsl:apply-templates select="key('resource-by-node-id', $this-node-id)" mode="blank-nodes"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:value-of select="."/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</p>
+				</xsl:for-each>
+			</xsl:variable>
+			<xsl:for-each select="$unsorted-p-block">
+				<xsl:sort select="normalize-space()" data-type="text" order="ascending"/>
+				<xsl:copy-of select="."/>
 			</xsl:for-each>
 		</div>
 	</xsl:function>
@@ -149,14 +185,20 @@
 	<xsl:function name="fun:set-outbound-content">
 		<xsl:param name="nodes" as="element()*"/>
 		<div class="objects">
-			<xsl:for-each select="$nodes[position() &lt;= $maximum-inccoming-per-property]">
-				<xsl:variable name="that-about" select="../@rdf:about"/>
-				<p>
-					<a>
-						<xsl:copy-of select="fun:set-domain-modified-href($that-about)"></xsl:copy-of>
-						<xsl:value-of select="fun:set-property-label(key('resource-by-about', $that-about), $that-about)"/>
-					</a>
-				</p>
+			<xsl:variable name="unsorted-p-block" as="element(p)*">
+				<xsl:for-each select="$nodes[position() &lt;= $maximum-inccoming-per-property]">
+					<xsl:variable name="that-about" select="../@rdf:about"/>
+					<p>
+						<a>
+							<xsl:copy-of select="fun:set-domain-modified-href($that-about)"></xsl:copy-of>
+							<xsl:value-of select="fun:set-property-label(key('resource-by-about', $that-about), $that-about)"/>
+						</a>
+					</p>
+				</xsl:for-each>
+			</xsl:variable>
+			<xsl:for-each select="$unsorted-p-block">
+				<xsl:sort select="normalize-space()" data-type="text" order="ascending"/>
+				<xsl:copy-of select="."/>
 			</xsl:for-each>
 		</div>
 	</xsl:function>
@@ -165,10 +207,15 @@
 		<xsl:param name="about"/>
 		<xsl:param name="presentation-category"/>
 		<xsl:param name="class"/>
+		<xsl:param name="title"/>
 		<xsl:if test="key('resource-by-about', $about, $global-context)/*[fun:presentation-category(.) = $presentation-category]">
+			<xsl:if test="normalize-space($title)">
+				<h2 class="links-heading"><xsl:value-of select="$title"/></h2>
+			</xsl:if>
 			<div class="{$class}">
 				<!-- loop through the unique predicates -->
 				<xsl:for-each-group select="key('resource-by-about', $about, $global-context)/*[fun:presentation-category(.) = $presentation-category]" group-by="name()">
+					<xsl:sort data-type="number" order="ascending" select="if(self::rdfs:label | self::skos:prefLabel) then(1) else(2)"/>
 					<div class="predicate">
 						<xsl:copy-of select="fun:set-label(current-group())"/>
 						<xsl:copy-of select="fun:set-content(current-group())"/>
@@ -181,6 +228,27 @@
 	<xsl:function name="fun:presentation-category">
 		<xsl:param name="node" as="element()"/>
 		<xsl:choose>
+			<!-- don't show -->
+			<xsl:when test="$node/self::blazegeo:lat_long">
+				<xsl:text>NULL</xsl:text>
+			</xsl:when>
+			<xsl:when test="$node/self::skos:hiddenLabel">
+				<xsl:text>NULL</xsl:text>
+			</xsl:when>
+			<!--  -->
+			<xsl:when test="$node/self::geo:lat">
+				<xsl:text>LOC</xsl:text>
+			</xsl:when>
+			<xsl:when test="$node/self::geo:long">
+				<xsl:text>LOC</xsl:text>
+			</xsl:when>
+			<xsl:when test="$node/self::milieu:lambert72_y">
+				<xsl:text>LOC</xsl:text>
+			</xsl:when>
+			<xsl:when test="$node/self::milieu:lambert72_x">
+				<xsl:text>LOC</xsl:text>
+			</xsl:when>
+			<!--  -->
 			<xsl:when test="$node/self::rdfs:label">
 				<xsl:text>LABEL</xsl:text>
 			</xsl:when>
@@ -198,10 +266,28 @@
 			</xsl:when>
 			<!--  -->
 			<xsl:when test="$node/self::rdfs:isDefinedBy">
-				<xsl:text>DEFINED</xsl:text>
+				<xsl:text>DOC</xsl:text>
 			</xsl:when>
 			<xsl:when test="$node/self::foaf:page">
-				<xsl:text>DEFINED</xsl:text>
+				<xsl:text>DOC</xsl:text>
+			</xsl:when>
+			<!--  -->
+			<xsl:when test="$node/self::cube:dataSet">
+				<xsl:text>DATASET</xsl:text>
+			</xsl:when>
+			<xsl:when test="$node/self::dct:isPartOf">
+				<xsl:text>DATASET</xsl:text>
+			</xsl:when>
+			<!--  -->
+			<xsl:when test="$node/self::*[fun:is-cube-property(., 'MeasureProperty')]">
+				<xsl:text>MEASUREMENT</xsl:text>
+			</xsl:when>
+			<xsl:when test="$node/self::sdmx-attribute:unitMeasure">
+				<xsl:text>MEASUREMENT</xsl:text>
+			</xsl:when>
+			<!--  -->
+			<xsl:when test="$node/self::*[fun:is-cube-property(., 'DimensionProperty')]">
+				<xsl:text>DIMENSION</xsl:text>
 			</xsl:when>
 			<!--  -->
 			<xsl:when test="not($node/@rdf:resource)">
@@ -216,6 +302,14 @@
 				<xsl:text>UNMATCHED</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:function>
+	
+	<xsl:function name="fun:is-cube-property" as="xs:boolean">
+		<xsl:param name="node" as="element()"/>
+		<xsl:param name="prop" as="xs:string"/>
+		<xsl:variable name="namespace" select="concat(namespace-uri($node),local-name($node))"/>
+		<xsl:variable name="property-resource" select="key('resource-by-about', $namespace, $global-context)"/>
+		<xsl:value-of select="exists($property-resource/rdf:type[@rdf:resource = concat('http://purl.org/linked-data/cube#', normalize-space($prop))])"/>
 	</xsl:function>
 	
 	

@@ -45,10 +45,10 @@ incacherequest.setRepresentationClass(Boolean.class);
 Boolean vInCache = (Boolean)aContext.issueRequest(incacherequest);
 
 int vHTTPResponseCode = 0;
-Object vSPARQLResult
+Object vJenaSerializeResult;
 
 if (vInCache) {
-	vSPARQLResult = aContext.source("pds:/dataset/imjv");
+	vJenaSerializeResult = aContext.source("pds:/dataset/imjv");
 	vHTTPResponseCode = 200;
 }
 else {
@@ -61,16 +61,28 @@ else {
 
 	INKFResponseReadOnly sparqlresponse = aContext.issueRequestForResponse(sparqlrequest);
 	vHTTPResponseCode = sparqlresponse.getHeader("httpresponsecode");
-	vSPARQLResult = sparqlresponse.getRepresentation();
+	
+	String vIMJVBlazegraphURL = aContext.source("milieuinfo:database-imjv", String.class);
+	INKFRequest xsltcrequest = aContext.createRequest("active:xsltc");
+	xsltcrequest.addArgument("operand", vIMJVBlazegraphURL);
+	xsltcrequest.addArgument("operator","res:/resources/xsl/blazegraphimjv.xsl");
+	
+	INKFRequest jenaupdaterequest = aContext.createRequest("active:jRDFUpdateModel");
+	jenaupdaterequest.addArgumentByValue("operand", sparqlresponse.getRepresentation());
+	jenaupdaterequest.addArgumentByRequest("operator", xsltcrequest);
+	
+	INKFRequest jenaserializerequest = aContext.createRequest("active:jRDFSerializeXML");
+	jenaserializerequest.addArgumentByRequest("operand", jenaupdaterequest);
+	vJenaSerializeResult = aContext.issueRequest(jenaserializerequest);
 	
 	if (vHTTPResponseCode == 200) {
-		//aContext.sink("pds:/dataset/imjv", vSPARQLResult);
+		//aContext.sink("pds:/dataset/imjv", vJenaSerializeResult);
 	}
 }
 //
 
 // response
-INKFResponse vResponse = aContext.createResponseFrom(vSPARQLResult);
+INKFResponse vResponse = aContext.createResponseFrom(vJenaSerializeResult);
 vResponse.setHeader("httpresponsecode", vHTTPResponseCode);
 if (vHTTPResponseCode >= 400) {
 	vResponse.setMimeType("text/plain"); // best mimetype for an errormessage

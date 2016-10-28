@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE xsl:stylesheet>
 <xsl:stylesheet
 	xmlns:fun="http://www.proxml.be/functions/"
 	
@@ -13,10 +11,18 @@
 	xmlns:dct="http://purl.org/dc/terms/"
 	xmlns:foaf="http://xmlns.com/foaf/0.1/"
 	
+	xmlns:cube="http://purl.org/linked-data/cube#"
+	
+	xmlns:milieu="http://id.milieuinfo.be/def#"
+	
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	xmlns:qudt="http://qudt.org/schema/qudt#"
+	xmlns:blazegeo="http://www.proxml.be/blazegeo/wgs84_pos#"
 	xmlns:sdmx-attribute="http://purl.org/linked-data/sdmx/2009/attribute#"
 	
-	exclude-result-prefixes="fun xs rdf rdfs skos dct foaf sdmx-attribute"
+	exclude-result-prefixes="fun xs rdf rdfs skos dct foaf milieu geo blazegeo sdmx-attribute cube"
 	version="2.0">
+	
 	
 	<!-- blank node processing - zeer specifiek -->
 	
@@ -25,8 +31,12 @@
 		<xsl:text> </xsl:text>
 		<a>
 			<xsl:copy-of select="fun:set-domain-modified-href(sdmx-attribute:unitMeasure/@rdf:resource)"></xsl:copy-of>
-			
-			<xsl:value-of select="fun:set-property-label(key('resource-by-about', sdmx-attribute:unitMeasure/@rdf:resource, $global-context), sdmx-attribute:unitMeasure/@rdf:resource)"/>
+			<xsl:value-of select="
+				(
+				key('resource-by-about', sdmx-attribute:unitMeasure/@rdf:resource, $global-context)/qudt:symbol[normalize-space()][not(normalize-space() = '.')],
+				fun:set-property-label(key('resource-by-about', sdmx-attribute:unitMeasure/@rdf:resource, $global-context), sdmx-attribute:unitMeasure/@rdf:resource)
+				)[normalize-space()][1]
+				"/>
 		</a>
 	</xsl:template>
 	

@@ -13,19 +13,12 @@ CONSTRUCT {
   <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?emissiepunt .
   <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?lozing .
   <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?lozingspunt .
-  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#triples> ?triples .
   <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#feature> <http://www.w3.org/ns/formats/RDF_XML> .
   <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#feature> <http://www.w3.org/ns/formats/Turtle> .
   <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#feature> <http://www.w3.org/ns/formats/N-Triples> .
   <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#feature> <http://www.w3.org/ns/formats/JSON-LD> .
 }
 WHERE {
-  { 
-    SELECT (count(*) as ?triples)
-    WHERE {
-      ?a ?b ?c .
-    }
-  }
   {
     SELECT ?dossier
     WHERE {

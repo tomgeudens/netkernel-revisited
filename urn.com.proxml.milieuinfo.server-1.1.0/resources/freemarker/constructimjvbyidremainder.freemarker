@@ -35,9 +35,11 @@ CONSTRUCT {
 
 	?vp rdfs:label ?vplbl.
 	?vp skos:prefLabel ?vpslbl.
+	?vp rdf:type ?vptype.
 
 	?op rdfs:label ?oplbl.
 	?op skos:prefLabel ?opslbl.
+	?op rdf:type ?optype.
 
 	?o rdfs:label ?olbl.
 	?o skos:prefLabel ?oslbl.
@@ -64,6 +66,7 @@ CONSTRUCT {
 	<http://id.milieuinfo.be/${owner}/${id}/${remainder}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id}/${remainder}.ttl> .
 	<http://id.milieuinfo.be/${owner}/${id}/${remainder}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id}/${remainder}.jsonld> .
 	<http://id.milieuinfo.be/${owner}/${id}/${remainder}#id> foaf:page <http://id.milieuinfo.be/${owner}/${id}/${remainder}.html> .
+	<http://id.milieuinfo.be/${owner}/${id}/${remainder}#id> dct:isPartOf <http://id.milieuinfo.be/dataset/imjv#id> .
 	}
 	
 	FROM <http://id.fedstats.be/graph/conceptscheme/nace2003#id>
@@ -88,12 +91,18 @@ WHERE {
 
 	  OPTIONAL {?vp rdfs:label ?vplbl.}
 	  OPTIONAL {?vp skos:prefLabel ?vpslbl.}
+	  OPTIONAL {?vp rdf:type ?vptype.
+               filter(regex(str(?vptype), 'http://purl.org/linked-data/cube')).
+               }
 
 	  <http://id.milieuinfo.be/${owner}/${id}/${remainder}#id> ?op ?o.
 	  FILTER (isURI(?o))
 
 	  OPTIONAL {?op rdfs:label ?oplbl.}
 	  OPTIONAL {?op skos:prefLabel ?opslbl.}
+	  OPTIONAL {?op rdf:type ?optype.
+               filter(regex(str(?optype), 'http://purl.org/linked-data/cube')).
+               }
 
 	  OPTIONAL {?o rdfs:label ?olbl.}
 	  OPTIONAL {?o skos:prefLabel ?oslbl.}

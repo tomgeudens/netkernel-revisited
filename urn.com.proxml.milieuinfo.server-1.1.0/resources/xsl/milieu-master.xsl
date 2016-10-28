@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE xsl:stylesheet>
 <xsl:stylesheet
 	xmlns:fun="http://www.proxml.be/functions/"
 	
@@ -13,9 +11,16 @@
 	xmlns:dct="http://purl.org/dc/terms/"
 	xmlns:foaf="http://xmlns.com/foaf/0.1/"
 	
+	xmlns:cube="http://purl.org/linked-data/cube#"
+	
+	xmlns:milieu="http://id.milieuinfo.be/def#"
+	
+	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+	xmlns:qudt="http://qudt.org/schema/qudt#"
+	xmlns:blazegeo="http://www.proxml.be/blazegeo/wgs84_pos#"
 	xmlns:sdmx-attribute="http://purl.org/linked-data/sdmx/2009/attribute#"
 	
-	exclude-result-prefixes="fun xs rdf rdfs skos dct foaf sdmx-attribute"
+	exclude-result-prefixes="fun xs rdf rdfs skos dct foaf milieu geo blazegeo sdmx-attribute cube"
 	version="2.0">
 	
 	<xsl:import href="milieu-html-skin.xsl"/>
@@ -56,21 +61,24 @@
 			
 			
 			<!-- regular properties -->
-			<xsl:copy-of select="fun:block-presentation($this-about, 'LABEL', 'properties')"/>
+			<xsl:copy-of select="fun:block-presentation($this-about, 'LABEL', 'properties', '')"/>
 
 			<!-- cube related properties -->
-			<xsl:copy-of select="fun:block-presentation($this-about, 'MEASUREMENT', 'properties')"/>
-			<xsl:copy-of select="fun:block-presentation($this-about, 'DIMENSION', 'properties')"/>
+			<xsl:copy-of select="fun:block-presentation($this-about, 'MEASUREMENT', 'properties', '')"/>
+			<xsl:copy-of select="fun:block-presentation($this-about, 'DIMENSION', 'properties', '')"/>
 
+			<!-- geo properties -->
+			<xsl:copy-of select="fun:block-presentation($this-about, 'LOC', 'properties', '')"/>
+			
 			<!-- regular properties -->
-			<xsl:copy-of select="fun:block-presentation($this-about, 'VALUE', 'properties')"/>
-
+			<xsl:copy-of select="fun:block-presentation($this-about, 'VALUE', 'properties', '')"/>
+			
 			<!-- outgoing urls -->
-			<xsl:copy-of select="fun:block-presentation($this-about, 'OBJECT', 'links outbound')"/>
+			<xsl:copy-of select="fun:block-presentation($this-about, 'OBJECT', 'links outbound', '')"/>
 
 			<!-- incoming urls -->					
-			<xsl:if test="/descendant::rdf:Description[not(rdf:type)]/*[@rdf:resource = $this-about]">
-				<h2 class="links-heading">Referenties van andere resources</h2>
+			<xsl:if test="/descendant::rdf:Description[not(rdf:type)][not(@rdf:nodeID)]/*[@rdf:resource = $this-about]">
+				<h2 class="links-heading">Inkomende linken</h2>
 				
 				<div class="links inbound">
 					<!-- loop through the unique predicates -->
@@ -84,7 +92,8 @@
 				</div>
 			</xsl:if>
 			
-			<xsl:copy-of select="fun:block-presentation($this-about, 'DEFINED', 'properties')"/>
+			<xsl:copy-of select="fun:block-presentation($this-about, 'DOC', 'properties', 'Document linken')"/>
+			<xsl:copy-of select="fun:block-presentation($this-about, 'DATASET', 'properties', 'Dataset linken')"/>
 			
 		</div>
 	</xsl:template>
@@ -93,14 +102,14 @@
 	<xsl:function name="fun:get-main-title">
 		<xsl:param name="context"/>
 		<xsl:choose>
-			<xsl:when test="normalize-space($context/dct:title)">
-				<h1><xsl:value-of select="normalize-space($context/dct:title)"/></h1>
-			</xsl:when>
 			<xsl:when test="normalize-space(fun:get-prefered-language-variant($context/rdfs:label))">
 				<h1><xsl:value-of select="fun:get-prefered-language-variant($context/rdfs:label)"/></h1>
 			</xsl:when>
 			<xsl:when test="normalize-space(fun:get-prefered-language-variant($context/skos:prefLabel))">
 				<h1><xsl:value-of select="fun:get-prefered-language-variant($context/skos:prefLabel)"/></h1>
+			</xsl:when>
+			<xsl:when test="normalize-space($context/dct:title)">
+				<h1><xsl:value-of select="normalize-space($context/dct:title)"/></h1>
 			</xsl:when>
 		</xsl:choose>
 	</xsl:function>
