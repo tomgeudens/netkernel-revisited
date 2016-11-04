@@ -65,7 +65,7 @@ CONSTRUCT {
 	<http://id.milieuinfo.be/${owner}/${id?url}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id?url}.rdf> .
 	<http://id.milieuinfo.be/${owner}/${id?url}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id?url}.ttl> .
 	<http://id.milieuinfo.be/${owner}/${id?url}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id?url}.jsonld> .
-	<http://id.milieuinfo.be/${owner}/${id?url}#id> foaf:page <http://id.milieuinfo.be/imjv/dossier/2005_00236642000147/aangifte/afvalproducent.html> .
+	<http://id.milieuinfo.be/${owner}/${id?url}#id> foaf:page <http://id.milieuinfo.be/${owner}/${id?url}.html> .
 	<http://id.milieuinfo.be/${owner}/${id?url}#id> dct:isPartOf <http://id.milieuinfo.be/dataset/imjv#id> .
 	}
 	

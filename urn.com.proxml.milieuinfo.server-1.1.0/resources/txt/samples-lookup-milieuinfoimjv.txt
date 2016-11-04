@@ -1,4 +1,5 @@
 # one entry per line => {uri}{space}{label}
-http://id.milieuinfo.be/imjv/dossier/2004_00572465000131#id IMJV Dossier - 2004 - Ceulemans Glastuinbouw - 00572465000131
-http://id.milieuinfo.be/imjv/exploitatie/00572465000131/jaar/2004#id Ceulemans Glastuinbouw
-http://id.milieuinfo.be/imjv/dossier/2004_00572465000131/aangifte/identificatie#id IMJV - Aangifte Identificatie - 2004 - Ceulemans Glastuinbouw - 00572465000131
+http://id.milieuinfo.be/imjv/dossier/2011_01749024006625#id EXXONMOBIL CHEMICAL BELGIUM : Integraal Milieu Jaarverslag - Dossier - 2011
+http://id.milieuinfo.be/cbb/exploitatie/01749024006625#id EXXONMOBIL CHEMICAL BELGIUM
+http://id.milieuinfo.be/imjv/emissiepunt/6808#id EXXONMOBIL CHEMICAL BELGIUM : Emissiepunt SECUNDAIRE EMISSIES
+http://id.milieuinfo.be/imjv/observatie/6808/em/8/obs/9/2011#id EXXONMOBIL CHEMICAL BELGIUM : Observatie Niet eerder genoemde NMVOS 2011

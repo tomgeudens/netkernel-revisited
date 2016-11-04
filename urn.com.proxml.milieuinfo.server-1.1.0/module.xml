@@ -1016,6 +1016,30 @@
 								<argument name="operand">res:/resources/txt/[[arg:txtfile]]</argument>
 							</request>
 						</endpoint>
+
+						<!-- /unparsedtxt/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>unparsedtxt/{txtfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/plain</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfounparsedtxt</identifier>
+									<argument name="txtfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/txt/[[arg:txtfile]]</identifier>
+							</request>
+						</endpoint>
 					</config>
 					<space>
 						<import>

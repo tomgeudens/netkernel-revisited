@@ -1,18 +1,25 @@
 # Use 2 hash characters to mark the beginning of a query.
 # The double-hashed line is used as query label
 
-
-## Een aantal dossiers
+## Een aantal emissiepunten
 SELECT ?subject
 WHERE {
-	?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://dbpedia.org/ontology/Case> . 
+  ?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Emissiepunt> .
 }
 LIMIT 5
 
-
-## Een aantal documenten
+## Een aantal lozingspunten
 SELECT ?subject
 WHERE {
-	?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Document> . 
+  ?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Lozingspunt> .
+}
+LIMIT 5
+
+## Een aantal observaties/metingen op luchtemissiepunten
+SELECT ?subject ?refgebied
+WHERE {
+  ?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/linked-data/cube#Observation> .
+  ?subject <http://id.milieuinfo.be/def#referentiegebied> ?refgebied .
+  ?refgebied <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Emissiepunt> .
 }
 LIMIT 5

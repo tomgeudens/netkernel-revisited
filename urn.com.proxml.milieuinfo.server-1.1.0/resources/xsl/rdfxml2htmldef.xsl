@@ -37,7 +37,15 @@
 					</div>
 				</div>
 				
-				<div id="content">
+				<div id="content">				
+					<div class="export-options">
+						<a href="">HTML</a>
+						<a href="/def.jsonld">JSON-LD</a>
+						<a href="/def.ttl">TURTLE</a>
+						<a href="/def.nt">N-TRIPLES</a>
+						<a href="/def.rdf">XML</a>
+					</div>
+
 					<xsl:apply-templates select="*[rdf:type/@rdf:resource='http://www.w3.org/2002/07/owl#Class']">
 						<xsl:sort select="@rdf:about"/>
 					</xsl:apply-templates>

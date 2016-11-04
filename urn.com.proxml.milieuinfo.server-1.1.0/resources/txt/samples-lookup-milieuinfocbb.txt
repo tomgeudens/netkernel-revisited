@@ -1,4 +1,4 @@
 # one entry per line => {uri}{space}{label}
-http://id.milieuinfo.be/cbb/exploitant/00001847000036#id Claessens Frank
-http://id.milieuinfo.be/cbb/exploitatie/00001847000137#id Dr. Claessens Frank
-http://id.milieuinfo.be/cbb/adres/409798#id Helenalei 35, 2018 Antwerpen, België
+http://id.milieuinfo.be/cbb/exploitant/01749024000056#id EXXONMOBIL PETROLEUM & CHEMICAL
+http://id.milieuinfo.be/cbb/exploitatie/01749024006625#id EXXONMOBIL CHEMICAL BELGIUM
+http://id.milieuinfo.be/cbb/adres/176923#id Canadastraat 20, 2070 Zwijndrecht, België

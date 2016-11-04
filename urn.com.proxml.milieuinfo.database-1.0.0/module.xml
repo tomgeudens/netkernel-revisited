@@ -21,7 +21,7 @@
 		public="true"
 		uri="urn:com:proxml:milieuinfo:database">
 <!--
-		<literal type="string" uri="milieuinfo:database-cbb">http://lodcbbomv-on-1.vm.cumuli.be:8080/lodcbbomv/repositories/CBB</literal> 
+		<literal type="string" uri="milieuinfo:database-cbb">http://lodcbbomv-on-2.vm.cumuli.be:8080/lodomv/repositories/cbb</literal> 
 
 		<literal type="string" uri="milieuinfo:database-imjv">http://rdfstoreomv-on-1.vm.cumuli.be:3030/blazegraph/namespace/lne/sparql</literal>
 
