@@ -22,6 +22,7 @@ PREFIX fabio: <http://purl.org/spar/fabio/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX openorg: <http://purl.org/openorg/organization>
 PREFIX sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#>
+PREFIX pav: <http://purl.org/pav/>
 
 
 CONSTRUCT {
@@ -66,6 +67,14 @@ CONSTRUCT {
 	<http://id.milieuinfo.be/${owner}/${id?url}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id?url}.ttl> .
 	<http://id.milieuinfo.be/${owner}/${id?url}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id?url}.jsonld> .
 	<http://id.milieuinfo.be/${owner}/${id?url}#id> foaf:page <http://id.milieuinfo.be/${owner}/${id?url}.html> .
+
+	<http://id.milieuinfo.be/${owner}/${id?url}> pav:createdWith <http://dbpedia.org/resource/NetKernel> ; rdfs:label "Via content negotiation".
+	<http://id.milieuinfo.be/${owner}/${id?url}.nt> pav:createdWith <http://dbpedia.org/resource/NetKernel>.
+	<http://id.milieuinfo.be/${owner}/${id?url}.rdf> pav:createdWith <http://dbpedia.org/resource/NetKernel>.
+	<http://id.milieuinfo.be/${owner}/${id?url}.ttl> pav:createdWith <http://dbpedia.org/resource/NetKernel>.
+	<http://id.milieuinfo.be/${owner}/${id?url}.jsonld> pav:createdWith <http://dbpedia.org/resource/NetKernel>.
+	<http://id.milieuinfo.be/${owner}/${id?url}.html> pav:createdWith <http://dbpedia.org/resource/NetKernel>.
+
 	<http://id.milieuinfo.be/${owner}/${id?url}#id> dct:isPartOf <http://id.milieuinfo.be/dataset/imjv#id> .
 	}
 	
