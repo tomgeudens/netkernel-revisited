@@ -11,7 +11,6 @@
  */
 import org.netkernel.layer0.nkf.*;
 import org.netkernel.layer0.representation.*;
-import org.netkernel.layer0.util.RequestBuilder;
 //import org.netkernel.layer0.representation.impl.*;
 //import org.netkernel.layer0.meta.impl.SourcedArgumentMetaImpl;
 //import org.netkernel.module.standard.endpoint.StandardAccessorImpl;
@@ -21,6 +20,7 @@ import org.netkernel.layer0.util.RequestBuilder;
  */
 import java.util.UUID;
 import org.netkernel.layer0.util.RequestBuilder;
+import org.netkernel.container.ILogger;
 import org.w3c.dom.Document;
 
 /**
@@ -41,18 +41,17 @@ aContext.logRaw(INKFLocale.LEVEL_INFO, "MessageAccessor: start of id - " + vId);
 String aFrom = (String)aContext.source("arg:from",String.class);
 String aTo = (String)aContext.source("arg:to",String.class);
 String aBody = (String)aContext.source("emailMessage:/part/0/body",String.class);
-println(aBody);
 Document aBodyDoc = aContext.transrept(aBody, Document.class);
 
 // processing
-org.netkernel.container.ILogger vLogger=aContext.getKernelContext().getKernel().getLogger()
+ILogger vLogger=aContext.getKernelContext().getKernel().getLogger();
 RequestBuilder vBuilder = new RequestBuilder(aBodyDoc.getDocumentElement(), vLogger);
 INKFRequest vRequest = vBuilder.buildRequest(aContext,null,null);
-aContext.issueRequest(vRequest);
+aContext.issueAsyncRequest(vRequest);
 //
 
 // response
-INKFResponse vResponse = aContext.createResponseFrom("Message from " + aFrom + " to " + aTo + " about " + aSubject);
+INKFResponse vResponse = aContext.createResponseFrom("smtp request processed");
 vResponse.setMimeType("text/plain");
 vResponse.setExpiry(INKFResponse.EXPIRY_ALWAYS);
 
