@@ -1,0 +1,108 @@
+
+=emailMessage:/  Address Space=
+
+The '''emailMessage:/'''  address space contains information about a single email message.
+One such space is dynamically inserted into the call stack by the 
+[[doc:email:core:SMTPTransport|SMTPTransport]] 
+and the 
+[[doc:email:core:MailFolderTransport|MailFolderTransport]]
+for each root request they issue.
+
+This diagram  shows the relationships between the root request, 
+the inserted transient emailMessage:/ address space and the endpoint
+(Mail Handler Endpoint)
+that resolves and evaluates each root request.
+
+
+
+{svg}res:/org/netkernel/email/doc/emailMessageSpace.svg{/svg}
+
+
+=Message Headers=
+
+===emailMessage:/partCount===
+
+Provides the number of parts contained in the email message as an Integer.
+
+===emailMessage:/subject===
+
+Provides the subject of the message as a String.
+
+===emailMessage:/from===
+
+Provides the email address of the sender message as a String.
+
+===emailMessage:/to===
+
+Provides the recipients addresses of the message as an IHDSNode with the following form...
+
+{xml}
+<to>
+	<address>someone@domain.com</address>
+	<address>someone.else@domain.com</address>
+	...
+</to>
+{/xml}
+
+===emailMessage:/headers===
+
+Provides a complete list of all the message's headers in an IHDSNode tree with the following form...
+
+{xml}
+<headers>
+	<header>
+		<name>To</name>
+		<value>someone@some.domain.com</value>
+	</header>
+	... all headers ...
+</headers>
+{/xml}
+
+
+Values are unfolded Strings (see ''RFC 822'').
+
+===emailMessage:/header/XXXXX===
+
+Provides a list of all values of the XXXXX named header in an IHDSNode tree with the following form...
+
+{xml}
+	<header>
+		<name>To</name>
+		<value>someone@some.domain.com</value>
+		<value>someone.else@some.domain.com</value>
+		<value>another.person.@some.domain.com</value>
+	</header>
+{/xml}
+
+Values are unfolded Strings (see ''RFC 822'').
+
+=Message Parts=
+
+Messages may consist of any number of parts. They are addressable by message position 
+starting from 0 (zero) as the first part.  In the interface description below this is symbolized
+by X as the integer part number...
+
+===emailMessage:/part/X/body===
+
+Provides the X'th body part as a IReadableBinaryStreamRepresentation.
+
+===emailMessage:/part/X/mimetype===
+
+Provides the mimetype of the X'th body part as a String
+
+===emailMessage:/part/X/filename===
+
+Provides the filename of the X'th body part as a String or null if it does not exist.
+
+=Raw Javax Mail Message=
+
+{callout}
+'''WARNING''' the Java mail API does not provide an immutable interface. 
+It is strongly recommended that you treat this object as ''readonly''  
+and do '''not''' modify the object.
+{/callout}
+The address space is backed by the received [http://java.sun.com/products/javamail/javadocs/javax/mail/Message.html|javax.mail.Message]. You may gain direct access to this object by requesting the resource '''emailMessage:/raw'''.
+ 
+ 
+
+

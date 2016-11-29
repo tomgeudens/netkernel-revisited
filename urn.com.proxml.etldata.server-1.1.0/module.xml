@@ -61,7 +61,7 @@
 
 							<request>
 								<identifier>active:etldatafile</identifier>
-								<argument name="fileresource" method="as-string">file:/N:/tmp/ETLData/[[arg:filename]]</argument>
+								<argument name="fileresource" method="as-string">file:/C:/nkwork/tmp/ETLData/[[arg:filename]]</argument>
 							</request>
 						</endpoint>			
 					</config>

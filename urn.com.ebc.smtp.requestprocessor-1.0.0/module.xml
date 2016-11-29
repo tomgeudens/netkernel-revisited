@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:smtp:requestprocessor</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / smtp / requestprocessor</name>
+			<description>elephant bird consulting / smtp / requestprocessor</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc smtp requestprocessor"
+		public="true"
+		uri="urn:com:ebc:smtp:requestprocessor">
+		
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+		
+		<mapper>
+			<config>
+				<endpoint>
+					<grammar>
+						<active>
+							<identifier>smtp:message</identifier>
+							<argument name="from" desc="from address" min="1" max="1" />
+							<argument name="to" desc="to address" min="1" max="1" />							
+						</active>
+					</grammar>
+					
+					<request>
+						<identifier>active:groovy</identifier>
+						<argument name="operator">res:/resources/groovy/message.groovy</argument>
+						<argument name="from" method="as-string">[[arg:from]]</argument>
+						<argument name="to" method="as-string">[[arg:to]]</argument>
+					</request>
+				</endpoint>
+			</config>
+			<space>
+				<endpoint>
+					<id>com:ebc:smtp:requestprocessor:transport</id>
+					<prototype>SMTPTransport</prototype>
+					<private/>
+				</endpoint>
+		
+				<import>
+					<uri>urn:com:ebc:smtp:requestprocessor:import</uri>
+					<private/>
+				</import>
+			</space>
+		</mapper>
+
+	</rootspace>
+	
+	<rootspace
+		name="ebc smtp requestprocessor import"
+		public="false"
+		uri="urn:com:ebc:smtp:requestprocessor:import">
+
+		<fileset>
+			<!-- contains groovy resources -->
+			<regex>res:/resources/groovy/.*</regex>
+		</fileset>
+
+		<import>
+			<!-- contains SMTPTransport -->
+			<uri>urn:com:ebc:email:core</uri>
+		</import>
+		
+		<import>
+			<!-- contains DOMXDAParser -->
+			<uri>urn:org:netkernel:xml:core</uri>
+		</import>
+
+		<import>
+			<!-- contains active:groovy -->
+			<uri>urn:org:netkernel:lang:groovy</uri>
+		</import>
+		
+		<import>
+			<!-- contains SimpleImportDiscovery, DynamicImport -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+		
+		<endpoint>
+			<prototype>SimpleImportDiscovery</prototype>
+			<grammar>active:SimpleImportDiscovery</grammar>
+			<type>smtprequestprocessor</type>
+		</endpoint>
+		
+		<endpoint>
+			<prototype>DynamicImport</prototype>
+			<config>active:SimpleImportDiscovery</config>
+		</endpoint>
+	</rootspace>
+</module>

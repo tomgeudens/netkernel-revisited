@@ -1,0 +1,69 @@
+{endpoint}email.SendMail{/endpoint}
+
+When a request with the SOURCE verb is issued to  <code>active:sendmail</code>
+an SMTP protocol request is made to the SMTP server specified in
+the '''optional''' ''config'' argument
+to send an email specified in the '''required''' ''header'' argument.
+The body will comprise one or more body parts, each of which is identified
+by one or more additional arguments.
+At least one additional body-part argument is '''required'''.
+
+==header==
+
+The declarative specification of the email header.
+
+{xml}
+<email>
+<from>someone@someaddress.com</from>
+<to>somebody.else1@someaddress.com</to>
+<cc>somebody.else2@someaddress.com</cc>
+<bcc>somebody.else3@someaddress.com</bcc>
+<subject>Some Subject</subject>
+<attachment>
+	<name>partname</name>
+	<filename>somefile.txt</filename>
+</attachment>
+<multipartSubType><!--optional see below--></multipartSubType>
+</email>
+{/xml}
+
+===multipartSubType===
+
+Specifies an additional attribute on the content-type when posting multipart messages. This value is used on the MultiPartMessage constructor for all parts. 
+According to the javadoc...
+
+"Some messaging systems provide different subtypes of Multiparts. For example, MIME specifies a set of subtypes that include
+"alternative", "mixed", "related", "parallel", "signed", etc."
+
+"An application can directly construct a MIME multipart object of any subtype by using the MimeMultipart(String subtype) constructor.
+For example, to create a "multipart/alternative" object, use new MimeMultipart("alternative")"
+
+So to post a message with both text/plain and text/html parts you'd want to ensure /email/multipartSubType==alternative - so that the mail client would 
+recognise them as alternates and render the preferred form.
+
+==config==
+
+{xml}
+<SMTPConfig>
+	<gateway>smtp.host.com</gateway>
+	<user>someuser</user>
+	<port>25</port>
+	<sender>someone@someaddress.com</sender>
+	<ssl/>  or <tls/>
+	<password>somepassword</password>
+</SMTPConfig>
+{/xml}
+
+The resource '''res:/etc/SMTPConfig.xml''' will be requested if the '''optional''' ''config'' argument is not provided.
+
+===Email Body Parts===
+
+All additional arguments are processed as MIME message parts of a multipart message
+and are added to the message. 
+Each body part resource is requested as a
+<code>IReadableBinaryStreamRepresentation</code>  representation.
+
+If there exists an attachment declaration in the ''header'' with name corresponding to the argument then the
+filename in the message of the attachment is taken from the attachment declarations ''filename'' field.
+
+

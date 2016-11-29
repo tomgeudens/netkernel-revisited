@@ -22,7 +22,7 @@
 		uri="urn:com:ebc:supercsv">
 		
 		<fileset>
-			<regex>res:/etc/system/(LogConfig).xml</regex>
+			<regex>res:/etc/system/(LogConfig|SimpleDynamicImportHook).xml</regex>
 		</fileset>
 		
 		<accessor>

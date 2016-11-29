@@ -1,0 +1,44 @@
+{endpoint}SMTPTransport{/endpoint}
+
+The SMTPTransport creates an SMTP server that will receive email delivery request 
+(it does not act as an SMTP relay) and will issue a root request 
+when it detects the arrival of a new email message.
+
+{callout}
+It is recommended that the port be a value greater than 1024 since on 
+Unix hosts only the root account may open low-numbered ports.
+If this SMTP transport must be available on the standard SMTP port
+25, we we recommend that you configure an operating system firewall 
+rule to tunnel port 25 to the operational port number.
+
+'''Never''' run a Java server as root.
+{/callout}
+
+
+==Configuration==
+
+The '''optional'' ''config'' parameter provides the specification for the mail transport folder
+
+{xml}
+<config>
+	<hostname>smtp.mycompany.com</hostname>
+	<port>port number</port>
+</config>
+{/xml}
+
+If config is not present then the hostname will be set as the 
+physical platform's hostname and port will default to 25000.
+
+
+==Received Emails==
+
+When a new email message is received a request is 
+constructed and issued into the transports host address space.
+
+smtp:message + from @ [ from address ] + to @ [ to address ] 
+
+The transport creates a dynamically inserted address space 
+[[doc:email:core:emailMessage:space|emailMessage:/]] into the superstack
+prior to issuing the request.  
+Therefore the handler of the smtp:message request may SOURCE various elements of the message 
+directly from this transient message space.

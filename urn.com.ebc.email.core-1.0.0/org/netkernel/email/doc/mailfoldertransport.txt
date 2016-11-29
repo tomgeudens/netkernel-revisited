@@ -1,0 +1,40 @@
+{endpoint}MailFolderTransport{/endpoint}
+
+The MailFolderTransport polls a POP or IMAP account and issues a root request  when it detects the arrival of a new email message.
+
+==Configuration==
+
+The '''required''' ''config'' parameter provides the specification of the 
+email folder that is to be monitored for new
+email message arrivals.
+
+{xml}
+<config>
+	<mailboxName>some mailbox name</mailboxName>
+	<hostname>imap.gmail.com</hostname>
+	<protocol>pop3 or imap or pop3s or imaps</protocol>
+	<pollInterval>60</pollInterval>
+	<port>optional port number</port>
+	<user>some user name</user>
+	<password>some password</password>
+	<folder>optional IMAP folder name</folder>
+	<leaveInFolder/>
+</config>
+{/xml}
+
+*If '''leaveInFolder''' is specified the message will be marked as read but will remain in the folder.  If this is not specified then the message will be deleted from the folder.
+* '''pollInterval''' specifies the period, in seconds,  at which the mail folder will be polled for new messages.
+* '''folder''' specifies the name of the IMAP folder to poll for messages  - it is not valid for pop3 folders.
+
+==Received Emails==
+
+When a new email message is found in the polled mail folder it is fetched and a root request is issued into the transport's host address space
+with the following request identifier...
+
+mailfolder:message + mailbox @ [ value of mailboxName parameter ] 
+
+The transport creates a dynamically inserted address space [[doc:email:core:emailMessage:space|emailMessage:/]] into the superstack
+prior to issuing the request.  Therefore the handler of the mailfolder:message request may SOURCE various elements of the message 
+directly from this transient message space.
+
+

@@ -1,12 +1,12 @@
 <!DOCTYPE log>
 <log>
-	<id>urn:com:proxml:milieuinfo:server:log</id>
-	<name>Milieuinfo Server Application Log</name>
+	<id>urn:com:ebc:smtp:requestprocessor:log</id>
+	<name>SMTP Requestprocessor Application Log</name>
 	<handlers>
 		<handler>
 			<instance>
 				<class>org.netkernel.layer0.logging.LogFileHandler</class>
-				<string>C:/nkwork/log/milieuinfo_server.%g.log</string>
+				<string>C:/nkwork/log/smtp_requestprocessor.%g.log</string>
 				<int>50000000</int>
 				<int>3</int>
 				<boolean>true</boolean>
