@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:repository:server</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / repository / server</name>
+			<description>ebc / repository / server</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc repository server"
+		public="true"
+		uri="urn:com:ebc:repository:server">
+
+		<fileset>
+			<regex>res:/etc/system/(SimpleDynamicImportHook).xml</regex>
+		</fileset>
+
+		<!-- this endpoint makes sure no other /etc/system resource
+		     gets pulled in -->
+		<endpoint>
+			<prototype>Limiter</prototype>
+			<grammar>res:/etc/system<regex type="anything"/></grammar>
+		</endpoint>
+		
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>
+						<!-- / -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple></simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:repositoryhomerestoverlay</identifier>
+								</active>
+							</grammar>
+
+							<request>
+								<identifier>res:/resources/html/repository.html</identifier>
+							</request>
+						</endpoint>			
+
+						<!-- /xxxxxxxx -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{filename}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:repositoryfilerestoverlay</identifier>
+									<argument name="filename"/>
+								</active>
+							</grammar>
+
+							<request>
+								<identifier>file:/var/repo/[[arg:filename]]</identifier>
+							</request>
+						</endpoint>			
+					</config>
+					
+					<space>		
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:ebc:repository:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+			</space>
+		</overlay>
+		
+		
+		<import>
+			<uri>urn:com:ebc:repository:server:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc repository server import"
+		public="false"
+		uri="urn:com:ebc:repository:server:import">
+		
+		<import>
+			<!-- contains RESTOverlay prototype -->
+			<uri>urn:org:netkernel:tpt:http</uri>
+		</import>
+		
+		<import>
+			<!-- contains Limiter prototype -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc repository server import overlay"
+		public="false"
+		uri="urn:com:ebc:repository:server:import:overlay">
+		<fileset>
+			<!-- contains html resources -->
+			<regex>res:/resources/html/.*</regex>
+		</fileset>
+		
+		<import>
+			<!-- contains file:/ scheme -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+	</rootspace>
+</module>

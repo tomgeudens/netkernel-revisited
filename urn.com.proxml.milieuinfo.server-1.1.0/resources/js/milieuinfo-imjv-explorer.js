@@ -136,7 +136,7 @@
 
 			submitLookup: function(identifier) {
 				if (identifier != "") {
-					location.href = identifier.replace(/\#.+$/, '') + '.html';
+					location.href = identifier;
 				}
 				else {
 					location.reload();
