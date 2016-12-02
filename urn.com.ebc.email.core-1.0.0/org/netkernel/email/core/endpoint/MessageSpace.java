@@ -133,7 +133,8 @@ public class MessageSpace extends NKFSpaceImpl
 			result=b.getRoot();
 		}
 		else if(identifier.startsWith(PATH_HEADERS))
-		{	Enumeration headers=mMessage.getAllHeaders();
+		{	@SuppressWarnings("rawtypes")
+			Enumeration headers=mMessage.getAllHeaders();
 			HDSBuilder b=new HDSBuilder();
 			b.pushNode("headers");
 			while(headers.hasMoreElements())

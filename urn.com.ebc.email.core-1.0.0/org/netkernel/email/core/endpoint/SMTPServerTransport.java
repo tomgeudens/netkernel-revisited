@@ -27,7 +27,7 @@ public class SMTPServerTransport extends StandardTransportImpl
 	public SMTPServerTransport()
 	{	this.declareSupportedVerbs(0);
 		mSMTPServer=new Wiser();
-		System.out.println("SMTP Constructed");
+		//System.out.println("SMTP Constructed");
 		
 	}
 	
@@ -65,6 +65,7 @@ public class SMTPServerTransport extends StandardTransportImpl
 		public void run()
 		{	while(mPoll)
 			{	//System.out.println("SMTP Polling");
+				@SuppressWarnings({ "rawtypes", "unchecked" })
 				ArrayList<WiserMessage> processed=new ArrayList();
 				for (WiserMessage message : mSMTPServer.getMessages())
 				{	String envelopeSender = message.getEnvelopeSender();

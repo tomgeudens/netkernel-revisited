@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
 <module version="2.0">
 	<meta>
 		<identity>
@@ -9,15 +11,18 @@
 			<description>SMTP, POP, IMAP Transports, sendmail</description>
 		</info>
 	</meta>
+	
 	<system>
-    <classloader>
-      <exports>
-        <match>org\.netkernel\.email\.core\.endpoint\..*</match>
-      </exports>
-    </classloader>
+		<classloader>
+			<exports>
+				<match>org\.netkernel\.email\.core\.endpoint\..*</match>
+			</exports>
+		</classloader>
+		<dynamic/>
 	</system>
+	
 	<rootspace>
-    
+    <!-- Documentation -->
 		<prototype>
 			<id>SMTPTransport</id>
 			<class>org.netkernel.email.core.endpoint.SMTPServerTransport</class>
@@ -45,9 +50,6 @@
 					<varargs/>
 				</active>
 			</grammar>
-			<description>
-			  The active:sendmail service will send an email message via an SMTP gateway.
-		  </description>
 			<name>sendmail</name>
 		</accessor>
 		

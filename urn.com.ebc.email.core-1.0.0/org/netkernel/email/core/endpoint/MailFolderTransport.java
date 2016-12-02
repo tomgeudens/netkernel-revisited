@@ -84,7 +84,8 @@ public class MailFolderTransport extends StandardTransportImpl
 		{	store=s.getStore(mProtocol);
 		}
 		catch(NoSuchProviderException nspe)
-		{	String error="No provider for mail store protocol "+p.getProperty("mail.store.protocol")+" for mail processor "+mIdentity;
+		{	@SuppressWarnings("unused")
+			String error="No provider for mail store protocol "+p.getProperty("mail.store.protocol")+" for mail processor "+mIdentity;
 			//Log Error
 			nspe.printStackTrace();
 		}
@@ -100,7 +101,8 @@ public class MailFolderTransport extends StandardTransportImpl
 						{	issueRequest(messages[i]);
 						}
 						catch(Exception e)
-						{	String error="Error processing mailbox +"+mIdentity+" on host "+mHost+" "+e.getMessage();
+						{	@SuppressWarnings("unused")
+							String error="Error processing mailbox +"+mIdentity+" on host "+mHost+" "+e.getMessage();
 							//Log error
 							e.printStackTrace();							
 						}
@@ -123,7 +125,8 @@ public class MailFolderTransport extends StandardTransportImpl
 				store.close();
 			}
 			catch(MessagingException me)
-			{	String error="Error processing mailbox "+mIdentity+" on host "+mHost+" "+me.getMessage();
+			{	@SuppressWarnings("unused")
+				String error="Error processing mailbox "+mIdentity+" on host "+mHost+" "+me.getMessage();
 				//Log Error
 				me.printStackTrace();
 			}

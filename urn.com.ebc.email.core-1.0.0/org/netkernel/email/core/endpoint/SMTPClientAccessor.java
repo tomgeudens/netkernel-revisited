@@ -26,6 +26,7 @@ public class SMTPClientAccessor extends StandardAccessorImpl
 	{	this.declareThreadSafe();		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onSource(INKFRequestContext context) throws Exception
 	{	MailSessionRep session=null;
@@ -46,6 +47,7 @@ public class SMTPClientAccessor extends StandardAccessorImpl
 			message.setSender( IAfrom );
 			message.setFrom( IAfrom );
 		}
+		@SuppressWarnings("rawtypes")
 		Map map=new HashMap(5);
 		IHDSNodeList nl=header.getNodes("/email/to");
 		for(int i=0; i<nl.size(); i++)
@@ -100,7 +102,8 @@ public class SMTPClientAccessor extends StandardAccessorImpl
     for(int i=0; i<context.getThisRequest().getArgumentCount(); i++)
 		{	String arg=context.getThisRequest().getArgumentName(i);
 			if(!arg.equals("header") && !arg.equals("config") && !arg.equals("activeType") && !arg.equals("scheme"))
-			{	INKFResponseReadOnly resp=context.sourceForResponse("arg:"+arg, IReadableBinaryStreamRepresentation.class);
+			{	@SuppressWarnings("rawtypes")
+				INKFResponseReadOnly resp=context.sourceForResponse("arg:"+arg, IReadableBinaryStreamRepresentation.class);
 				IReadableBinaryStreamRepresentation rbs=(IReadableBinaryStreamRepresentation)resp.getRepresentation();
 				 ByteArrayOutputStream baos = new ByteArrayOutputStream(rbs.getContentLength());
 				 rbs.write( baos );
