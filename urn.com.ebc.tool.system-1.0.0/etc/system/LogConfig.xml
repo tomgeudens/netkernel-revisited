@@ -1,0 +1,17 @@
+<!DOCTYPE log>
+<log>
+	<id>urn:com:ebc:tool:system:log</id>
+	<name>Tool System Application Log</name>
+	<handlers>
+		<handler>
+			<instance>
+				<class>org.netkernel.layer0.logging.LogFileHandler</class>
+				<string>N:/log/tool_system.%g.log</string>
+				<int>50000000</int>
+				<int>3</int>
+				<boolean>true</boolean>
+			</instance>
+			<formatterClass>org.netkernel.layer0.logging.ConsoleFormatter</formatterClass>
+		</handler>
+	</handlers>
+</log>

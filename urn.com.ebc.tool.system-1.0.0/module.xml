@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:tool:system</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / tool / system</name>
+			<description>elephant bird consulting / tool / system</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc tool system"
+		public="true"
+		uri="urn:com:ebc:tool:system">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+
+		<accessor>
+			<id>com:ebc:tool:system:java:environment:accessor</id>
+			<class>com.ebc.tool.system.EnvironmentAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:environment</identifier>
+					<argument name="variable" desc="variable" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<import>
+			<uri>urn:com:ebc:tool:system:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc tool system import"
+		public="false"
+		uri="urn:com:ebc:tool:system:import">
+		
+		<import>
+			<!-- contains netkernel:/ scheme -->
+			<uri>urn:org:netkernel:ext:system</uri>
+		</import>
+		
+		<import>
+			<!-- contains HDS tools -->
+			<uri>urn:org:netkernel:mod:hds</uri>
+		</import>
+	</rootspace>
+</module>
