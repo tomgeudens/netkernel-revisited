@@ -72,7 +72,7 @@
 
 		<import>
 			<!-- contains SMTPTransport -->
-			<uri>urn:com:ebc:email:core</uri>
+			<uri>urn:org:netkernel:email:core</uri>
 		</import>
 		
 		<import>
