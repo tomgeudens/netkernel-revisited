@@ -1203,6 +1203,11 @@
 				 launched manually (e.g. request trace tool) -->
 			<uri>urn:org:netkernel:ext:layer1</uri>
 		</import>
+		
+		<import>
+			<!-- contains hds transreptors -->
+			<uri>urn:org:netkernel:mod:hds</uri>
+		</import>
 
 		<import>
 			<!-- contains                                    -->

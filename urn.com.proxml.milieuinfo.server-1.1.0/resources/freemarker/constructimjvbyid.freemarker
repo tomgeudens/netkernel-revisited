@@ -23,6 +23,7 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX openorg: <http://purl.org/openorg/organization>
 PREFIX sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#>
 PREFIX pav: <http://purl.org/pav/>
+PREFIX void: <http://rdfs.org/ns/void#>
 
 
 CONSTRUCT {
@@ -75,7 +76,7 @@ CONSTRUCT {
 	<http://id.milieuinfo.be/${owner}/${id?url}.jsonld> pav:createdWith <http://dbpedia.org/resource/NetKernel>.
 	<http://id.milieuinfo.be/${owner}/${id?url}.html> pav:createdWith <http://dbpedia.org/resource/NetKernel>.
 
-	<http://id.milieuinfo.be/${owner}/${id?url}#id> dct:isPartOf <http://id.milieuinfo.be/dataset/imjv#id> .
+	<http://id.milieuinfo.be/${owner}/${id?url}> void:inDataset <http://id.milieuinfo.be/dataset/imjv#id> .
 	}
 	
 	FROM <http://id.fedstats.be/graph/conceptscheme/nace2003#id>

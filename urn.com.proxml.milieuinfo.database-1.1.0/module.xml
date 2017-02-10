@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:proxml:milieuinfo:database</uri>
+			<version>1.1.0</version>
+		</identity>
+		<info>
+			<name>proxml / milieuinfo / database</name>
+			<description>proxml / milieuinfo / database</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="proxml milieuinfo database"
+		public="true"
+		uri="urn:com:proxml:milieuinfo:database">
+<!--
+		<literal type="string" uri="milieuinfo:database-cbb">http://lodcbbomv-on-2.vm.cumuli.be:8080/lodomv/repositories/cbb</literal> 
+
+		<literal type="string" uri="milieuinfo:database-imjv">http://rdfstoreomv-on-1.vm.cumuli.be:3030/blazegraph/namespace/lne/sparql</literal>
+
+		<literal type="string" uri="milieuinfo:database-vocab">http://rdfstoreomv-on-1.vm.cumuli.be:3030/blazegraph/namespace/lne/sparql</literal>
+
+		<literal type="string" uri="milieuinfo:database-def">http://rdfstoreomv-on-1.vm.cumuli.be:3030/blazegraph/namespace/lne/sparql</literal>
+		
+		<literal type="string" uri="milieuinfo:database-cbb">http://localhost:9999/blazegraph/namespace/cbb/sparql</literal>
+
+		<literal type="string" uri="milieuinfo:database-imjv">http://localhost:9999/blazegraph/namespace/lne/sparql</literal>
+
+		<literal type="string" uri="milieuinfo:database-vocab">http://localhost:9999/blazegraph/namespace/lne/sparql</literal>
+
+		<literal type="string" uri="milieuinfo:database-def">http://localhost:9999/blazegraph/namespace/lne/sparql</literal>
+-->
+		<literal type="string" uri="milieuinfo:query-cbb">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
+
+		<literal type="string" uri="milieuinfo:query-imjv">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
+
+		<literal type="string" uri="milieuinfo:query-vocab">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
+
+		<literal type="string" uri="milieuinfo:query-def">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
+
+		<literal type="long" uri="milieuinfo:expiry-cbb">86400000</literal>
+
+		<literal type="long" uri="milieuinfo:expiry-imjv">86400000</literal>
+
+		<literal type="long" uri="milieuinfo:expiry-vocab">86400000</literal>
+
+		<literal type="long" uri="milieuinfo:expiry-def">86400000</literal>
+		
+		<literal type="hds" uri="res:/etc/pdsConfig.xml">
+			<config>
+				<zone>Milieuinfo</zone>
+				<pdsfiledirectory>file:/N:/tmp/</pdsfiledirectory>
+			</config>
+		</literal>
+		
+		<mapper>
+			<config>
+				<endpoint>
+					<grammar>milieuinfo:credentials-cbb</grammar>
+					<request>
+						<identifier>active:freemarker</identifier>
+						<argument name="operator">res:/resources/freemarker/httpCredentials.freemarker</argument>
+						<argument name="host">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_cbb_host"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="port">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_cbb_port"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="username">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_cbb_username"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="password">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_cbb_password"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<representation>org.netkernel.mod.hds.IHDSDocument</representation>
+					</request>
+				</endpoint>
+
+				<endpoint>
+					<grammar>milieuinfo:credentials-imjv</grammar>
+					<request>
+						<identifier>active:freemarker</identifier>
+						<argument name="operator">res:/resources/freemarker/httpCredentials.freemarker</argument>
+						<argument name="host">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_host"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="port">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_port"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="username">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_username"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="password">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_password"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<representation>org.netkernel.mod.hds.IHDSDocument</representation>
+					</request>
+				</endpoint>
+
+				<endpoint>
+					<grammar>milieuinfo:credentials-vocab</grammar>
+					<request>
+						<identifier>active:freemarker</identifier>
+						<argument name="operator">res:/resources/freemarker/httpCredentials.freemarker</argument>
+						<argument name="host">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_host"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="port">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_port"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="username">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_username"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="password">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_password"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<representation>org.netkernel.mod.hds.IHDSDocument</representation>
+					</request>
+				</endpoint>
+
+				<endpoint>
+					<grammar>milieuinfo:credentials-def</grammar>
+					<request>
+						<identifier>active:freemarker</identifier>
+						<argument name="operator">res:/resources/freemarker/httpCredentials.freemarker</argument>
+						<argument name="host">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_host"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="port">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_port"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="username">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_username"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="password">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_password"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<representation>org.netkernel.mod.hds.IHDSDocument</representation>
+					</request>
+				</endpoint>
+
+				<endpoint>
+					<grammar>milieuinfo:database-cbb</grammar>
+					<request>
+						<identifier>active:environment</identifier>
+						<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_cbb_endpoint"]/value</argument>
+						<representation>java.lang.String</representation>
+					</request>
+				</endpoint>
+	
+				<endpoint>
+					<grammar>milieuinfo:database-imjv</grammar>
+					<request>
+						<identifier>active:environment</identifier>
+						<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_endpoint"]/value</argument>
+						<representation>java.lang.String</representation>
+					</request>
+				</endpoint>
+
+				<endpoint>
+					<grammar>milieuinfo:database-vocab</grammar>
+					<request>
+						<identifier>active:environment</identifier>
+						<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_endpoint"]/value</argument>
+						<representation>java.lang.String</representation>
+					</request>
+				</endpoint>
+
+				<endpoint>
+					<grammar>milieuinfo:database-def</grammar>
+					<request>
+						<identifier>active:environment</identifier>
+						<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_endpoint"]/value</argument>
+						<representation>java.lang.String</representation>
+					</request>
+				</endpoint>
+
+				<endpoint>
+					<grammar>milieuinfo:baseurl</grammar>
+					<request>
+						<identifier>active:environment</identifier>
+						<argument method="as-string" name="variable">/environment/os-properties/property[name="lod_baseurl"]/value</argument>
+						<representation>java.lang.String</representation>
+					</request>
+				</endpoint>
+				
+				<endpoint>
+					<grammar>milieuinfo:activeurl</grammar>
+					<request>
+						<identifier>active:environment</identifier>
+						<argument method="as-string" name="variable">/environment/os-properties/property[name="lod_activeurl"]/value</argument>
+						<representation>java.lang.String</representation>
+					</request>
+				</endpoint>
+			</config>
+			
+			<space>
+				<import>
+					<uri>urn:com:proxml:milieuinfo:database:import:mapper</uri>
+					<private/>
+				</import>
+			</space>
+		</mapper>
+		
+		<import>
+			<uri>urn:com:proxml:milieuinfo:database:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="proxml milieuinfo database import"
+		public="false"
+		uri="urn:com:proxml:milieuinfo:database:import">
+
+		<import>
+			<!-- contains mapper overlay -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="proxml milieuinfo database import mapper"
+		public="false"
+		uri="urn:com:proxml:milieuinfo:database:import:mapper">
+		
+		<import>
+			<!-- contains active:environment -->
+			<uri>urn:com:ebc:tool:system</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+		
+		<fileset>
+			<!-- contains freemarker resources -->
+			<regex>res:/resources/freemarker/.*</regex>
+		</fileset>
+		
+		<import>
+			<!-- contains active:freemarker -->
+			<uri>urn:org:netkernel:lang:freemarker</uri>
+		</import>
+		
+		<import>
+			<!-- contains hds:fromHDS transreptor -->
+			<uri>urn:org:netkernel:mod:hds</uri>
+		</import>
+	</rootspace>
+</module>

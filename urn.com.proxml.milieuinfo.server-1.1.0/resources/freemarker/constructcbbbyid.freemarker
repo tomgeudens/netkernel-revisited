@@ -1,15 +1,8 @@
 <#setting url_escaping_charset='UTF-8'>
+PREFIX milieu: <http://id.milieuinfo.be/def#>
 CONSTRUCT {
   <http://id.milieuinfo.be/${owner}/${id?url}#id> ?predicate ?object .
-  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?outgoingpredicate ?outgoingobject .
-  ?incomingsubject <http://www.w3.org/ns/org#siteOf> <http://id.milieuinfo.be/${owner}/${id?url}#id> .
 }
 WHERE {
   <http://id.milieuinfo.be/${owner}/${id?url}#id> ?predicate ?object .
-  FILTER (isLiteral(?object))
-  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?outgoingpredicate ?outgoingobject .
-  FILTER (isURI(?outgoingobject))
-  OPTIONAL {
-    ?incomingsubject <http://www.w3.org/ns/org#siteOf> <http://id.milieuinfo.be/${owner}/${id?url}#id> .
-  }
 }
