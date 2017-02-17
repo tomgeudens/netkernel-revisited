@@ -1,0 +1,152 @@
+<#setting url_escaping_charset='UTF-8'>
+PREFIX v:       <http://www.w3.org/2006/vcard/ns#>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
+PREFIX bibo: <http://purl.org/ontology/bibo/>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX locn: <http://www.w3.org/ns/locn#>
+PREFIX milieu: <http://id.milieuinfo.be/def#>
+PREFIX org: <http://www.w3.org/ns/org#>
+PREFIX os: <http://open-services.net/ns/asset#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rov: <http://www.w3.org/ns/regorg#>
+PREFIX schema: <http://schema.org/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX fabio: <http://purl.org/spar/fabio/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX openorg: <http://purl.org/openorg/organization>
+PREFIX sdmx-dimension: <http://purl.org/linked-data/sdmx/2009/dimension#>
+PREFIX pav: <http://purl.org/pav/>
+PREFIX void: <http://rdfs.org/ns/void#>
+
+
+CONSTRUCT {
+	<http://id.milieuinfo.be/${owner}/${id?url}#id> ?vp ?v.
+	<http://id.milieuinfo.be/${owner}/${id?url}#id> ?op ?o.
+
+	<http://id.milieuinfo.be/${owner}/${id?url}#id> ?bnp ?bn.
+	?bn ?bnl2p ?bnl2o.
+
+	?bnl2o ?bnl3p ?bnl3o.
+
+	?vp rdfs:label ?vplbl.
+	?vp skos:prefLabel ?vpslbl.
+	?vp rdf:type ?vptype.
+
+	?op rdfs:label ?oplbl.
+	?op skos:prefLabel ?opslbl.
+	?op rdf:type ?optype.
+
+	?o rdfs:label ?olbl.
+	?o skos:prefLabel ?oslbl.
+
+	?bnp rdfs:label ?bnplbl.
+	?bnp skos:prefLabel ?bnpslbl.
+	
+	?bnl2p rdfs:label ?bnplbl2.
+	?bnl2p skos:prefLabel ?bnpslbl2.
+
+	?bnl2o rdfs:label ?ol3lbl.
+	?bnl2o skos:prefLabel ?osl3lbl.
+
+	?s ?ip <http://id.milieuinfo.be/${owner}/${id?url}#id>.
+	
+	?s rdfs:label ?ilbl.
+	?s skos:prefLabel ?islbl.
+	?ip rdfs:label ?iplbl.
+	?ip skos:prefLabel ?ipslbl.
+
+	<http://id.milieuinfo.be/${owner}/${id?url}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id?url}> .
+	<http://id.milieuinfo.be/${owner}/${id?url}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id?url}.nt> .
+	<http://id.milieuinfo.be/${owner}/${id?url}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id?url}.rdf> .
+	<http://id.milieuinfo.be/${owner}/${id?url}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id?url}.ttl> .
+	<http://id.milieuinfo.be/${owner}/${id?url}#id> rdfs:isDefinedBy <http://id.milieuinfo.be/${owner}/${id?url}.jsonld> .
+	<http://id.milieuinfo.be/${owner}/${id?url}#id> foaf:page <http://id.milieuinfo.be/${owner}/${id?url}.html> .
+
+	<http://id.milieuinfo.be/${owner}/${id?url}> pav:createdWith <http://dbpedia.org/resource/NetKernel> ; rdfs:label "Via content negotiation".
+	<http://id.milieuinfo.be/${owner}/${id?url}.nt> pav:createdWith <http://dbpedia.org/resource/NetKernel>.
+	<http://id.milieuinfo.be/${owner}/${id?url}.rdf> pav:createdWith <http://dbpedia.org/resource/NetKernel>.
+	<http://id.milieuinfo.be/${owner}/${id?url}.ttl> pav:createdWith <http://dbpedia.org/resource/NetKernel>.
+	<http://id.milieuinfo.be/${owner}/${id?url}.jsonld> pav:createdWith <http://dbpedia.org/resource/NetKernel>.
+	<http://id.milieuinfo.be/${owner}/${id?url}.html> pav:createdWith <http://dbpedia.org/resource/NetKernel>.
+
+	<http://id.milieuinfo.be/${owner}/${id?url}> void:inDataset <http://id.milieuinfo.be/dataset/imjv#id> .
+	}
+	
+	FROM <http://id.fedstats.be/graph/conceptscheme/nace2003#id>
+	FROM <http://id.fedstats.be/graph/conceptscheme/nace2008#id>
+	FROM <http://id.fedstats.be/graph/correspondence/nace#id>
+	FROM <http://id.fedstats.be/graph/conceptscheme/nis#id>
+	FROM <http://id.milieuinfo.be/graph/imjv#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/BO#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/DABM#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/OD#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/eenheden#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/imjv#id>
+	FROM <http://id.milieuinfo.be/graph/vocab/milieuvocab#id>
+	FROM <http://id.milieuinfo.be/graph/mappingscheme/omgeving#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/substanties#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/vlaremII#id>
+
+WHERE { 
+	 {
+	  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?vp ?v.
+    FILTER (isLiteral(?v))
+
+	  OPTIONAL {?vp rdfs:label ?vplbl.}
+	  OPTIONAL {?vp skos:prefLabel ?vpslbl.}
+	  OPTIONAL {?vp rdf:type ?vptype.
+               filter(regex(str(?vptype), 'http://purl.org/linked-data/cube')).
+               }
+
+	  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?op ?o.
+	  FILTER (isURI(?o))
+
+	  OPTIONAL {?op rdfs:label ?oplbl.}
+	  OPTIONAL {?op skos:prefLabel ?opslbl.}
+	  OPTIONAL {?op rdf:type ?optype.
+               filter(regex(str(?optype), 'http://purl.org/linked-data/cube')).
+               }
+
+	  OPTIONAL {?o rdfs:label ?olbl.}
+	  OPTIONAL {?o skos:prefLabel ?oslbl.}
+
+	  OPTIONAL 
+		  {
+		  <http://id.milieuinfo.be/${owner}/${id?url}#id> ?bnp ?bn.
+		  FILTER (isBlank(?bn))
+		  
+		  OPTIONAL {?bnp rdfs:label ?bnplbl.}
+		  OPTIONAL {?bnp skos:prefLabel ?bnpslbl.}
+
+		  OPTIONAL 
+			  {
+			 	?bn ?bnl2p ?bnl2o.
+
+			  OPTIONAL {?bnl2p rdfs:label ?bnplbl2.}
+			  OPTIONAL {?bnl2p skos:prefLabel ?bnpslbl2.}
+
+			  OPTIONAL {?bnl2o rdfs:label ?ol3lbl.}
+			  OPTIONAL {?bnl2o skos:prefLabel ?osl3lbl.}
+
+	  		OPTIONAL {?bnl2o ?bnl3p ?bnl3o.}
+		  }
+	 }
+ }
+ UNION
+		{
+		?s ?ip <http://id.milieuinfo.be/${owner}/${id?url}#id>.
+		OPTIONAL {?s rdfs:label ?ilbl.}
+		OPTIONAL {?s skos:prefLabel ?islbl.}
+		OPTIONAL {?ip rdfs:label ?iplbl.}
+		OPTIONAL {?ip skos:prefLabel ?ipslbl.}
+		}
+	}
+
+

@@ -41,6 +41,8 @@
 
 		<literal type="string" uri="milieuinfo:query-imjv">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
 
+		<literal type="string" uri="milieuinfo:query-gpbv">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
+
 		<literal type="string" uri="milieuinfo:query-vocab">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
 
 		<literal type="string" uri="milieuinfo:query-def">SELECT ?s ?p ?o WHERE {?s ?p ?o .} LIMIT 5</literal>
@@ -48,6 +50,8 @@
 		<literal type="long" uri="milieuinfo:expiry-cbb">86400000</literal>
 
 		<literal type="long" uri="milieuinfo:expiry-imjv">86400000</literal>
+		
+		<literal type="long" uri="milieuinfo:expiry-gpbv">86400000</literal>
 
 		<literal type="long" uri="milieuinfo:expiry-vocab">86400000</literal>
 
@@ -101,6 +105,43 @@
 
 				<endpoint>
 					<grammar>milieuinfo:credentials-imjv</grammar>
+					<request>
+						<identifier>active:freemarker</identifier>
+						<argument name="operator">res:/resources/freemarker/httpCredentials.freemarker</argument>
+						<argument name="host">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_host"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="port">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_port"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="username">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_username"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="password">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_password"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<representation>org.netkernel.mod.hds.IHDSDocument</representation>
+					</request>
+				</endpoint>
+
+				<endpoint>
+					<grammar>milieuinfo:credentials-gpbv</grammar>
 					<request>
 						<identifier>active:freemarker</identifier>
 						<argument name="operator">res:/resources/freemarker/httpCredentials.freemarker</argument>
@@ -229,6 +270,15 @@
 				</endpoint>
 
 				<endpoint>
+					<grammar>milieuinfo:database-gpbv</grammar>
+					<request>
+						<identifier>active:environment</identifier>
+						<argument method="as-string" name="variable">/environment/os-properties/property[name="sparql_imjv_endpoint"]/value</argument>
+						<representation>java.lang.String</representation>
+					</request>
+				</endpoint>
+
+				<endpoint>
 					<grammar>milieuinfo:database-vocab</grammar>
 					<request>
 						<identifier>active:environment</identifier>
@@ -312,7 +362,7 @@
 		</import>
 		
 		<import>
-			<!-- contains hds:fromHDS transreptor -->
+			<!-- contains hds transreptors -->
 			<uri>urn:org:netkernel:mod:hds</uri>
 		</import>
 	</rootspace>

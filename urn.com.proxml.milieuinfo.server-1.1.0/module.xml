@@ -42,8 +42,8 @@
 			<space>
 				<mapper>
 					<config>
-						<!-- /vocab/(BO|cbb|DABM|imjv|OD/vlaremII)/(concept|conceptscheme)/xxxxxxxx.(rdf|ttl|nt|jsonld|html) -->
-						<!-- /vocab/(BO|cbb|DABM|imjv|OD/vlaremII)/conceptscheme.(rdf|ttl|nt|jsonld|html) -->
+						<!-- /vocab/(BO|cbb|DABM|gpbv|imjv|OD|rie|rie-ippc|vlarem|vlaremII)/(concept|conceptscheme)/xxxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<!-- /vocab/(BO|cbb|DABM|gpbv|imjv|OD|rie|rie-ippc|vlarem|vlaremII)/conceptscheme.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
 								<rest>
@@ -71,8 +71,8 @@
 							</request>
 						</endpoint>
 						
-						<!-- /vocab/(BO|cbb|DABM|imjv|OD/vlaremII)/(concept|conceptscheme)/xxxxxxxx -->
-						<!-- /vocab/(BO|cbb|DABM|imjv|OD/vlaremII)/conceptscheme -->
+						<!-- /vocab/(BO|cbb|DABM|gpbv|imjv|OD|rie|rie-ippc|vlarem|vlaremII)/(concept|conceptscheme)/xxxxxxxx -->
+						<!-- /vocab/(BO|cbb|DABM|gpbv|imjv|OD|rie|rie-ippc|vlarem|vlaremII)/conceptscheme -->
 						<endpoint>
 							<meta>
 								<rest>
@@ -134,7 +134,200 @@
 				</import>
 			</space>
 		</overlay>
+
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/adres/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>
+						<!-- /adres/xxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoadresbyidwithextensionrestoverlay</identifier>
+									<argument name="id"/>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfoadresbyidwithextension</identifier>
+								<argument name="owner" method="as-string">adres</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>
+						</endpoint>
+
+						<!-- /adres/xxxxxxx -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{id}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2htmlsaxon+operator@res:/resources/xsl/rdfxml2htmladres.xsl">text/html</produces>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfoadresbyidrestoverlay</identifier>
+									<argument name="id"/>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfoadresbyid</identifier>
+								<argument name="owner" method="as-string">adres</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+							</request>
+						</endpoint>
+						
+					</config>
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:proxml:milieuinfo:database</uri>
+							<private/>
+						</import>			
+
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:proxml:milieuinfo:database</uri>
+					<private/>
+				</import>			
+
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+		
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/gpbv/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>
+
+						<!-- /gpbv/(capaciteit|inrichtingofactiviteit|installatie)/xxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(capaciteit|inrichtingofactiviteit|installatie)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfogpbvbyidwithextensionrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfogpbvbyidwithextension</identifier>
+								<argument name="owner" method="as-string">gpbv/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>
+						</endpoint>
+
+						<!-- /gpbv/(capaciteit|inrichtingofactiviteit|installatie)/xxxxxxx -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(capaciteit|inrichtingofactiviteit|installatie)}/{id}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2htmlsaxon+operator@res:/resources/xsl/rdfxml2htmlgpbv.xsl">text/html</produces>
+								</rest>
+							</meta>
+							<grammar>
+								<active>
+									<identifier>active:milieuinfogpbvbyidrestoverlay</identifier>
+									<argument name="owner"/>
+									<argument name="id"/>
+								</active>
+							</grammar>
+							<request>
+								<identifier>active:milieuinfogpbvbyid</identifier>
+								<argument name="owner" method="as-string">gpbv/[[arg:owner]]</argument>
+								<argument name="id" method="as-string">[[arg:id]]</argument>
+							</request>
+						</endpoint>
+					</config>
+					
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:proxml:milieuinfo:database</uri>
+							<private/>
+						</import>			
+
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
 				
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:proxml:milieuinfo:database</uri>
+					<private/>
+				</import>			
+
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+						
 		<overlay>
 			<prototype>RESTOverlay</prototype>
 			<config>
@@ -1301,6 +1494,33 @@
 		</accessor>
 		
 		<accessor>
+			<id>com:proxml:milieuinfo:server:gpbvbyid:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfogpbvbyid.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfogpbvbyid</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:adresbyid:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoadresbyid.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoadresbyid</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		
+		<accessor>
 			<id>com:proxml:milieuinfo:server:vocab:groovy:accessor</id>
 			<prototype>GroovyPrototype</prototype>
 			<script>res:/resources/groovy/milieuinfovocab.groovy</script>
@@ -1398,6 +1618,34 @@
 			<grammar>
 				<active>
 					<identifier>active:milieuinfoimjvbyidwithextension</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:gpbvbyidwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfogpbvbyidwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfogpbvbyidwithextension</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:adresbyidwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfoadresbyidwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfoadresbyidwithextension</identifier>
 					<argument name="owner" desc="owner" max="1" min="1"/>
 					<argument name="id" desc="id" max="1" min="1"/>
 					<argument name="extension" desc="extension" max="1" min="1"/>

@@ -28,7 +28,7 @@
 	<xsl:import href="milieu-master.xsl"/>
 
 	<xsl:variable name="skin-html-head-title">
-		<xsl:text>Data Integraal Milieu Jaarverslag</xsl:text>
+		<xsl:text>Data Adres</xsl:text>
 	</xsl:variable>
 	
 		

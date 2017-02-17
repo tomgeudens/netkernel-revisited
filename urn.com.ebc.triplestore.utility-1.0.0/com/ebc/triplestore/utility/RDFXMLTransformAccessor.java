@@ -43,7 +43,7 @@ public class RDFXMLTransformAccessor extends StandardAccessorImpl {
 		
 		// processing
 		
-		//parse no longer necessary with urn.org.netkernel.rdf.jena-3.1.0
+		//parse no longer necessary
 		//INKFRequest jenaparserequest = aContext.createRequest("active:jRDFParseXML");
 		//jenaparserequest.addArgument("operand", "arg:operand");
 		//Object vJenaParseResult = aContext.issueRequest(jenaparserequest);
