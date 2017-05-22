@@ -1,0 +1,21 @@
+CONSTRUCT {
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#vocabulary> ?namespace .
+}
+WHERE {
+  SELECT DISTINCT (IRI(?namespaceString) AS ?namespace) {
+
+    {
+      SELECT DISTINCT ?p WHERE { GRAPH ?g {
+        ?s ?p ?o
+      } }
+    }
+
+    BIND (STR(?p) AS ?p_string)
+    BIND (
+      IF ( CONTAINS(?p_string, '#'),
+        STRBEFORE(?p_string, '#'),
+        REPLACE( ?p_string , '/[^/]*$', '/' )
+      ) AS ?namespaceString
+    )
+  }
+}

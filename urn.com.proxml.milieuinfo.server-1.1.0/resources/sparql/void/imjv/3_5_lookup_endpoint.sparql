@@ -1,0 +1,7 @@
+CONSTRUCT {
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#uriLookupEndpoint> ?uriLookupEndpoint .
+}
+WHERE {
+  SELECT (<http://id.milieuinfo.be/imjv/keywordsearch?search=> AS ?uriLookupEndpoint)
+  { ?s ?p ?o } LIMIT 1
+}

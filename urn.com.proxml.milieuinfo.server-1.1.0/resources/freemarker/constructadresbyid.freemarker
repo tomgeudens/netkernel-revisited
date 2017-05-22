@@ -93,6 +93,7 @@ CONSTRUCT {
 	FROM <http://id.milieuinfo.be/graph/mappingscheme/omgeving#id>
 	FROM <http://id.milieuinfo.be/graph/conceptscheme/substanties#id>
 	FROM <http://id.milieuinfo.be/graph/conceptscheme/vlaremII#id>
+	FROM <http://id.milieuinfo.be/graph/gpbv#id>
 
 WHERE { 
 	 {

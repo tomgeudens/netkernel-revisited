@@ -1,23 +1,21 @@
-
 /* page.css */
 
-@font-face { font-family: "Lato Regular"; src: url(../fonts/Lato/Lato-Regular.ttf);}
-@font-face { font-family: "Lato Light"; src: url(../fonts/Lato/Lato-Light.ttf);}
-@font-face { font-family: "Lato Hairline"; src: url(../fonts/Lato/Lato-Hairline.ttf);}
+@font-face { font-family: "Lato Regular"; src: url(../fonts/Lato/Lato-Regular.ttf); }
+@font-face { font-family: "Lato Light"; src: url(../fonts/Lato/Lato-Light.ttf); }
+@font-face { font-family: "Lato Hairline"; src: url(../fonts/Lato/Lato-Hairline.ttf); }
 
-@font-face { font-family: "Flanders Art Sans"; src: url(../fonts/FlandersArt/FlandersArtSans-Regular.ttf);}
-@font-face { font-family: "Flanders Art Sans Light"; src: url(../fonts/FlandersArt/FlandersArtSans-Light.ttf);}
-@font-face { font-family: "Flanders Art Sans Medium"; src: url(../fonts/FlandersArt/FlandersArtSans-Medium.ttf);}
+@font-face { font-family: "Flanders Art Sans"; src: url(../fonts/FlandersArt/FlandersArtSans-Regular.ttf); }
+@font-face { font-family: "Flanders Art Sans Light"; src: url(../fonts/FlandersArt/FlandersArtSans-Light.ttf); }
+@font-face { font-family: "Flanders Art Sans Medium"; src: url(../fonts/FlandersArt/FlandersArtSans-Medium.ttf); }
 
-*
-{
-	-webkit-box-sizing: border-box;
-	   -moz-box-sizing: border-box;
-	        box-sizing: border-box;
-	line-height: 1em;
-	outline: none;
-	margin: 0;
-	padding: 0;
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    line-height: 1em;
+    outline: none;
+    margin: 0;
+    padding: 0;
 }
 
 html {
@@ -32,11 +30,10 @@ ul li {
     margin: 8px 0;
 }
 
-body
-{
+body {
     background: #f5f5f5 url("../img/background-pattern.png");
-	font-family: "Flanders Art Sans Light", "Helvetica Neue", "Helvetica", sans-serif;
-	color: #404040;
+    font-family: "Flanders Art Sans Light", "Helvetica Neue", "Helvetica", sans-serif;
+    color: #404040;
     border-top: 40px solid #fff;
     font-size: 16px;
     min-height: 100%;
@@ -52,14 +49,13 @@ body:before {
     background: #f5f5f5 url("../img/website-header-bg.png") center top no-repeat;
 }
 
-h1, h2, h3, h4, h5, h6
-{
-	font-family: "Flanders Art Sans Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	color: #333332;
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Flanders Art Sans Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333332;
 }
 
 strong {
-	font-family: "Flanders Art Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Flanders Art Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -80,12 +76,11 @@ a {
 
 #header,
 #content,
-#footer > div
-{
+#footer > div {
     width: 1000px;
     margin: 0 auto;
     position: relative;
-    z-index: 1;/* show above header background defined in body:before*/
+    z-index: 1; /* show above header background defined in body:before */
 }
 
 #header {
@@ -101,13 +96,11 @@ a {
     margin-top: -60px;
 }
 
-#logo 
-{
+#logo {
     clear: both;
 }
 
-#logo a 
-{
+#logo a {
     background: transparent url(../img/logo-lne.png) 0 0 no-repeat;
     display: block;
     width: 389px;
@@ -115,13 +108,11 @@ a {
     margin: 0;
 }
 
-#logo a span 
-{
+#logo a span {
     display: none;
 }
 
-#lang-nav
-{
+#lang-nav {
     position: fixed;
     left: 0;
     top: 50%;
@@ -131,9 +122,8 @@ a {
     margin-top: -100px;
 }
 
-#lang-nav a
-{
-	font-family: "Lato Hairline", "Helvetica Neue", "Helvetica", sans-serif;
+#lang-nav a {
+    font-family: "Lato Hairline", "Helvetica Neue", "Helvetica", sans-serif;
     display: block;
     padding: 0 5px;
     color: #f0f0f0;
@@ -147,21 +137,20 @@ a {
 
 body[data-lang="nl"] #lang-nav a[data-lang="nl"],
 body[data-lang="fr"] #lang-nav a[data-lang="fr"],
-body[data-lang="de"] #lang-nav a[data-lang="de"]
-{
+body[data-lang="de"] #lang-nav a[data-lang="de"] {
     font-weight: bold;
     color: #fff;
-	font-family: "Flanders Art Sans", "Helvetica Neue", "Helvetica", sans-serif;
+    font-family: "Flanders Art Sans", "Helvetica Neue", "Helvetica", sans-serif;
     text-decoration: none;
 }
 
 body[data-lang] #content [xml\:lang] {
     display: none;
 }
+
 body[data-lang="nl"] #content [xml\:lang="nl"],
 body[data-lang="fr"] #content [xml\:lang="fr"],
-body[data-lang="de"] #content [xml\:lang="de"]
-{
+body[data-lang="de"] #content [xml\:lang="de"] {
     display: block;
 }
 
@@ -188,11 +177,10 @@ body[data-lang="de"] #content [xml\:lang="de"]
 .export-options a:first-child {
     font-weight: bold;
     color: #555;
-	font-family: "Flanders Art Sans", "Helvetica Neue", "Helvetica", sans-serif;
+    font-family: "Flanders Art Sans", "Helvetica Neue", "Helvetica", sans-serif;
 }
 
-h1
-{
+h1 {
     font-size: 36px;
     line-height: 1.2em;
     font-family: "Flanders Art Sans", "Helvetica Neue", "Helvetica", sans-serif;
@@ -222,8 +210,7 @@ h1 span {
 }
 
 #content > h2,
-#content > h3
-{
+#content > h3 {
     background-color: #4da692;
     color: #fff;
     line-height: 40px;
@@ -246,8 +233,7 @@ h1 span {
     position: relative;
 }
 
-#content 
-{
+#content {
     padding-bottom: 140px;
     margin-top: 65px;
 }
@@ -256,8 +242,7 @@ h1 span {
     margin-bottom: 24px;
 }
 
-#footer 
-{
+#footer {
     background-color: #fff;
     color: #333332;
     font-size: 14px;
@@ -291,8 +276,8 @@ h1 span {
 }
 
 #footer .logo .claim {
-	/* added display: inline-block; to put claim text on new line - tomgeudens */
-	display: inline-block;
+    /* added display: inline-block; to put claim text on new line - tomgeudens */
+    display: inline-block;
     font-family: "Flanders Art Sans", "Helvetica Neue", "Helvetica", sans-serif;
     font-size: 12px;
     color: #3b3b3c;
@@ -334,7 +319,7 @@ table th {
     margin: 0;
     text-align: left;
     padding: 0 16px;
-	font-family: "Flanders Art Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Flanders Art Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333;
     font-size: 16px;
     line-height: 40px;
@@ -356,8 +341,7 @@ table tbody tr:nth-child(even) td {
 
 /* fragments */
 
-#fragment-nav
-{
+#fragment-nav {
     position: fixed;
     left: 0;
     top: 50%;
@@ -367,9 +351,8 @@ table tbody tr:nth-child(even) td {
     margin-top: -100px;
 }
 
-#fragment-nav a
-{
-	font-family: "Lato Hairline", "Helvetica Neue", "Helvetica", sans-serif;
+#fragment-nav a {
+    font-family: "Lato Hairline", "Helvetica Neue", "Helvetica", sans-serif;
     display: block;
     padding: 0 5px;
     color: #f0f0f0;
@@ -382,7 +365,7 @@ table tbody tr:nth-child(even) td {
 }
 
 ul.triples {
-	list-style-type: none;
+    list-style-type: none;
     display: table;
     width: 100%;
     max-width: 100%;
@@ -394,11 +377,11 @@ ul.triples {
 }
 
 ul.triples li {
-    display:table-row;
+    display: table-row;
 }
 
 ul.triples li > * {
-    display:table-cell;
+    display: table-cell;
     text-align: left;
     padding: 8px 16px;
     border-top: 1px solid #ddd;

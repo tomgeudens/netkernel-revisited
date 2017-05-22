@@ -161,16 +161,26 @@ if (vHTTPResponseCode >= 400) {
 }
 else {
 	if (aAccept.startsWith("text/html")) {
-		INKFRequest xsltcrequest = aContext.createRequest("active:xsltc");
-		xsltcrequest.addArgumentByValue("operand", vKWSResult);
-		xsltcrequest.addArgumentByValue("search", aSearch);
-		xsltcrequest.addArgument("replace","milieuinfo:baseurl");
-		xsltcrequest.addArgumentByValue("with", aWith);
-		xsltcrequest.addArgument("operator", "res:/resources/xsl/milieuinfoimjvkeywordsearch.xsl");
-		xsltcrequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
+		// INKFRequest xsltcrequest = aContext.createRequest("active:xsltc");
+		// xsltcrequest.addArgumentByValue("operand", vKWSResult);
+		// xsltcrequest.addArgumentByValue("search", aSearch);
+		// xsltcrequest.addArgument("replace","milieuinfo:baseurl");
+		// xsltcrequest.addArgumentByValue("with", aWith);
+		// xsltcrequest.addArgument("operator", "res:/resources/xsl/milieuinfoimjvkeywordsearch.xsl");
+		// xsltcrequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
+		INKFRequest xslt2request = aContext.createRequest("active:xslt2");
+		xslt2request.addArgumentByValue("operand", vKWSResult);
+		xslt2request.addArgumentByValue("search", aSearch);
+		xslt2request.addArgument("replace","milieuinfo:baseurl");
+		xslt2request.addArgumentByValue("with", aWith);
+		xslt2request.addArgument("operator", "res:/resources/xsl/milieuinfoimjvkeywordsearch.xsl");
+
+		INKFRequest serializerequest = aContext.createRequest("active:saxonSerialize");
+		serializerequest.addArgumentByRequest("operand", xslt2request);
+		serializerequest.addArgumentByValue("operator", "<serialize><indent>yes</indent><omit-declaration>yes</omit-declaration><encoding>UTF-8</encoding><method>xhtml</method><mimeType>text/html</mimeType></serialize>");
 		
 		INKFRequest tagsouprequest = aContext.createRequest("active:tagSoup");
-		tagsouprequest.addArgumentByRequest("operand", xsltcrequest);
+		tagsouprequest.addArgumentByRequest("operand", serializerequest);
 		tagsouprequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
 		
 		vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(tagsouprequest));

@@ -35,6 +35,46 @@
 		<overlay>
 			<prototype>RESTOverlay</prototype>
 			<config>
+				<basepath>/vlarem/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>res:/resources/mapper/vlarem.xml</config>
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:proxml:milieuinfo:database</uri>
+							<private/>
+						</import>			
+
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:proxml:milieuinfo:database</uri>
+					<private/>
+				</import>			
+
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+		
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
 				<basepath>/vocab/</basepath>
 				<auto404/>
 			</config>
@@ -239,13 +279,35 @@
 			
 			<space>
 				<mapper>
-					<config>
-
-						<!-- /gpbv/(capaciteit|inrichtingofactiviteit|installatie)/xxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+					<config>					
+						<!-- /gpbv/home -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(capaciteit|inrichtingofactiviteit|installatie)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<simple>home</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfogpbvhome</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/html/milieuinfogpbv.html</identifier>
+							</request>
+						</endpoint>
+
+						<!-- /gpbv/(capaciteit|inrichtingofactiviteit|installatie|adres)/xxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>{owner:(capaciteit|inrichtingofactiviteit|installatie|adres)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -267,11 +329,11 @@
 							</request>
 						</endpoint>
 
-						<!-- /gpbv/(capaciteit|inrichtingofactiviteit|installatie)/xxxxxxx -->
+						<!-- /gpbv/(capaciteit|inrichtingofactiviteit|installatie|adres)/xxxxxxx -->
 						<endpoint>
 							<meta>
 								<rest>
-									<simple>{owner:(capaciteit|inrichtingofactiviteit|installatie)}/{id}</simple>
+									<simple>{owner:(capaciteit|inrichtingofactiviteit|installatie|adres)}/{id}</simple>
 									<method>GET</method>
 									<Etag>MD5</Etag>
 									<compress/>
@@ -494,7 +556,7 @@
 									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
 									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
 									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmldef.xsl">text/html</produces>
+									<produces withTransform="active:rdfxml2htmlsaxon+operator@res:/resources/xsl/rdfxml2htmldef.xsl">text/html</produces>
 								</rest>
 							</meta>
 							<grammar>
@@ -768,7 +830,7 @@
 									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
 									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
 									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmldef.xsl">text/html</produces>
+									<produces withTransform="active:rdfxml2htmlsaxon+operator@res:/resources/xsl/rdfxml2htmldef.xsl">text/html</produces>
 								</rest>
 							</meta>
 							<grammar>
@@ -1064,6 +1126,59 @@
 							</request>
 						</endpoint>
 						
+						<!-- /dataset/gpbv.(rdf|ttl|nt|jsonld|html) -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>dataset/gpbv.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+								</rest>
+							</meta>
+
+							<grammar>
+								<active>
+									<identifier>active:milieuinfogpbvvoidwithextensionrestoverlay</identifier>
+									<argument name="extension"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfogpbvvoidwithextension</identifier>
+								<argument name="extension" method="as-string">[[arg:extension]]</argument>
+							</request>							
+						</endpoint>
+
+						
+						<!-- /dataset/gpbv -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>dataset/gpbv</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/xml</produces>
+									<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+									<produces withTransform="active:rdfxml2htmlsaxon+operator@res:/resources/xsl/rdfxml2htmlgpbv.xsl">text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:milieuinfogpbvvoidrestoverlay</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:milieuinfogpbvvoid</identifier>
+							</request>
+						</endpoint>
+						
 						<!-- /def.(rdf|ttl|nt|jsonld|html) -->
 						<endpoint>
 							<meta>
@@ -1101,7 +1216,7 @@
 									<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
 									<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
 									<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
-									<produces withTransform="active:rdfxml2html+operator@res:/resources/xsl/rdfxml2htmldef.xsl">text/html</produces>
+									<produces withTransform="active:rdfxml2htmlsaxon+operator@res:/resources/xsl/rdfxml2htmldef.xsl">text/html</produces>
 								</rest>
 							</meta>
 							<grammar>
@@ -1346,6 +1461,11 @@
 			<regex>res:/resources/sparql/.*</regex>
 		</fileset>
 
+		<fileset>
+			<!-- contains mapper resources -->
+			<regex>res:/resources/mapper/.*</regex>
+		</fileset>
+
 		<import>
 			<!-- contains GroovyPrototype -->
 			<uri>urn:org:netkernel:lang:groovy</uri>
@@ -1394,6 +1514,7 @@
 		<import>
 			<!-- contains transreptors used when the commands are 
 				 launched manually (e.g. request trace tool) -->
+			<!-- contains active:fls -->
 			<uri>urn:org:netkernel:ext:layer1</uri>
 		</import>
 		
@@ -1433,6 +1554,12 @@
 			<uri>urn:com:ebc:tool:pdsfile</uri>
 			<version-min>1.0.0</version-min>
 		</import>
+		
+		<import>
+			<!-- contains active:modulelistquery -->
+			<uri>urn:com:ebc:tool:system</uri>
+			<version-min>1.0.0</version-min>
+		</import>
 
 		<accessor>
 			<id>com:proxml:milieuinfo:server:def:groovy:accessor</id>
@@ -1463,6 +1590,17 @@
 			<grammar>
 				<active>
 					<identifier>active:milieuinfoimjvvoid</identifier>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:gpbvvoid:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfogpbvvoid.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfogpbvvoid</identifier>
 				</active>
 			</grammar>
 		</accessor>
@@ -1518,8 +1656,20 @@
 				</active>
 			</grammar>
 		</accessor>
-
 		
+		<accessor>
+			<id>com:proxml:milieuinfo:server:vlarembyid:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfovlarembyid.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfovlarembyid</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
 		<accessor>
 			<id>com:proxml:milieuinfo:server:vocab:groovy:accessor</id>
 			<prototype>GroovyPrototype</prototype>
@@ -1598,6 +1748,18 @@
 		</accessor>
 
 		<accessor>
+			<id>com:proxml:milieuinfo:server:gpbvvoidwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfogpbvvoidwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfogpbvvoidwithextension</identifier>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
 			<id>com:proxml:milieuinfo:server:cbbbyidwithextension:groovy:accessor</id>
 			<prototype>GroovyPrototype</prototype>
 			<script>res:/resources/groovy/milieuinfocbbbyidwithextension.groovy</script>
@@ -1646,6 +1808,20 @@
 			<grammar>
 				<active>
 					<identifier>active:milieuinfoadresbyidwithextension</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:proxml:milieuinfo:server:vlarembyidwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfovlarembyidwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfovlarembyidwithextension</identifier>
 					<argument name="owner" desc="owner" max="1" min="1"/>
 					<argument name="id" desc="id" max="1" min="1"/>
 					<argument name="extension" desc="extension" max="1" min="1"/>

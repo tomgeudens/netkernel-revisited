@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:neo4j:server</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / neo4j / server</name>
+			<description>elephant bird consulting / neo4j / server</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+			
+	<rootspace
+		name="ebc neo4j server"
+		public="true"
+		uri="urn:com:ebc:neo4j:server">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig|SimpleDynamicImportHook).xml</regex>
+		</fileset>
+
+		<!-- this endpoint makes sure no other /etc/system resource
+		     gets pulled in -->
+		<endpoint>
+			<prototype>Limiter</prototype>
+			<grammar>res:/etc/system<regex type="anything"/></grammar>
+		</endpoint>
+
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/node/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>res:/resources/config/node.xml</config>
+					<space>			
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:ebc:neo4j:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>			
+
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:ebc:neo4j:server:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+
+		<import>
+			<uri>urn:com:ebc:neo4j:server:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc neo4j server import"
+		public="false"
+		uri="urn:com:ebc:neo4j:server:import">
+		
+		<import>
+			<!-- contains RESTOverlay prototype -->
+			<uri>urn:org:netkernel:tpt:http</uri>
+		</import>
+		
+		<import>
+			<!-- contains Limiter prototype -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc neo4j server import overlay"
+		public="false"
+		uri="urn:com:ebc:neo4j:server:import:overlay">
+		
+		<fileset>
+			<!-- contains cypher resources -->
+			<regex>res:/resources/cypher/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains freemarker resources -->
+			<regex>res:/resources/freemarker/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains groovy resources -->
+			<regex>res:/resources/groovy/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains xsl resources -->
+			<regex>res:/resources/xsl/.*</regex>
+		</fileset>
+		
+		<accessor>
+			<id>com:ebc:neo4j:server:nodeconfig:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/nodeconfig.groovy</script>
+			<grammar>res:/resources/config/node.xml</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:ebc:neo4j:server:nodebyid:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/nodebyid.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:nodebyid</identifier>
+					<argument name="label" desc="label" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<import>
+			<!-- contains neo4j:databaseurl, neo4j:databasuser, neo4j:databasepassword -->
+			<uri>urn:com:ebc:neo4j:database</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+
+		<import>
+			<!-- contains active:rows -->
+			<uri>urn:com:ebc:neo4j:client:rows</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+
+		<import>
+			<!-- contains active:freemarker -->
+			<uri>urn:org:netkernel:lang:freemarker</uri>
+		</import>
+		
+		<import>
+			<!-- contains HDS toolkit -->
+			<uri>urn:org:netkernel:mod:hds</uri>
+		</import>
+		
+		<import>
+			<!-- contains GroovyPrototype -->
+			<uri>urn:org:netkernel:lang:groovy</uri>
+		</import>
+		
+		<import>
+			<!-- contains active:xsltc -->
+			<uri>urn:org:netkernel:xml:core</uri>
+		</import>
+	</rootspace>
+</module>

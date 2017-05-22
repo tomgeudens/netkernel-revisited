@@ -1,0 +1,76 @@
+/* milieuinfo-taxonomy.css */
+
+#content .predicate .objects.taxonomy  {
+    padding: 2px 8px;
+}
+
+#content .predicate .objects.taxonomy > * {
+    border: none;
+    padding: 0;
+}
+
+#content .predicate .objects.taxonomy ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#content .predicate .objects.taxonomy ul ul {
+    padding-left: 16px;
+}
+
+#content .predicate .objects.taxonomy .entry {
+    display: block;
+    margin: 4px 0;
+}
+
+#content .predicate .objects.taxonomy .entry a {
+    line-height: 24px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#content .predicate .objects.taxonomy .entry > .concept-label {
+    white-space: nowrap;
+    display: block;
+}
+
+#content .predicate .objects.taxonomy .entry a.icon {
+    width: 20px;
+    height: 20px;
+    background: transparent url(../img/taxo-final.png) 7px 11px no-repeat;
+}
+
+#content .predicate .objects.taxonomy .entry.expanded > .concept-label a.icon {
+    background: transparent url(../img/taxo-expanded.png) 4px 10px no-repeat;
+}
+
+#content .predicate .objects.taxonomy .entry.collapsed > .concept-label a.icon {
+    background: transparent url(../img/taxo-collapsed.png) 7px 7px no-repeat;
+}
+
+#content .predicate .objects.taxonomy .entry > ul {
+    max-height: 100vh;
+    transition: max-height 1s;
+    overflow: hidden;
+    display: block;
+}
+
+#content .predicate .objects.taxonomy .entry.collapsed > ul {
+    max-height: 0;
+}
+
+#content .predicate .objects.taxonomy .entry a.icon + a,
+#content .predicate .objects.taxonomy .entry a.icon + a {
+    text-decoration: underline;
+}
+
+/* self-concept */
+
+#content .predicate .objects.taxonomy .entry.self > .concept-label {
+    font-family: "Flanders Art Sans";
+}
+
+#content .predicate .objects.taxonomy .entry.self > .concept-label a {
+    color: #404040;
+    text-decoration: none;
+}

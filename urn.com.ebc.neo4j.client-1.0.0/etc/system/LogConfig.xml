@@ -1,0 +1,17 @@
+<!DOCTYPE log>
+<log>
+	<id>urn:com:ebc:neo4j:client:log</id>
+	<name>Neo4j Client Log</name>
+	<handlers>
+		<handler>
+			<instance>
+				<class>org.netkernel.layer0.logging.LogFileHandler</class>
+				<string>N:/log/neo4j_client.%g.log</string>
+				<int>50000000</int>
+				<int>3</int>
+				<boolean>true</boolean>
+			</instance>
+			<formatterClass>org.netkernel.layer0.logging.ConsoleFormatter</formatterClass>
+		</handler>
+	</handlers>
+</log>

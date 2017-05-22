@@ -1,0 +1,4 @@
+<!DOCTYPE connection>
+<connection>
+	<type>neo4j</type>
+</connection>

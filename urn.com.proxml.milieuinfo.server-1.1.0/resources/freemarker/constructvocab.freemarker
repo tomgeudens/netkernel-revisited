@@ -78,6 +78,9 @@ CONSTRUCT {
 	FROM <http://id.milieuinfo.be/graph/mappingscheme/omgeving#id>
 	FROM <http://id.milieuinfo.be/graph/conceptscheme/substanties#id>
 	FROM <http://id.milieuinfo.be/graph/conceptscheme/vlaremII#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/rie-rubrieken#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/rie-ippc-referentiedocumenten#id>
+	FROM <http://id.milieuinfo.be/graph/conceptscheme/rie#id>
 
 WHERE { 
 	 {

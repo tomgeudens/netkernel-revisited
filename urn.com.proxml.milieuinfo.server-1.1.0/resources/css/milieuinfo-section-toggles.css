@@ -1,0 +1,25 @@
+/* milieuinfo-section-toggles.css */
+
+#content .links-heading .toggle {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: transparent url(../img/section-expanded.png) 4px 10px no-repeat;
+    cursor: pointer;
+    margin: 0 4px 0 -16px;
+}
+
+#content .links-heading.collapsed .toggle {
+    background: transparent url(../img/section-collapsed.png) 7px 7px no-repeat;
+}
+
+#content .links-heading + * {
+    max-height: 100vh;
+    transition: max-height 1s, padding 1s;
+    overflow: hidden;
+}
+
+#content .links-heading.collapsed + * {
+    max-height: 0;
+    padding: 0;
+}

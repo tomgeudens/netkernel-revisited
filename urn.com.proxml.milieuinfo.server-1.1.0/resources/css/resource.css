@@ -1,17 +1,14 @@
-
 /* resource.css */
 
 .properties,
 .links.outbound,
-.links.inbound
-{
+.links.inbound {
     width: 100%;
     overflow: hidden;
     padding: 24px 0;
 }
 
-.links.outbound
-{
+.links.outbound {
     border-top: 2px solid #e6e6e6;
     border-bottom: 2px solid #e6e6e6;
     margin-bottom: 32px;
@@ -66,6 +63,7 @@
     vertical-align: top;
     overflow: hidden;
     text-decoration: none;
+    text-overflow: ellipsis;
 }
 
 #content .predicate .objects {
@@ -99,15 +97,14 @@
 }
 
 #content .predicate .objects > [title] {
-   white-space: nowrap; 
+    white-space: nowrap;
 }
-
 
 #content .predicate .objects a:hover {
     text-decoration: underline;
 }
 
-#content .predicate .objects > [title]:hover:after{
+#content .predicate .objects > [title]:hover:after {
     content: attr(title);
     position: fixed;
     z-index: 1000;
@@ -121,16 +118,6 @@
     border-top: 1px solid #4da692;
 }
 
-.links.inbound .label:before {
-    content: "via '"; 
-    text-transform: lowercase;
-}
-
-.links.inbound .label:after {
-    content: "' from"; 
-    text-transform: lowercase;
-}
-
 #content .map {
     background-color: #f0f0f0;
     border-top: 1px solid #4da692;
@@ -140,4 +127,3 @@
     height: 300px;
     width: 100%;
 }
-

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:neo4j:database</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / neo4j  / database</name>
+			<description>elephant bird consulting / neo4j / database</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="elbeesee neo4j database"
+		public="true"
+		uri="urn:com:ebc:neo4j:database">
+		
+		<mapper>
+			<config>
+				<endpoint>
+					<grammar>neo4j:databaseurl</grammar>
+					<request>
+						<identifier>active:environment</identifier>
+						<argument method="as-string" name="variable">/environment/os-properties/property[name="neo4j_databaseurl"]/value</argument>
+						<representation>java.lang.String</representation>
+					</request>
+				</endpoint>
+				
+				<endpoint>
+					<grammar>neo4j:databaseuser</grammar>
+					<request>
+						<identifier>active:environment</identifier>
+						<argument method="as-string" name="variable">/environment/os-properties/property[name="neo4j_databaseuser"]/value</argument>
+						<representation>java.lang.String</representation>
+					</request>
+				</endpoint>
+
+				<endpoint>
+					<grammar>neo4j:databasepassword</grammar>
+					<request>
+						<identifier>active:environment</identifier>
+						<argument method="as-string" name="variable">/environment/os-properties/property[name="neo4j_databasepassword"]/value</argument>
+						<representation>java.lang.String</representation>
+					</request>
+				</endpoint>
+			</config>
+			
+			<space>
+				<import>
+					<uri>urn:com:ebc:neo4j:database:import:mapper</uri>
+					<private/>
+				</import>
+			</space>
+		</mapper>
+		
+		<import>
+			<uri>urn:com:ebc:neo4j:database:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc neo4j database import"
+		public="false"
+		uri="urn:com:ebc:neo4j:database:import">
+
+		<import>
+			<!-- contains mapper overlay -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc neo4j database import mapper"
+		public="false"
+		uri="urn:com:ebc:neo4j:database:import:mapper">
+		
+		<import>
+			<!-- contains active:environment -->
+			<uri>urn:com:ebc:tool:system</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+	</rootspace>
+</module>

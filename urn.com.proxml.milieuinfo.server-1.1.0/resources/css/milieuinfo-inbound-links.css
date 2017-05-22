@@ -1,0 +1,126 @@
+/* milieuinfo-inbound-links.css */
+
+#content .links.inbound .predicate {
+    position: relative;
+}
+
+#content .links.inbound .predicate .label {
+    text-transform: none;
+    float: right;
+}
+
+#content .links.inbound .predicate .label .epilogue {
+    display: block;
+    opacity: 0.6;
+    font-size: 0.9em;
+    line-height: 1.4em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* controls */
+
+#content .links.inbound .predicate.with-controls .objects {
+    transition: height 1s, opacity 500ms;
+    opacity: 1;
+    width: 67.5%;
+    min-height: 80px;
+}
+
+#content .links.inbound .predicate.with-controls.loading .objects {
+    opacity: 0.5;
+    transition: opacity 50ms;
+}
+
+#content .links.inbound .predicate .controls {
+    width: 100%;
+    height: 45px;
+    background-color: #fff;
+    padding: 8px 8px 0 8px;
+    border-top: 1px solid #4da692;
+    text-align: right;
+    display: none;
+}
+
+#content .links.inbound .predicate.with-controls .controls {
+    display: block;
+}
+
+/* filter */
+
+#content .links.inbound .predicate .controls .filter {
+    display: inline-block;
+    line-height: 24px;
+    vertical-align: top;
+    padding: 0 4px;
+    font-size: 13px;
+    height: 28px;
+    margin-right: 4px;
+    float: left;
+    width: 35%;
+}
+
+@media (max-width: 950px) {
+    #content .links.inbound .predicate .controls .filter {
+        width: 30%;
+    }
+}
+
+/* pagination info */
+
+#content .links.inbound .predicate .controls .info {
+    display: inline-block;
+    line-height: 28px;
+    vertical-align: top;
+    color: #999;
+    padding: 0 8px;
+    user-select: none;
+    -moz-user-select: none;
+}
+
+@media (max-width: 815px) and (min-width: 600px) {
+    #content .links.inbound .predicate .controls .info .link-count {
+        display: none;
+    }
+}
+
+@media (max-width: 400px) {
+    #content .links.inbound .predicate .controls .info .link-count {
+        display: none;
+    }
+}
+
+/* prev/next */
+
+#content .links.inbound .predicate .controls .prev,
+#content .links.inbound .predicate .controls .next {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background: #4da692 url(../img/inbound-prev.png) center no-repeat;
+    cursor: pointer;
+    transition: background-color 500ms;
+}
+
+#content .links.inbound .predicate .controls .next {
+    background-image:url(../img/inbound-next.png);
+    margin-left: 1px;
+}
+
+#content .links.inbound .predicate .controls .prev:hover,
+#content .links.inbound .predicate .controls .next:hover {
+    background-color: #3e7969;
+}
+
+#content .links.inbound .predicate[data-page="0"] .controls .prev,
+#content .links.inbound .predicate.last-page .controls .next {
+    opacity: 0.3;
+    cursor: default;
+}
+
+#content .links.inbound .predicate[data-page="0"] .controls .prev:hover,
+#content .links.inbound .predicate.last-page .controls .next:hover {
+    background-color: #4da692;
+}
+

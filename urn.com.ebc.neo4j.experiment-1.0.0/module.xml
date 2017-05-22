@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:neo4j:experiment</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / neo4j / experiment</name>
+			<description>elephant bird consulting / neo4j / experiment</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc neo4j experiment"
+		public="true"
+		uri="urn:com:ebc:neo4j:experiment">
+		
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+		
+		<accessor>
+			<id>com:ebc:neo4j:experiment:java:simple:accessor</id>
+			<class>com.ebc.neo4j.experiment.SimpleAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:neo4jsimple</identifier>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<import>
+			<uri>urn:com:ebc:neo4j:experiment:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc neo4j experiment import"
+		public="false"
+		uri="urn:com:ebc:neo4j:experiment:import">
+		
+		<import>
+			<uri>urn:org:neo4j:driver</uri>
+			<version-min>1.2.2</version-min>
+		</import>
+		
+		<import>
+			<uri>urn:com:ebc:neo4j:database</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+	</rootspace>
+</module>

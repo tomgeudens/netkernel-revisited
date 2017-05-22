@@ -1,0 +1,10 @@
+CONSTRUCT {
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#feature> ?rdfXml .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#feature> <http://www.w3.org/ns/formats/Turtle> .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#feature> <http://www.w3.org/ns/formats/N-Triples> .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#feature> <http://www.w3.org/ns/formats/JSON-LD> .
+}
+WHERE {
+  SELECT (<http://www.w3.org/ns/formats/RDF_XML> AS ?rdfXml)
+  { ?s ?p ?o } LIMIT 1
+}

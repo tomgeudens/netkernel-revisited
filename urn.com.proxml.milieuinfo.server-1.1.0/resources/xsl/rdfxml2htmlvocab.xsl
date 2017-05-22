@@ -18,11 +18,29 @@
 	exclude-result-prefixes="fun xs rdf rdfs skos dct foaf sdmx-attribute"
 	version="2.0">
 	
-	<xsl:import href="milieu-master.xsl"/>
+	<xsl:import href="milieu-common/milieu-general.xsl"/>
 
 	<xsl:variable name="skin-html-head-title">
 		<xsl:text>Meta Data</xsl:text>
 	</xsl:variable>
 	
-		
+	<!-- application specific JS, includes configuration of sparql endpoints -->
+	<xsl:function name="fun:build-javascript-references-application">
+		<script>
+			(function($) {
+			window['milieuinfo-imjv-config'] = {
+			// SPARQL EndPoint
+			sparqlEndpoint: 'https://id-ontwikkel.milieuinfo.be/imjv/sparql', 
+			// Keyword Search
+			kwsEndpoint: 'https://id-ontwikkel.milieuinfo.be/imjv/keywordsearch'
+			};
+			})(jQuery);
+		</script>
+		<!-- vocabulary specific -->
+		<script src="/js/milieuinfo-taxonomy.js">_</script>
+		<!-- inbound links specific -->
+		<script src="/js/milieuinfo-inbound-links.js">_</script>
+	</xsl:function>
+	
+	
 </xsl:stylesheet>

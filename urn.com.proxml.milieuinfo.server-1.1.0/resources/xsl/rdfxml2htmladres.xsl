@@ -25,8 +25,8 @@
 	exclude-result-prefixes="fun xs rdf rdfs skos dct foaf milieu geo blazegeo sdmx-attribute cube"
 	version="2.0">
 	
-	<xsl:import href="milieu-master.xsl"/>
-
+	<xsl:import href="milieu-common/milieu-general.xsl"/>
+	
 	<xsl:variable name="skin-html-head-title">
 		<xsl:text>Data Adres</xsl:text>
 	</xsl:variable>

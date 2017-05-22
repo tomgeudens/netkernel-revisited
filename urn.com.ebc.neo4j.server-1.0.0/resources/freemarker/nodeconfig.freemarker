@@ -1,0 +1,28 @@
+<#setting url_escaping_charset='UTF-8'>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE config>
+<config>
+	<endpoint>
+		<meta>
+			<rest>
+				<simple>{label:(${labels})}/{id}</simple>
+				<method>GET</method>
+				<Etag>MD5</Etag>
+				<compress/>
+				<produces>text/xml</produces>
+			</rest>
+		</meta>
+		<grammar>
+			<active>
+				<identifier>active:nodebyidrestoverlay</identifier>
+				<argument name="label"/>
+				<argument name="id"/>
+			</active>
+		</grammar>
+		<request>
+			<identifier>active:nodebyid</identifier>
+			<argument name="label" method="as-string">[[arg:label]]</argument>
+			<argument name="id" method="as-string">[[arg:id]]</argument>
+		</request>
+	</endpoint>
+</config>

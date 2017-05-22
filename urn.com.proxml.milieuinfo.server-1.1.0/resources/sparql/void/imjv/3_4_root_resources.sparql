@@ -1,0 +1,4 @@
+#
+# root resources are not relevant atm
+#
+CONSTRUCT { ?s ?p ?o } WHERE { SELECT * { ?s ?p ?o } LIMIT 0 }

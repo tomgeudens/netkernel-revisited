@@ -25,11 +25,28 @@
 	exclude-result-prefixes="fun xs rdf rdfs skos dct foaf milieu geo blazegeo sdmx-attribute cube"
 	version="2.0">
 	
-	<xsl:import href="milieu-master.xsl"/>
-
+	<xsl:import href="milieu-common/milieu-general.xsl"/>
+	
 	<xsl:variable name="skin-html-head-title">
 		<xsl:text>Data GPBV</xsl:text>
 	</xsl:variable>
+	
+	<!-- application specific JS, includes configuration of sparql endpoints -->
+	<xsl:function name="fun:build-javascript-references-application">
+		<script>
+			(function($) {
+			window['milieuinfo-cbb-config'] = {
+			// SPARQL EndPoint
+			sparqlEndpoint: 'http://id-ontwikkel.milieuinfo.be/gpbv/sparql', 
+			// Keyword Search
+			kwsEndpoint: 'http://id-ontwikkel.milieuinfo.be/gpbv/keywordsearch'
+			};
+			})(jQuery);
+		</script>
+		<script src="/js/milieuinfo-inbound-links.js">_</script>
+	</xsl:function>
+	
+	
 	
 		
 </xsl:stylesheet>

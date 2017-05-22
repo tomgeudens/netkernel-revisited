@@ -1,0 +1,9 @@
+CONSTRUCT {
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://www.w3.org/2000/01/rdf-schema#label> ?label .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://purl.org/dc/terms/title> "Dataset IMJV"@nl .
+  <http://id.milieuinfo.be/dataset/imjv#id> <http://purl.org/dc/terms/description> "Dataset Integraal Milieujaarverslag"@nl .
+}
+WHERE {
+  SELECT ("IMJV"@nl AS ?label)
+  { GRAPH ?g { ?s ?p ?o } } LIMIT 1
+}

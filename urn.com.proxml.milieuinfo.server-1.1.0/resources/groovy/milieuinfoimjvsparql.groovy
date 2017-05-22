@@ -200,15 +200,18 @@ else {
 			vResponse = aContext.createResponseFrom(vSPARQLResult);
 		}
 		else {
-			INKFRequest xsltcrequest = aContext.createRequest("active:xsltc");
-			xsltcrequest.addArgumentByValue("operand", vSPARQLResult);
-			xsltcrequest.addArgument("operator", "res:/resources/xsl/milieuinfoimjvsparql.xsl");
-			xsltcrequest.addArgument("replace","milieuinfo:baseurl");
-			xsltcrequest.addArgumentByValue("with", aWith);
-			xsltcrequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
+			INKFRequest xslt2request = aContext.createRequest("active:xslt2");
+			xslt2request.addArgumentByValue("operand", vSPARQLResult);
+			xslt2request.addArgument("operator", "res:/resources/xsl/milieuinfoimjvsparql.xsl");
+			xslt2request.addArgument("replace","milieuinfo:baseurl");
+			xslt2request.addArgumentByValue("with", aWith);
+	
+			INKFRequest serializerequest = aContext.createRequest("active:saxonSerialize");
+			serializerequest.addArgumentByRequest("operand", xslt2request);
+			serializerequest.addArgumentByValue("operator", "<serialize><indent>yes</indent><omit-declaration>yes</omit-declaration><encoding>UTF-8</encoding><method>xhtml</method><mimeType>text/html</mimeType></serialize>");
 			
 			INKFRequest tagsouprequest = aContext.createRequest("active:tagSoup");
-			tagsouprequest.addArgumentByRequest("operand", xsltcrequest);
+			tagsouprequest.addArgumentByRequest("operand", serializerequest);
 			tagsouprequest.setRepresentationClass(IReadableBinaryStreamRepresentation.class);
 			
 			vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(tagsouprequest));

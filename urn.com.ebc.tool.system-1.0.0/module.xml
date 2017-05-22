@@ -36,6 +36,29 @@
 			</grammar>
 		</accessor>
 		
+		<accessor>
+			<id>com:ebc:tool:system:java:modulelistquery:accessor</id>
+			<class>com.ebc.tool.system.ModuleListQueryAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:modulelistquery</identifier>
+					<argument name="xpath" desc="xpath" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<accessor>
+			<id>com:ebc:tool:system:java:flsjar:accessor</id>
+			<class>com.ebc.tool.system.FLSJarAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:flsjar</identifier>
+					<argument name="root" desc="root" max="1" min="1"/>
+					<argument name="filter" desc="filter" max="1" min="0"/>
+				</active>
+			</grammar>
+		</accessor>
+		
 		<import>
 			<uri>urn:com:ebc:tool:system:import</uri>
 			<private/>
@@ -48,7 +71,7 @@
 		uri="urn:com:ebc:tool:system:import">
 		
 		<import>
-			<!-- contains netkernel:/ scheme -->
+			<!-- contains netkernel:/ scheme, active:moduleList -->
 			<uri>urn:org:netkernel:ext:system</uri>
 		</import>
 		

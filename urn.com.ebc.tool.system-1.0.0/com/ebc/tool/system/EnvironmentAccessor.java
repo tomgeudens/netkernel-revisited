@@ -41,7 +41,9 @@ public class EnvironmentAccessor extends StandardAccessorImpl {
 		// register start
 		long vStartTime = System.nanoTime();
 		UUID vId = UUID.randomUUID();
-		aContext.logRaw(INKFLocale.LEVEL_INFO, "EnvironmentAccessor: start of id - " + vId);
+		aContext.logRaw(INKFLocale.LEVEL_INFO, "EnvironmentAccessor: ("
+				+ vId
+				+ ") - start");
 		//
 		
 		// arguments
@@ -88,7 +90,9 @@ public class EnvironmentAccessor extends StandardAccessorImpl {
 		// register finish
 		long vElapsed = System.nanoTime() - vStartTime;
 		double vElapsedSeconds = (double)vElapsed / 1000000000.0;
-		aContext.logRaw(INKFLocale.LEVEL_INFO, "EnvironmentAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
+		aContext.logRaw(INKFLocale.LEVEL_INFO, "EnvironmentAccessor: ("
+				+ vId
+				+ ") - finish - duration : " + vElapsedSeconds + " seconds");
 		//		
 	}
 }

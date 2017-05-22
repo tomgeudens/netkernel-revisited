@@ -1,0 +1,31 @@
+CONSTRUCT {
+  <http://id.milieuinfo.be/dataset/imjv#id>
+    <http://rdfs.org/ns/void#triples> ?totalNumberOfTriples;
+    <http://rdfs.org/ns/void#entities> ?totalNumberOfEntities;
+    <http://rdfs.org/ns/void#classes> ?totalNumberOfClasses;
+    <http://rdfs.org/ns/void#properties> ?totalNumberOfProperties;
+    <http://rdfs.org/ns/void#distinctSubjects> ?totalNumberOfDistinctSubjects;
+    <http://rdfs.org/ns/void#distinctObjects> ?totalNumberOfDistinctObjects;
+
+    .
+}
+WHERE {
+  {
+    SELECT (COUNT(*) AS ?totalNumberOfTriples) { GRAPH ?g { ?s ?p ?o }  }
+  }
+  {
+    SELECT (COUNT(distinct ?s) AS ?totalNumberOfEntities) { GRAPH ?g { ?s a [] } }
+  }
+  {
+    SELECT (COUNT(distinct ?o) AS ?totalNumberOfClasses) { GRAPH ?g { ?s a ?o } }
+  }
+  {
+    SELECT (COUNT(distinct ?p) AS ?totalNumberOfProperties)  { GRAPH ?g { ?s ?p ?o }  }
+  }
+  {
+    SELECT (COUNT(DISTINCT ?s) AS ?totalNumberOfDistinctSubjects) { GRAPH ?g { ?s ?p ?o }  }
+  }
+  {
+    SELECT (COUNT(DISTINCT ?o) AS ?totalNumberOfDistinctObjects) { GRAPH ?g { ?s ?p ?o. FILTER (!isLiteral(?o))  }  }
+  }
+}

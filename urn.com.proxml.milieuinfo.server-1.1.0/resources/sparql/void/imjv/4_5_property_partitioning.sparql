@@ -1,0 +1,107 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+CONSTRUCT {
+  <http://id.milieuinfo.be/dataset/imjv#id>
+    <http://rdfs.org/ns/void#propertyPartition> [
+      <http://rdfs.org/ns/void#property> ?property;
+      <http://rdfs.org/ns/void#triples> ?totalNumberOfTriples;
+      <http://rdfs.org/ns/void#entities> ?totalNumberOfEntities;
+      <http://rdfs.org/ns/void#classes> ?totalNumberOfClasses;
+      <http://rdfs.org/ns/void#properties> ?totalNumberOfProperties;
+      <http://rdfs.org/ns/void#distinctSubjects> ?totalNumberOfDistinctSubjects;
+      <http://rdfs.org/ns/void#distinctObjects> ?totalNumberOfDistinctObjects;
+
+    ]
+    .
+}
+WHERE
+{
+  SELECT DISTINCT
+
+    ?property
+    ?totalNumberOfTriples
+    ?totalNumberOfEntities
+    ?totalNumberOfClasses
+    ?totalNumberOfProperties
+    ?totalNumberOfDistinctSubjects
+    ?totalNumberOfDistinctObjects
+
+
+  {
+
+    # total number of triples
+    {
+      SELECT ?totalNumberOfTriples ?property {
+        SELECT (COUNT(*) AS ?totalNumberOfTriples) ?property {
+          GRAPH ?g {
+            ?s ?property ?o
+          }
+        }
+        GROUP BY ?property
+      }
+    }
+
+    # total number of entities
+    {
+      SELECT ?totalNumberOfEntities ?property {
+        SELECT (COUNT(distinct ?s) AS ?totalNumberOfEntities) ?property {
+          GRAPH ?g {
+            ?s a []; ?property ?o
+          }
+        }
+        GROUP BY ?property
+      }
+    }
+
+    # total number of classes
+    {
+      SELECT ?totalNumberOfClasses ?property {
+        SELECT (COUNT(distinct ?type) AS ?totalNumberOfClasses) ?property {
+          GRAPH ?g {
+            ?s a ?type; ?property ?o
+          }
+        }
+        GROUP BY ?property
+      }
+    }
+
+    # total number of properties
+    {
+      SELECT ?totalNumberOfProperties ?property {
+        SELECT (COUNT(distinct ?property) AS ?totalNumberOfProperties) ?property {
+          GRAPH ?g {
+            ?s ?property ?o
+          }
+        }
+        GROUP BY ?property
+      }
+    }
+
+
+    # total number of distinct subjects
+    {
+      SELECT ?totalNumberOfDistinctSubjects ?property {
+        SELECT (COUNT(DISTINCT ?s) AS ?totalNumberOfDistinctSubjects) ?property {
+          GRAPH ?g {
+            ?s ?property ?o
+          }
+        }
+        GROUP BY ?property
+      }
+    }
+
+    # total number of distinct objects
+    {
+      SELECT ?totalNumberOfDistinctObjects ?property {
+        SELECT (COUNT(DISTINCT ?o) AS ?totalNumberOfDistinctObjects) ?property {
+          GRAPH ?g { # <http://id.milieuinfo.be/graph/conceptscheme/BO#id>
+            ?s ?property ?o. FILTER (!isLiteral(?o))
+          }
+        }
+        GROUP BY ?property
+      }
+    }
+
+  }
+}
+

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE config>
+<config>
+	<!-- /vlarem/(vlaremrubriek)/xxxxxxx.(rdf|ttl|nt|jsonld|html) -->
+	<endpoint>
+		<meta>
+			<rest>
+				<simple>{owner:(vlaremrubriek)}/{id}.{extension:(rdf|ttl|nt|jsonld|html)}</simple>
+				<method>GET</method>
+				<Etag>MD5</Etag>
+				<compress/>
+			</rest>
+		</meta>
+		<grammar>
+			<active>
+				<identifier>active:milieuinfovlarembyidwithextensionrestoverlay</identifier>
+				<argument name="owner"/>
+				<argument name="id"/>
+				<argument name="extension"/>
+			</active>
+		</grammar>
+		<request>
+			<identifier>active:milieuinfovlarembyidwithextension</identifier>
+			<argument name="owner" method="as-string">vlarem/[[arg:owner]]</argument>
+			<argument name="id" method="as-string">[[arg:id]]</argument>
+			<argument name="extension" method="as-string">[[arg:extension]]</argument>
+		</request>
+	</endpoint>
+
+	<!-- /vlarem/(vlaremrubriek)/xxxxxxx -->
+	<endpoint>
+		<meta>
+			<rest>
+				<simple>{owner:(vlaremrubriek)}/{id}</simple>
+				<method>GET</method>
+				<Etag>MD5</Etag>
+				<compress/>
+				<produces>text/xml</produces>
+				<produces withTransform="active:rdfxml2rdfxml">application/rdf+xml</produces>
+				<produces withTransform="active:rdfxml2turtle">text/turtle</produces>
+				<produces withTransform="active:rdfxml2ntriple">text/plain</produces>
+				<produces withTransform="active:rdfxml2jsonld">application/ld+json</produces>
+				<produces withTransform="active:rdfxml2htmlsaxon+operator@res:/resources/xsl/rdfxml2htmlvlarem.xsl">text/html</produces>
+			</rest>
+		</meta>
+		<grammar>
+			<active>
+				<identifier>active:milieuinfovlarembyidrestoverlay</identifier>
+				<argument name="owner"/>
+				<argument name="id"/>
+			</active>
+		</grammar>
+		<request>
+			<identifier>active:milieuinfovlarembyid</identifier>
+			<argument name="owner" method="as-string">vlarem/[[arg:owner]]</argument>
+			<argument name="id" method="as-string">[[arg:id]]</argument>
+		</request>
+	</endpoint>
+</config>

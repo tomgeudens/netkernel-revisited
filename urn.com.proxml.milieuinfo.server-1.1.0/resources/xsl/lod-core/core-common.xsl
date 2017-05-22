@@ -13,48 +13,48 @@
 
 	xmlns:cube="http://purl.org/linked-data/cube#"
 
-	xmlns:milieu="http://id.milieuinfo.be/def#"
-	
 	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
 	xmlns:qudt="http://qudt.org/schema/qudt#"
 	xmlns:blazegeo="http://www.proxml.be/blazegeo/wgs84_pos#"
 	xmlns:sdmx-attribute="http://purl.org/linked-data/sdmx/2009/attribute#"
 	
-	exclude-result-prefixes="fun xs rdf rdfs skos dct foaf milieu geo blazegeo sdmx-attribute cube"
+	exclude-result-prefixes="fun xs rdf rdfs skos dct foaf geo blazegeo sdmx-attribute cube"
 	version="2.0">
-	
+
+	<xsl:import href="core-html-skin.xsl"/>
 	
 	<xsl:param name="replace" as="xs:string" select="'#rep'"/><!-- void default waarde om geen inf. loops te hebben-->
 	<xsl:param name="with" as="xs:string" select="'#with'"/><!-- void default waarde om geen inf. loops te hebben-->
+
+	<xsl:param name="maximum-incoming-per-property">15</xsl:param>
 	
-	<!--
-	- door de manier waarop we de data klaarzetten heeft ieder startpunt een rdf:type
-	- JENA zorgt er voor dat enkel de niet blanke nodes een @rdf:about hebben
-	(blank nodes krijgen een @rdf:nodeID)
-	- verder andere discriminatoren voor de edge cases
-	-->
-	<xsl:function name="fun:is-starting-point" as="xs:boolean">
-		<xsl:param name="resource" as="element(rdf:Description)"/>
-		<xsl:variable name="this-about" select="$resource/@rdf:about"/>
-		<xsl:choose>
-			<xsl:when test="not(exists($resource/@rdf:about) and exists($resource/rdf:type))">
-				<xsl:value-of select="false()"/>
-			</xsl:when>
-			<xsl:when test="count($resource/ancestor::rdf:RDF/rdf:Description[@rdf:about][rdf:type]) = 1">
-				<xsl:value-of select="true()"/>
-			</xsl:when>
-			<xsl:when test="$resource/rdfs:isDefinedBy and count($resource/ancestor::rdf:RDF/rdf:Description[@rdf:about][rdf:type][rdfs:isDefinedBy]) = 1">
-				<xsl:value-of select="true()"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="false()"/>
-			</xsl:otherwise>
-		</xsl:choose>
+	<xsl:variable name="global-context" select="."/>
+	
+	<!-- keys for efficient node retrieval (merk op dat sommige resources gesplitst worden over meerdere rdf:Description -->
+	<xsl:key name="resource-by-about" match="rdf:Description" use="normalize-space(@rdf:about)"/>
+	<xsl:key name="resource-by-node-id" match="rdf:Description" use="normalize-space(@rdf:nodeID)"/>
+	
+	
+	<!-- alternate file references -->
+	
+	<xsl:function name="fun:get-alternate-file-ref">
+		<xsl:param name="doc-uri"></xsl:param>
+		<xsl:variable name="doc-about" select="replace($doc-uri, '^([^#]+)#?.*$', '$1')"/>
+		<xsl:value-of select="if(matches($doc-about, '^http')) then(fun:domain-modify-uri($doc-about)) else(concat('/', $doc-about))" />
 	</xsl:function>
 	
+	<xsl:function name="fun:alternate-files" as="element(link)+">
+		<xsl:param name="doc-uri"/>
+		<xsl:variable name="doc-id" select="fun:get-alternate-file-ref($doc-uri)"/>
+		<link rel="alternate" type="application/rdf+xml" href="{$doc-id}.rdf"/>
+		<link rel="alternate" type="text/turtle" href="{$doc-id}.ttl"/>
+		<link rel="alternate" type="text/plain" href="{$doc-id}.nt"/>
+		<link rel="alternate" type="application/ld+json" href="{$doc-id}.jsonld"/>
+	</xsl:function>
 	
 	<xsl:function name="fun:export-options" as="element(div)">
-		<xsl:param name="doc-id"/>
+		<xsl:param name="doc-uri"/>
+		<xsl:variable name="doc-id" select="fun:get-alternate-file-ref($doc-uri)"/>
 		<div class="export-options">
 			<a href="">HTML</a>
 			<a href="{$doc-id}.jsonld">JSON-LD</a>
@@ -91,7 +91,7 @@
 		<xsl:param name="nodes" as="element()*"/>
 		<xsl:variable name="namespace" select="concat(namespace-uri($nodes[1]),local-name($nodes[1]))"/>
 		<xsl:variable name="property-resource" select="key('resource-by-about', $namespace, $global-context)"/>
-		<a class="label">
+		<a about="{$property-resource/@rdf:about}" class="label" >
 			<xsl:copy-of select="fun:set-domain-modified-href($namespace)"/>
 			<xsl:value-of select="fun:set-property-label($property-resource, local-name($nodes[1]))"/>
 		</a>
@@ -120,20 +120,7 @@
 	
 	<xsl:function name="fun:process-label-fallback">
 		<xsl:param name="fback" as="xs:string"/>
-		<xsl:choose>
-			<xsl:when test="contains($fback, 'id.milieuinfo.be/def#')">
-				<xsl:value-of select="substring-after($fback, 'id.milieuinfo.be/def#')"/>
-			</xsl:when>
-			<xsl:when test="contains($fback, 'id.milieuinfo.be/imjv/')">
-				<xsl:value-of select="fun:strip-domain($fback, 'id.milieuinfo.be/imjv/')"/>
-			</xsl:when>
-			<xsl:when test="contains($fback, 'id.milieuinfo.be/')">
-				<xsl:value-of select="fun:strip-domain($fback, 'id.milieuinfo.be/')"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="$fback"/>
-			</xsl:otherwise>
-		</xsl:choose>
+		<xsl:value-of select="$fback"/>
 	</xsl:function>
 	
 	<xsl:function name="fun:strip-domain">
@@ -186,9 +173,9 @@
 		<xsl:param name="nodes" as="element()*"/>
 		<div class="objects">
 			<xsl:variable name="unsorted-p-block" as="element(p)*">
-				<xsl:for-each select="$nodes[position() &lt;= $maximum-inccoming-per-property]">
+				<xsl:for-each select="$nodes[position() &lt;= $maximum-incoming-per-property]">
 					<xsl:variable name="that-about" select="../@rdf:about"/>
-					<p>
+					<p about="{$that-about}">
 						<a>
 							<xsl:copy-of select="fun:set-domain-modified-href($that-about)"></xsl:copy-of>
 							<xsl:value-of select="fun:set-property-label(key('resource-by-about', $that-about), $that-about)"/>
@@ -229,24 +216,8 @@
 		<xsl:param name="node" as="element()"/>
 		<xsl:choose>
 			<!-- don't show -->
-			<xsl:when test="$node/self::blazegeo:lat_long">
-				<xsl:text>NULL</xsl:text>
-			</xsl:when>
 			<xsl:when test="$node/self::skos:hiddenLabel">
 				<xsl:text>NULL</xsl:text>
-			</xsl:when>
-			<!--  -->
-			<xsl:when test="$node/self::geo:lat">
-				<xsl:text>LOC</xsl:text>
-			</xsl:when>
-			<xsl:when test="$node/self::geo:long">
-				<xsl:text>LOC</xsl:text>
-			</xsl:when>
-			<xsl:when test="$node/self::milieu:lambert72_y">
-				<xsl:text>LOC</xsl:text>
-			</xsl:when>
-			<xsl:when test="$node/self::milieu:lambert72_x">
-				<xsl:text>LOC</xsl:text>
 			</xsl:when>
 			<!--  -->
 			<xsl:when test="$node/self::rdfs:label">
@@ -279,17 +250,6 @@
 				<xsl:text>DATASET</xsl:text>
 			</xsl:when>
 			<!--  -->
-			<xsl:when test="$node/self::*[fun:is-cube-property(., 'MeasureProperty')]">
-				<xsl:text>MEASUREMENT</xsl:text>
-			</xsl:when>
-			<xsl:when test="$node/self::sdmx-attribute:unitMeasure">
-				<xsl:text>MEASUREMENT</xsl:text>
-			</xsl:when>
-			<!--  -->
-			<xsl:when test="$node/self::*[fun:is-cube-property(., 'DimensionProperty')]">
-				<xsl:text>DIMENSION</xsl:text>
-			</xsl:when>
-			<!--  -->
 			<xsl:when test="not($node/@rdf:resource)">
 				<xsl:text>VALUE</xsl:text>
 			</xsl:when>
@@ -303,15 +263,6 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:function>
-	
-	<xsl:function name="fun:is-cube-property" as="xs:boolean">
-		<xsl:param name="node" as="element()"/>
-		<xsl:param name="prop" as="xs:string"/>
-		<xsl:variable name="namespace" select="concat(namespace-uri($node),local-name($node))"/>
-		<xsl:variable name="property-resource" select="key('resource-by-about', $namespace, $global-context)"/>
-		<xsl:value-of select="exists($property-resource/rdf:type[@rdf:resource = concat('http://purl.org/linked-data/cube#', normalize-space($prop))])"/>
-	</xsl:function>
-	
 	
 
 </xsl:stylesheet>

@@ -1,7 +1,23 @@
 <#setting url_escaping_charset='UTF-8'>
+
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dct: <http://purl.org/dc/terms/>
+
 CONSTRUCT {
   <http://id.milieuinfo.be/${owner}/${id?url}#id> ?predicate ?object .
+  ?object rdfs:label ?display; ?prop ?val.
 }
+WHERE{ SELECT *
+WHERE { 
+<http://id.milieuinfo.be/${owner}/${id?url}#id> ?predicate ?object .
+OPTIONAL {?objcet ?prop ?val. FILTER(isBlank(?object))}
+{SELECT  ?object (sample(?label) as ?display)
 WHERE {
   <http://id.milieuinfo.be/${owner}/${id?url}#id> ?predicate ?object .
+  OPTIONAL {?object rdfs:label|skos:prefLabel|dct:title ?label.
+  }
 }
+GROUP BY ?object }}}

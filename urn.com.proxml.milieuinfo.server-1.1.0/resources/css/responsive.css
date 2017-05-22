@@ -1,18 +1,14 @@
-
 /* responsive.css */
 
-@media (max-width:1000px) 
-{
+@media (max-width: 1000px) {
     #header,
     #content,
-    #footer > div
-    {
-		width: 96%;
-	}
-}	
+    #footer > div {
+        width: 96%;
+    }
+}
 
-@media (max-width:650px)
-{
+@media (max-width: 650px) {
     #footer {
         text-align: center;
     }
@@ -20,23 +16,18 @@
     #footer .site-info {
         text-align: left;
     }
-
 }
 
-@media (max-width:600px) 
-{
+@media (max-width: 600px) {
     #content .predicate,
     #content .predicate:nth-child(odd),
-    #content .predicate:nth-child(even)
-    {
+    #content .predicate:nth-child(even) {
         width: 100%;
         float: none;
         margin: 10px 0 10px 0 !important;
-	}
-    
+    }
+
     #content .predicate .objects {
         max-height: none;
     }
-    
-
-}	
+}
