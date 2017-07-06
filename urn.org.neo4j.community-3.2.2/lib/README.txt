@@ -1,0 +1,1 @@
+Put contents of the lib-directory of the Neo4j zip distribution in this directory.
