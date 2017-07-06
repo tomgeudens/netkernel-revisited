@@ -1,10 +1,15 @@
 /* milieuinfo-map.css */
 
-#map {
+.geo-map {
     height: 410px;
     background-color: #fff;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     position: relative;
+}
+
+.geo-map > em {
+    display: block;
+    padding: 20px;
 }
 
 .ol-scale-line {

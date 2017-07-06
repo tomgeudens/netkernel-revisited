@@ -13,7 +13,7 @@
          * Starts the lib, called when the DOM is ready
          */
         init: function () {
-            lib.base =  $('base').attr('href') || '/';
+            lib.base = $('base').attr('href') || '/';
             lib.rawCoordinates = lib.getRawCoordinates();
             if (!lib.hasCoordinates()) {
                 return;
@@ -100,7 +100,6 @@
          * Injects a map widget
          */
         renderMap: function () {
-            lib.initMapContainer();
             lib.initProjection();
             lib.initResolutions();
             lib.initMatrixIds();
@@ -109,10 +108,6 @@
             lib.triggerResize();
             lib.initMarkerLayer();
             lib.addMarker();
-        },
-
-        initMapContainer: function () {
-            this.$map = $('<div id="map"></div>').insertBefore($('#content > .properties').first());
         },
 
         initProjection: function () {
@@ -145,9 +140,17 @@
         },
 
         initMap: function () {
+            var $map = document.querySelector('.geo-map');
+            if (!$map) {
+                return;
+            }
+            var hint = $map.querySelector('em');
+            if (hint) {
+                $map.removeChild(hint);
+            }
             //noinspection JSCheckFunctionSignatures
             this.olMap = new ol.Map({
-                target: this.$map[0],
+                target: $map,
                 loadTilesWhileAnimating: false,
                 interactions: ol.interaction.defaults({mouseWheelZoom: false}),
                 controls: [

@@ -10,7 +10,10 @@
          * Starts the lib, called when the DOM is ready
          */
         init: function () {
-            lib.base = $('base').attr('href') || '/';
+            lib.base = $('base').attr('href') || '/';// mainly just needed for proxy during development
+            lib.resourceUri = document.querySelector('body').getAttribute('about');
+            lib.uriBase = lib.resourceUri.replace(/^(.+:\/\/[^\/]+)\/.*$/, '$1');// e.g. http://id.milieuinfo.be
+            lib.serverBase = location.href.replace(/^(.+:\/\/[^\/]+)\/.*$/, '$1');// e.g. http://id-ontwikkel.milieuinfo.be
             // check if this is a concept page
             lib.isConcept = lib.hasType('http://www.w3.org/2004/02/skos/core#Concept');
             lib.isScheme = lib.hasType('http://www.w3.org/2004/02/skos/core#ConceptScheme');
@@ -52,7 +55,7 @@
         initTaxonomy: function () {
             $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', lib.base + 'css/milieuinfo-taxonomy.css'));
             lib.resource = {
-                uri: lib.buildUri(location.pathname + '#id'),
+                uri: lib.resourceUri,
                 label: document.querySelector('h1').innerText
             };
             lib.broaderConcept = lib.extractBroaderConcept();
@@ -61,23 +64,19 @@
         },
 
         /**
-         * Builds a full concept URI from a given path, href, or URI
+         * Builds a correct resource URI from a given href
          *
-         * @param {String} path
+         * @param {String} href e.g. "http://id-ontwikkel.milieuinfo.be:80/foo/bar", "/foo/bar"
          *
-         * @return {String}
+         * @return {String}  e.g. https://milieuinfo.be/foo/bar
          */
-        buildUri: function (path) {
-            if (path.indexOf(lib.base) === 0) {
-                path = path.substr(lib.base.length);
+        buildUriFromHref: function (href) {
+            if (href.match(/^\//)) {
+                return lib.uriBase + href.replace(new RegExp('^' + lib.base), '/');
+            } else {
+                // replace server base with URI base, and remove any development server ports
+                return href.replace(lib.serverBase, lib.uriBase).replace(/:[0-9]+\//, '/');
             }
-            if (path.indexOf('http://id.milieuinfo.be/') === 0) {
-                path = path.substr('http://id.milieuinfo.be/'.length);
-            }
-            path = path.replace(/^(https?:\/\/[^\/]+)?\//, '');
-            //noinspection UnnecessaryLocalVariableJS
-            var uri = 'http://id.milieuinfo.be/' + path;
-            return uri;
         },
 
         /**
@@ -110,7 +109,7 @@
             var result = [];
             $('.links.outbound .predicate a[href$="' + predicate + '"] + .objects a').each(function () {
                 result.push({
-                    uri: lib.buildUri(this.getAttribute('href')),
+                    uri: lib.buildUriFromHref(this.getAttribute('href')),
                     label: this.innerText
                 });
             });
@@ -192,7 +191,7 @@
             // link
             var link = document.createElement('a');
             link.innerHTML = entry.label;
-            link.setAttribute('href', entry.uri.replace(/^https?:\/\/[^\/]+\//, lib.base));
+            link.setAttribute('href', entry.uri.replace(lib.uriBase + '/', lib.base));
             // label
             var label = document.createElement('span');
             label.classList.add('concept-label');

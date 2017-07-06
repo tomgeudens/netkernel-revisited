@@ -158,5 +158,11 @@
 			<!-- contains active:xsltc -->
 			<uri>urn:org:netkernel:xml:core</uri>
 		</import>
+		
+		<import>
+			<!-- contains basic transrepts -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+
 	</rootspace>
 </module>

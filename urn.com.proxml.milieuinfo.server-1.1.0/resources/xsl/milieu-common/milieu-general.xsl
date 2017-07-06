@@ -34,6 +34,7 @@
 	
 	<xsl:function name="fun:content-block-geo-map">
 		<xsl:param name="this-about"/>
+		<div class="geo-map"><em>loading map…</em></div>
 	</xsl:function>
 	
 

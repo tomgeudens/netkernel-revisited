@@ -13,7 +13,6 @@
             lib.base = $('base').attr('href') || '/';
             lib.injectToggles();
             lib.initEvents();
-            lib.collapseDocumentLinks();
         },
 
         injectToggles: function () {
@@ -38,10 +37,6 @@
                 var heading = this.parentNode;
                 heading.classList.toggle('collapsed');
             });
-        },
-
-        collapseDocumentLinks: function () {
-            $('.links-heading').last().addClass('collapsed');
         }
     };
 

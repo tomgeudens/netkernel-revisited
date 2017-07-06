@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:org:neo4j:enterprise</uri>
+			<version>3.2.1</version>
+		</identity>
+		<info>
+			<name>neo4j / enterprise</name>
+			<description>neo4j / enterprise</description>
+		</info>
+	</meta>
+	
+	<system>
+		<dynamic/>
+		<classloader>
+			<exports>
+				<match>.*</match>
+			</exports>
+		</classloader>
+	</system>
+	
+	<rootspace
+		name="neo4j enterprise"
+		public="true"
+		uri="urn:org:neo4j:enterprise">
+	</rootspace>
+</module>

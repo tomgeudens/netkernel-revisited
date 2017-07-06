@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:neo4j:embedded</uri>
+			<version>3.2.2</version>
+		</identity>
+		<info>
+			<name>ebc / neo4j / embedded</name>
+			<description>elephant bird consulting / neo4j / embedded</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+			
+	<rootspace
+		name="ebc neo4j embedded"
+		public="true"
+		uri="urn:com:ebc:neo4j:embedded">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+		
+		<mapper>
+			<config>
+				<endpoint>
+					<grammar>neo4j:embeddedlocation</grammar>
+					<request>
+						<identifier>active:environment</identifier>
+						<argument method="as-string" name="variable">/environment/os-properties/property[name="neo4j_embeddedlocation"]/value</argument>
+						<representation>java.lang.String</representation>
+					</request>
+				</endpoint>
+			</config>
+			
+			<space>
+				<import>
+					<uri>urn:com:ebc:neo4j:embedded:import</uri>
+					<private/>
+				</import>
+			</space>
+		</mapper>
+
+		<accessor>
+			<id>com:ebc:neo4j:embedded:java:instance:accessor</id>
+			<class>com.ebc.neo4j.embedded.endpoint.Neo4jInstanceAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:neo4jinstance</identifier>
+					<argument name="databasename" desc="database name" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
+		<import>
+			<uri>urn:com:ebc:neo4j:embedded:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc neo4j embedded import"
+		public="false"
+		uri="urn:com:ebc:neo4j:embedded:import">
+		<import>
+			<!-- contains mapper overlay -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+		
+		<import>
+			<!-- contains active:environment -->
+			<uri>urn:com:ebc:tool:system</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+		
+		<import>
+			<!-- contains neo4j community jars -->
+			<uri>urn:org:neo4j:community</uri>
+			<version-min>3.2.2</version-min>
+		</import>
+	</rootspace>
+</module>

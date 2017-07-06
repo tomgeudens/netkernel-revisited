@@ -313,6 +313,15 @@
 						<representation>java.lang.String</representation>
 					</request>
 				</endpoint>
+				
+				<endpoint>
+					<grammar>milieuinfo:loggedinheader</grammar>
+					<request>
+						<identifier>active:environment</identifier>
+						<argument method="as-string" name="variable">/environment/os-properties/property[name="lod_loggedinheader"]/value</argument>
+						<representation>java.lang.String</representation>
+					</request>
+				</endpoint>
 			</config>
 			
 			<space>

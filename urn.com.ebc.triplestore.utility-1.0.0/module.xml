@@ -39,6 +39,17 @@
 			</grammar>
 		</accessor>
 		
+		<accessor>
+			<id>com:ebc:triplestore:utility:java:rdfxmltoboolean:accessor</id>
+			<class>com.ebc.triplestore.utility.RDFXMLToBooleanAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:rdfxml2boolean</identifier>
+					<argument name="operand" desc="incoming rdfxml from ask query" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
 		<import>
 			<uri>urn:com:ebc:triplestore:utility:import</uri>
 			<private/>
@@ -50,12 +61,22 @@
 		public="false"
 		uri="urn:com:ebc:triplestore:utility:import">
 		
+		<fileset>
+			<!-- contains xsl resources -->
+			<regex>res:/resources/xsl/.*</regex>
+		</fileset>
+		
 		<import>
 			<!-- contains                                                 -->
 			<!-- active:jRDFParseXML, active:jRDFModelIsEmpty,            -->
 			<!-- active:jRDFSerializeXML, active:jRDFSerializeTURTLE,     -->
 			<!-- active:jRDFSerializeN-TRIPLE, active:jRDFSerializeJSONLD -->
 			<uri>urn:org:netkernel:rdf:jena</uri>
+		</import>
+		
+		<import>
+			<!-- contains active:xsltc -->
+			<uri>urn:org:netkernel:xml:core</uri>
 		</import>
 	</rootspace>
 </module>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:org:neo4j:community</uri>
+			<version>3.2.2</version>
+		</identity>
+		<info>
+			<name>neo4j / community</name>
+			<description>neo4j / community</description>
+		</info>
+	</meta>
+	
+	<system>
+		<dynamic/>
+		<classloader>
+			<exports>
+				<match>.*</match>
+			</exports>
+		</classloader>
+	</system>
+	
+	<rootspace
+		name="neo4j community"
+		public="true"
+		uri="urn:org:neo4j:community">
+	</rootspace>
+</module>

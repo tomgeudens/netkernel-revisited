@@ -38,9 +38,11 @@ public class RDFXMLTransformAccessor extends StandardAccessorImpl {
 		// register start
 		long vStartTime = System.nanoTime();
 		UUID vId = UUID.randomUUID();
-		aContext.logRaw(INKFLocale.LEVEL_INFO, "RDFXMLTransformAccessor: start of id - " + vId);
+		aContext.logRaw(INKFLocale.LEVEL_INFO, "RDFXMLTransformAccessor: ("
+				+ vId
+				+ ") - start");
 		//
-		
+
 		// processing
 		
 		//parse no longer necessary
@@ -98,7 +100,9 @@ public class RDFXMLTransformAccessor extends StandardAccessorImpl {
 		// register finish
 		long vElapsed = System.nanoTime() - vStartTime;
 		double vElapsedSeconds = (double)vElapsed / 1000000000.0;
-		aContext.logRaw(INKFLocale.LEVEL_INFO, "RDFXMLTransformAccessor: finish of id - " + vId + ", duration was " + vElapsedSeconds + " seconds");
-		//
+		aContext.logRaw(INKFLocale.LEVEL_INFO, "RDFXMLTransformAccessor: ("
+				+ vId
+				+ ") - finish - duration : " + vElapsedSeconds + " seconds");
+		//		
 	}
 }

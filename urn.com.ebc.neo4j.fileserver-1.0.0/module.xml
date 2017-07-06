@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:neo4j:fileserver</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / neo4j / fileserver</name>
+			<description>elephant bird consulting / neo4j / fileserver</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+			
+	<rootspace
+		name="ebc neo4j fileserver"
+		public="true"
+		uri="urn:com:ebc:neo4j:fileserver">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig.xml|SimpleDynamicImportHook).xml</regex>
+		</fileset>
+
+		<!-- this endpoint makes sure no other /etc/system resource
+		     gets pulled in -->
+		<endpoint>
+			<prototype>Limiter</prototype>
+			<grammar>res:/etc/system<regex type="anything"/></grammar>
+		</endpoint>
+
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/neo4j/</basepath>
+				<auto404/>
+			</config>
+			<space>
+				<mapper>
+					<config>
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>fileserver/{htmlfile}.html</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:neo4jfileserverhtml</identifier>
+									<argument name="htmlfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:showhtml</identifier>
+								<argument name="operand">file:///[[arg:htmlfile]].html</argument>
+							</request>
+						</endpoint>
+
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>fileserver/{pngfile}.png</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>image/png</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:neo4jfileserverpng</identifier>
+									<argument name="pngfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>active:showpng</identifier>
+								<argument name="operand">file:///[[arg:pngfile]].png</argument>
+							</request>
+						</endpoint>
+					</config>
+					<space>
+						<import>
+							<!-- provides file:/ scheme -->
+							<uri>urn:com:ebc:neo4j:fileserver:import</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+				
+				<import>
+					<!-- provides mapper -->
+					<uri>urn:com:ebc:neo4j:fileserver:import</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+
+		<import>
+			<!-- provides RESTOverlay -->
+			<uri>urn:com:ebc:neo4j:fileserver:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc neo4j fileserver import"
+		public="false"
+		uri="urn:com:ebc:neo4j:fileserver:import">
+		<accessor>
+			<id>com:ebc:neo4j:fileserver:showhtml:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/showhtml.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:showhtml</identifier>
+					<argument name="operand" desc="html" max="1" min="1"/>
+				</active>
+			</grammar>			
+		</accessor>
+
+		<accessor>
+			<id>com:ebc:neo4j:fileserver:showpng:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/showpng.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:showpng</identifier>
+					<argument name="operand" desc="png" max="1" min="1"/>
+				</active>
+			</grammar>			
+		</accessor>
+
+		<fileset>
+			<!-- contains groovy scripts -->
+			<regex>res:/resources/groovy/.*</regex>
+		</fileset>
+
+		<import>
+			<!-- contains GroovyPrototype -->
+			<uri>urn:org:netkernel:lang:groovy</uri>
+		</import>
+
+		<import>
+			<!-- contains RESTOverlay prototype -->
+			<uri>urn:org:netkernel:tpt:http</uri>
+		</import>
+				
+		<import>
+			<!-- contains Limiter prototype, mapper pattern, file:/ scheme -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+	</rootspace>
+</module>

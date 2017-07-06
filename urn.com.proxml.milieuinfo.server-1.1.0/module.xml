@@ -75,6 +75,206 @@
 		<overlay>
 			<prototype>RESTOverlay</prototype>
 			<config>
+				<basepath>/prtr/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>res:/resources/mapper/prtr.xml</config>
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:proxml:milieuinfo:database</uri>
+							<private/>
+						</import>			
+
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:proxml:milieuinfo:database</uri>
+					<private/>
+				</import>			
+
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/seveso/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>res:/resources/mapper/seveso.xml</config>
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:proxml:milieuinfo:database</uri>
+							<private/>
+						</import>			
+
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:proxml:milieuinfo:database</uri>
+					<private/>
+				</import>			
+
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+		
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/vergunning/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>res:/resources/mapper/vergunning.xml</config>
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:proxml:milieuinfo:database</uri>
+							<private/>
+						</import>			
+
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:proxml:milieuinfo:database</uri>
+					<private/>
+				</import>			
+
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+		
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/mer/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>res:/resources/mapper/mer.xml</config>
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:proxml:milieuinfo:database</uri>
+							<private/>
+						</import>			
+
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:proxml:milieuinfo:database</uri>
+					<private/>
+				</import>			
+
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/ets/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>res:/resources/mapper/ets.xml</config>
+					<space>
+						<import>
+							<!-- database constants -->
+							<uri>urn:com:proxml:milieuinfo:database</uri>
+							<private/>
+						</import>			
+
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+
+				<import>
+					<!-- database constants -->
+					<uri>urn:com:proxml:milieuinfo:database</uri>
+					<private/>
+				</import>			
+
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:proxml:milieuinfo:server:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+		
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
 				<basepath>/vocab/</basepath>
 				<auto404/>
 			</config>
@@ -817,7 +1017,7 @@
 							</request>							
 						</endpoint>
 
-					    <!-- /def -->
+					    <!-- /cbb/def -->
 						<endpoint>
 							<meta>
 								<rest>
@@ -1527,6 +1727,7 @@
 			<!-- contains                                    -->
 			<!-- active:rdfxml2rdfxml, active:rdfxml2turtle  -->
 			<!-- active:rdfxml2ntriple, active:rdfxml2jsonld -->
+			<!-- active:rdmxml2boolean                       -->
 			<uri>urn:com:ebc:triplestore:utility</uri>
 			<version-min>1.0.0</version-min>
 		</import>
@@ -1664,6 +1865,19 @@
 			<grammar>
 				<active>
 					<identifier>active:milieuinfovlarembyid</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:proxml:milieuinfo:server:genericbyid:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfogenericbyid.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfogenericbyid</identifier>
 					<argument name="owner" desc="owner" max="1" min="1"/>
 					<argument name="id" desc="id" max="1" min="1"/>
 				</active>
@@ -1822,6 +2036,20 @@
 			<grammar>
 				<active>
 					<identifier>active:milieuinfovlarembyidwithextension</identifier>
+					<argument name="owner" desc="owner" max="1" min="1"/>
+					<argument name="id" desc="id" max="1" min="1"/>
+					<argument name="extension" desc="extension" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:proxml:milieuinfo:server:genericbyidwithextension:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/milieuinfogenericbyidwithextension.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:milieuinfogenericbyidwithextension</identifier>
 					<argument name="owner" desc="owner" max="1" min="1"/>
 					<argument name="id" desc="id" max="1" min="1"/>
 					<argument name="extension" desc="extension" max="1" min="1"/>

@@ -2,7 +2,7 @@ CONSTRUCT {
   <http://id.milieuinfo.be/dataset/imjv#id> <http://purl.org/dc/terms/license> ?license .
 }
 WHERE {
-  SELECT (<https://dov.vlaanderen.be/dovweb/html/pdf/Gratis%20Open%20Data%20Licentie.pdf> AS ?license)
+  SELECT (<https://overheid.vlaanderen.be/gratis-open-data-licentie> AS ?license)
   { GRAPH ?g { ?s ?p ?o } } LIMIT 1
 }
 

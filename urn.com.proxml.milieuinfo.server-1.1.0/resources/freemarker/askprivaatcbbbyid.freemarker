@@ -1,0 +1,4 @@
+<#setting url_escaping_charset='UTF-8'>
+ASK {
+  <http://id.milieuinfo.be/${owner}/${id?url}#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Exploitant> .
+}

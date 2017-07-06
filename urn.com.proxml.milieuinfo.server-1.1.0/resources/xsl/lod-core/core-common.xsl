@@ -196,9 +196,7 @@
 		<xsl:param name="class"/>
 		<xsl:param name="title"/>
 		<xsl:if test="key('resource-by-about', $about, $global-context)/*[fun:presentation-category(.) = $presentation-category]">
-			<xsl:if test="normalize-space($title)">
-				<h2 class="links-heading"><xsl:value-of select="$title"/></h2>
-			</xsl:if>
+			<xsl:copy-of select="fun:block-presentation-title($title, $presentation-category)"/>
 			<div class="{$class}">
 				<!-- loop through the unique predicates -->
 				<xsl:for-each-group select="key('resource-by-about', $about, $global-context)/*[fun:presentation-category(.) = $presentation-category]" group-by="name()">
@@ -209,6 +207,22 @@
 					</div>
 				</xsl:for-each-group>
 			</div>
+		</xsl:if>
+	</xsl:function>
+	
+	<xsl:function name="fun:block-presentation-title">
+		<xsl:param name="title"/>
+		<xsl:param name="presentation-category"/>
+		<xsl:if test="normalize-space($title)">
+			<h2>
+				<xsl:attribute name="class">
+					<xsl:text>links-heading</xsl:text>
+					<xsl:if test="$presentation-category = ('DOC', 'OBJECT')">
+						<xsl:text> collapsed</xsl:text>
+					</xsl:if>
+				</xsl:attribute>
+				<xsl:value-of select="$title"/>
+			</h2>
 		</xsl:if>
 	</xsl:function>
 	

@@ -7,10 +7,10 @@
 		lookupExamples: '/txt/samples-lookup-milieuinfoimjv.txt',         // path or url
 		// SPARQL Query
 		sparqlExamples: '/unparsedtxt/samples-sparql-milieuinfoimjv.txt', // path or url
-		sparqlEndpoint: 'https://id.milieuinfo.be/imjv/sparql',           // path or url
+		sparqlEndpoint: 'https://id-ontwikkel.milieuinfo.be/imjv/sparql',           // path or url
 		// Keyword Search
 		kwsExamples: '/txt/samples-keywordsearch-milieuinfoimjv.txt',     // path or url
-		kwsEndpoint: 'https://id.milieuinfo.be/imjv/keywordsearch'        // path or url
+		kwsEndpoint: 'https://id-ontwikkel.milieuinfo.be/imjv/keywordsearch'        // path or url
 	};
 
 })(jQuery);

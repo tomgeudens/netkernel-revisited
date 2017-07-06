@@ -72,7 +72,7 @@ incacherequest.setRepresentationClass(Boolean.class);
 Boolean vInCache = (Boolean)aContext.issueRequest(incacherequest);
 
 int vHTTPResponseCode = 0;
-Object vSPARQLResult
+Object vSPARQLResult;
 
 if (vInCache) {
 	vSPARQLResult = aContext.source("pds:/" +aOwner + "/" + aRemainder + "/" + aID);

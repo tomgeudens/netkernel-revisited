@@ -12,6 +12,7 @@
         init: function () {
             lib.base = $('base').attr('href') || '/';
             lib.resourceUri = document.querySelector('body').getAttribute('about');
+            lib.uriBase = lib.resourceUri.replace(/^(.+:\/\/[^\/]+)\/.*$/, '$1');// e.g. http://id.milieuinfo.be
             lib.pageSize = 8;
             lib.timeouts = {};
             lib.initEndpoint();
@@ -305,7 +306,7 @@
             links.forEach(function (link) {
                 var p = document.createElement('p');
                 var a = document.createElement('a');
-                a.setAttribute('href', link.uri.replace(/^https?:\/\/[^\/]+\//, lib.base));
+                a.setAttribute('href', link.uri.replace(lib.uriBase + '/', lib.base));
                 a.innerHTML = link.label;
                 p.appendChild(a);
                 objects.appendChild(p);
