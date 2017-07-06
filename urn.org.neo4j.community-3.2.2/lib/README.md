@@ -1,0 +1,1 @@
+# dump contents of neo4j-community-3.2.2-windows/lib in this folder
