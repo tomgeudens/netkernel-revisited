@@ -94,11 +94,6 @@
 			<!-- contains HDS -->
 			<uri>urn:org:netkernel:mod:hds</uri>
 		</import>
-
-		<import>
-			<!-- contains file:/ scheme -->
-			<uri>urn:org:netkernel:ext:layer1</uri>
-		</import>
 		
 		<import>
 			<!-- contains neo4j community jars -->
