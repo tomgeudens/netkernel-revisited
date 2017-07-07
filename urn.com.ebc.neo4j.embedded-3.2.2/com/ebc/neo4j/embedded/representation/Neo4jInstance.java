@@ -20,7 +20,9 @@ public class Neo4jInstance {
 	
 	protected void finalize() throws Throwable {
 		try {
-			mInstance.shutdown();
+			if (mInstance.isAvailable(200)) {
+				mInstance.shutdown();
+			}
 		}
 		finally {
 			super.finalize();

@@ -17,15 +17,16 @@ import org.netkernel.layer0.nkf.*;
 import org.netkernel.layer0.meta.impl.SourcedArgumentMetaImpl;
 import org.netkernel.module.standard.endpoint.StandardAccessorImpl;
 
-import java.io.File;
 /**
  * Processing Imports
  */
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.io.File;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
+import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 
 import com.ebc.neo4j.embedded.representation.Neo4jInstance;
 
@@ -91,6 +92,7 @@ public class Neo4jInstanceAccessor extends StandardAccessorImpl {
 		
 		// processing
 		File vPath = new File(aEmbeddedLocation + aDatabaseName + File.separator);
+		GraphDatabaseService vInstance = null;
 		
 		if (! mInstances.containsKey(aDatabaseName)) {
 			// start new instance
@@ -100,7 +102,11 @@ public class Neo4jInstanceAccessor extends StandardAccessorImpl {
 				}
 			}
 			
-			GraphDatabaseService vInstance = new GraphDatabaseFactory().newEmbeddedDatabase(vPath);
+			// vInstance = new GraphDatabaseFactory().newEmbeddedDatabase(vPath);
+			vInstance = new GraphDatabaseFactory()
+					.newEmbeddedDatabaseBuilder(vPath)
+				    .setConfig( GraphDatabaseSettings.pagecache_memory, "512M" )
+				    .newGraphDatabase();
 			registerShutdownHook(vInstance);
 			
 			aContext.logRaw(INKFLocale.LEVEL_INFO, "Neo4jInstanceAccessor: (" 
@@ -112,11 +118,15 @@ public class Neo4jInstanceAccessor extends StandardAccessorImpl {
 		}
 		else {
 			// existing instance (but may be shutdown)
-			GraphDatabaseService vInstance = mInstances.get(aDatabaseName);
+			vInstance = mInstances.get(aDatabaseName);
 			if (! vInstance.isAvailable(200) ) {
-				vInstance = new GraphDatabaseFactory().newEmbeddedDatabase(vPath);
+				vInstance = new GraphDatabaseFactory()
+						.newEmbeddedDatabaseBuilder(vPath)
+					    .setConfig( GraphDatabaseSettings.pagecache_memory, "512M" )
+					    .newGraphDatabase();
 				registerShutdownHook(vInstance);
 				mInstances.put(aDatabaseName, vInstance);
+				
 				aContext.logRaw(INKFLocale.LEVEL_INFO, "Neo4jInstanceAccessor: (" 
 						+ vId 
 						+ ") - restarting instance : " 
@@ -132,7 +142,7 @@ public class Neo4jInstanceAccessor extends StandardAccessorImpl {
 		//
 		
 		// response
-		Neo4jInstance vRepresentation = new Neo4jInstance(mInstances.get(aDatabaseName));
+		Neo4jInstance vRepresentation = new Neo4jInstance(vInstance);
 		INKFResponse vResponse = aContext.createResponseFrom(vRepresentation);
 		vResponse.setExpiry(INKFResponse.EXPIRY_FUNCTION, new InstanceExpiry(vRepresentation));
 		//
@@ -209,7 +219,7 @@ public class Neo4jInstanceAccessor extends StandardAccessorImpl {
 		//
 	}
 
-	private static void registerShutdownHook( final GraphDatabaseService vInstance ) {
+	private static void registerShutdownHook(final GraphDatabaseService vInstance ) {
 	    // Registers a shutdown hook for the Neo4j instance so that it
 	    // shuts down nicely when the VM exits (even if you "Ctrl-C" the
 	    // running application).

@@ -56,6 +56,19 @@
 			</grammar>
 		</accessor>
 
+		<accessor>
+			<id>com:ebc:neo4j:embedded:java:cypher:accessor</id>
+			<class>com.ebc.neo4j.embedded.endpoint.Neo4jCypherAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:neo4jcypher</identifier>
+					<argument name="instance" desc="neo4j embedded instance" max="1" min="1"/>
+					<argument name="cypher" desc="cypher query" max="1" min="1"/>
+					<argument name="expiry" desc="expiry of the response in milliseconds" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+
 		<import>
 			<uri>urn:com:ebc:neo4j:embedded:import</uri>
 			<private/>
@@ -75,6 +88,16 @@
 			<!-- contains active:environment -->
 			<uri>urn:com:ebc:tool:system</uri>
 			<version-min>1.0.0</version-min>
+		</import>
+
+		<import>
+			<!-- contains HDS -->
+			<uri>urn:org:netkernel:mod:hds</uri>
+		</import>
+
+		<import>
+			<!-- contains file:/ scheme -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
 		</import>
 		
 		<import>
