@@ -2,7 +2,7 @@
 // setup connection to Neo4j database
 // todo : make this configurable
 var neo4j = window.neo4j.v1;
-var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "Tomc008123"));
+var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "XXX"));
 var cy;
 
 document.addEventListener("DOMContentLoaded", function() {
