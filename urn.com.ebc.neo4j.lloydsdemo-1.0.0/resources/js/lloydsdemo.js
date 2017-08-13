@@ -221,12 +221,13 @@ function expandNode(event) {
 			checkandaddEdge(res.get("p")["segments"][0]["relationship"]);
 		});
 		reDraw();
+		if (cy.$id(event.data.id).outdegree() != 0) {
+			$("#prunenode").removeClass("invisible");
+		}
 	})
 	.catch (error => {
 		session.close();
 	});
-	
-	$("#prunenode").removeClass("invisible");
 }
 
 //pruning the node
