@@ -69,6 +69,11 @@ public class Neo4jInstanceAccessor extends StandardAccessorImpl {
 		
 		// arguments
 		String aEmbeddedLocation = aContext.source("neo4j:embeddedlocation", String.class);
+		System.out.println("tempdir = " + System.getProperty("java.io.tmpdir"));
+		//if (aEmbeddedLocation == "UNKNOWNVARIABLE") {
+			//System.getProperty("java.io.tmpdir");
+		//}
+		
 		aContext.logRaw(INKFLocale.LEVEL_INFO, "Neo4jInstanceAccessor: (" 
 				+ vId 
 				+ ") - argument embeddedlocation : " 

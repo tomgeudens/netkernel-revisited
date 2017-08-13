@@ -20,6 +20,8 @@ import org.netkernel.layer0.nkf.*;
  */
 import java.util.UUID;
 
+import org.netkernel.mod.hds.*;
+
 /**
  * Node Configuration Resource
  */
@@ -35,23 +37,49 @@ aContext.logRaw(INKFLocale.LEVEL_INFO, "NodeConfigurationResource: ("
 		+ vId
 		+ ") - start");
 //
-INKFRequest rowsrequest = aContext.createRequest("active:rows");
-rowsrequest.addArgument("databaseurl", "neo4j:databaseurl");
-rowsrequest.addArgument("databaseuser", "neo4j:databaseuser");
-rowsrequest.addArgument("databasepassword", "neo4j:databasepassword");
-rowsrequest.addArgumentByValue("expiry", 3600000L);
-rowsrequest.addArgument("cypher", "res:/resources/cypher/get_labels.cypher");
-// Object vRowsResult = aContext.issueRequest(rowsrequest);
+INKFRequest rowslabelsrequest = aContext.createRequest("active:rows");
+rowslabelsrequest.addArgument("databaseurl", "neo4j:databaseurl");
+rowslabelsrequest.addArgument("databaseuser", "neo4j:databaseuser");
+rowslabelsrequest.addArgument("databasepassword", "neo4j:databasepassword");
+rowslabelsrequest.addArgumentByValue("expiry", 3600000L);
+rowslabelsrequest.addArgument("cypher", "res:/resources/cypher/get_labels.cypher");
+// Object vRowsLabelsResult = aContext.issueRequest(rowslabelsrequest);
 
-INKFRequest xsltcrequest = aContext.createRequest("active:xsltc");
-xsltcrequest.addArgumentByRequest("operand",rowsrequest);
-xsltcrequest.addArgument("operator","res:/resources/xsl/parselabels.xsl");
-xsltcrequest.setRepresentationClass(String.class);
-// String vXSLTCResult = (String)aContext.issueRequest(xsltcrequest);
+INKFRequest rowsschemarequest = aContext.createRequest("active:rows");
+rowsschemarequest.addArgument("databaseurl", "neo4j:databaseurl");
+rowsschemarequest.addArgument("databaseuser", "neo4j:databaseuser");
+rowsschemarequest.addArgument("databasepassword", "neo4j:databasepassword");
+rowsschemarequest.addArgumentByValue("expiry", 3600000L);
+rowsschemarequest.addArgument("cypher", "res:/resources/cypher/get_schema.cypher");
+//Object vRowsSchemaResult = aContext.issueRequest(rowsschemarequest);
+
+INKFRequest xsltclabelsrequest = aContext.createRequest("active:xsltc");
+xsltclabelsrequest.addArgumentByRequest("operand",rowslabelsrequest);
+xsltclabelsrequest.addArgument("operator","res:/resources/xsl/parselabels.xsl");
+xsltclabelsrequest.setRepresentationClass(String.class);
+// String vXSLTCLabelsResult = (String)aContext.issueRequest(xsltlabelscrequest);
+
+INKFRequest xsltcschemarequest = aContext.createRequest("active:xsltc");
+xsltcschemarequest.addArgumentByRequest("operand",rowsschemarequest);
+xsltcschemarequest.addArgument("operator","res:/resources/xsl/parseschema.xsl");
+xsltcschemarequest.setRepresentationClass(IHDSDocument.class);
+IHDSDocument vXSLTCSchemaResult = (IHDSDocument)aContext.issueRequest(xsltcschemarequest);
+
+IHDSReader vReader = vXSLTCSchemaResult.getReader();
+String vUniquePropertyEndpoints = "";
+for (IHDSReader vConstraint : vReader.getNodes("/results/uniqueconstraint")) {
+	INKFRequest parseuniqueconstraintrequest = aContext.createRequest("active:parseuniqueconstraint");
+	parseuniqueconstraintrequest.addArgumentByValue("constrainttext",vConstraint.getFirstValue("."));
+	parseuniqueconstraintrequest.setRepresentationClass(String.class);
+	
+	String vParseUniqueConstraintResult = (String)aContext.issueRequest(parseuniqueconstraintrequest);
+	vUniquePropertyEndpoints = vUniquePropertyEndpoints + vParseUniqueConstraintResult;
+}
 	
 INKFRequest freemarkerrequest = aContext.createRequest("active:freemarker");
 freemarkerrequest.addArgument("operator", "res:/resources/freemarker/nodeconfig.freemarker");
-freemarkerrequest.addArgumentByRequest("labels", xsltcrequest);
+freemarkerrequest.addArgumentByRequest("labels", xsltclabelsrequest);
+freemarkerrequest.addArgumentByValue("uniquepropertyendpoints", vUniquePropertyEndpoints);
 Object vFreemarkerResult = aContext.issueRequest(freemarkerrequest);
 
 // response

@@ -1,0 +1,30 @@
+[
+	{
+		"selector": "node[label=\"Person\"]",
+		"style": {
+			"background-fit": "cover",
+			"content": "data(name)",
+			"background-image": "/cytodemo/img/user.png"
+		}
+	},
+	{
+		"selector": "node[label=\"ProgrammingLanguage\"]",
+		"style": {
+			"shape" : "rectangle",
+			"background-fit": "cover",
+			"content": "data(name)",
+			"background-image": "/cytodemo/img/language.png"
+		}
+	},
+	{
+		"selector": "edge",
+		"style": {
+			"content": "data(type)",
+			"width" : 3,
+			"curve-style": "bezier",
+			"line-color" : "#ccc",
+			"target-arrow-color": "#ccc",
+			"target-arrow-shape": "triangle"
+		}
+	}
+]

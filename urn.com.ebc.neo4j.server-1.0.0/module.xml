@@ -126,6 +126,32 @@
 				</active>
 			</grammar>
 		</accessor>
+		
+		<accessor>
+			<id>com:ebc:neo4j:server:nodebyuniqueproperty:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/nodebyuniqueproperty.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:nodebyuniqueproperty</identifier>
+					<argument name="label" desc="label" max="1" min="1"/>
+					<argument name="uniqueproperty" desc="uniqueproperty" max="1" min="1"/>
+					<argument name="value" desc="value" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:ebc:neo4j:server:parseuniqueconstraint:groovy:accessor</id>
+			<prototype>GroovyPrototype</prototype>
+			<script>res:/resources/groovy/parseuniqueconstraint.groovy</script>
+			<grammar>
+				<active>
+					<identifier>active:parseuniqueconstraint</identifier>
+					<argument name="constrainttext" desc="constrainttext" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
 
 		<import>
 			<!-- contains neo4j:databaseurl, neo4j:databasuser, neo4j:databasepassword -->

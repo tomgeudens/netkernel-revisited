@@ -1,7 +1,6 @@
 <#setting url_escaping_charset='UTF-8'>
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE config>
 <config>
+	${uniquepropertyendpoints}
 	<endpoint>
 		<meta>
 			<rest>

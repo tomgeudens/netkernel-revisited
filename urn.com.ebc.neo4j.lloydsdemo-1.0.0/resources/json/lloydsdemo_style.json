@@ -1,0 +1,23 @@
+[
+	{
+		"selector": "node[label=\"Journey\"]",
+		"style": {
+			"content": "data(name)"
+		}
+	},
+	{
+		"selector": "node[label=\"Screen\"]",
+		"style": {
+			"content": "data(id)"
+		}
+	},
+	{
+		"selector": "edge",
+		"style": {
+			"content": "data(type)",
+			"width" : 3,
+			"curve-style": "bezier",
+			"target-arrow-shape": "triangle"
+		}
+	}
+]

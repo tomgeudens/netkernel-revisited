@@ -1,0 +1,2 @@
+<#setting url_escaping_charset='UTF-8'>
+MATCH (n:${label}) WHERE n.${uniqueproperty} = "${value}" RETURN n

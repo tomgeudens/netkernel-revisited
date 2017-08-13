@@ -1,0 +1,10 @@
+{
+"id":"j1",
+"Journey" : "Journey1",
+"BusinessUnit" : "Retail Banking",
+"ProductOwners" : "Hannah Evans",
+"Services" : "37",
+"Screens" : "18",
+"Confidential" : "100",
+"HighlyConfidential" : "50"
+}

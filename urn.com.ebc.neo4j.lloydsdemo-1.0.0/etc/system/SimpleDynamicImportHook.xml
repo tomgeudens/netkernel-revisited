@@ -1,0 +1,4 @@
+<!DOCTYPE connection>
+<connection>
+	<type>HTTPFulcrum</type>
+</connection>

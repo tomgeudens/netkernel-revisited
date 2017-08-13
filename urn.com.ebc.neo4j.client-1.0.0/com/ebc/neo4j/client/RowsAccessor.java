@@ -45,6 +45,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 	public RowsAccessor() {
 		this.declareThreadSafe();
 		this.declareSupportedVerbs(INKFRequestReadOnly.VERB_SOURCE);
+		this.declareSourceRepresentation(IHDSDocument.class);
 		this.declareArgument(new SourcedArgumentMetaImpl("databaseurl",null,null,new Class[] {String.class}));
 		this.declareArgument(new SourcedArgumentMetaImpl("databaseuser",null,null,new Class[] {String.class}));
 		this.declareArgument(new SourcedArgumentMetaImpl("databasepassword",null,null,new Class[] {String.class}));

@@ -1,0 +1,26 @@
+<#setting url_escaping_charset='UTF-8'>
+<endpoint>
+	<meta>
+		<rest>
+			<simple>{label:(${label})}/{uniqueproperty:(${uniqueproperty})}/{value}</simple>
+			<method>GET</method>
+			<Etag>MD5</Etag>
+			<compress/>
+			<produces>text/xml</produces>
+		</rest>
+	</meta>
+	<grammar>
+		<active>
+			<identifier>active:nodebyuniquepropertyrestoverlay${uuid}</identifier>
+			<argument name="label"/>
+			<argument name="uniqueproperty"/>
+			<argument name="value"/>
+		</active>
+	</grammar>
+	<request>
+		<identifier>active:nodebyuniqueproperty</identifier>
+		<argument name="label" method="as-string">[[arg:label]]</argument>
+		<argument name="uniqueproperty" method="as-string">[[arg:uniqueproperty]]</argument>
+		<argument name="value" method="as-string">[[arg:value]]</argument>
+	</request>
+</endpoint>

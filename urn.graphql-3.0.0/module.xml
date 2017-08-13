@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:graphql</uri>
+			<version>3.0.0</version>
+		</identity>
+		<info>
+			<name>graphql</name>
+			<description>graphql</description>
+		</info>
+	</meta>
+	
+	<system>
+		<dynamic/>
+		<classloader>
+			<exports>
+				<match>graphql\..*</match>
+				<match>org\antlr\v4\runtime\..*</match>
+				<match>org\slf4j\..*</match>
+			</exports>
+		</classloader>
+	</system>
+	
+	<rootspace
+		name="graphql"
+		public="true"
+		uri="urn:graphql">
+	</rootspace>
+</module>

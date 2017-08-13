@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
+		<title>Neo4j Lloyds</title>
+		<style type="text/css">
+			@import url(/lloydsdemo/css/bootstrap.min.css);
+			
+			@import url(/lloydsdemo/css/lloydsdemo.css);
+		</style>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+			<a class="navbar-brand" href="#">Neo4j Lloyds</a>
+			<div class="collapse navbar-collapse" id="navbarsNeo4jLloyds">
+				<ul class="navbar-nav mr-auto">
+				</ul>
+				<form id="journeyform" class="form-inline mt-2 mt-md-0">
+					<select id="journeyselect" class="form-control mr-sm-2" aria-label="Search">
+					</select>
+					<!--  
+					<input class="form-control mr-sm-2" type="text" placeholder="Journey" aria-label="Search">
+					-->
+					<button id="journeysubmit" class="btn btn-outline-success my-2 my-sm-0" type="submit">Visualize</button>
+				</form>
+			</div>
+		</nav>
+		
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-8">
+					<h1>Visualization</h1>
+					<div class="btn-group" role="group">
+						<button type='button' id='expandnode' class='btn invisible'>Expand</button>
+		                <button type='button' id='prunenode' class='btn invisible'>Prune</button>
+		                <button type='button' id='removenode' class='btn invisible'>Remove</button>
+					</div>
+					
+					<div id="cy"></div>
+				</div>
+				<div class="col-sm-3 offset-sm-1">
+					<h2>Node View</h2>
+					<table class="table table-striped table-bordered">
+						<thead class="thead-inverse" id="nodeview-thead">
+						</thead>
+						<tbody id="nodeview-tbody">
+						</tbody>
+					</table>
+					<h2>Edge View</h2>
+					<table class="table table-striped table-bordered">
+						<thead class="thead-inverse" id="edgeview-thead">
+						</thead>
+						<tbody id="edgeview-tbody">
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="/lloydsdemo/js/cytoscape.min.js"></script>
+		<script type="text/javascript" src="/lloydsdemo/js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="/lloydsdemo/js/popper.min.js"></script>
+		<script type="text/javascript" src="/lloydsdemo/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/lloydsdemo/js/neo4j-web.min.js"></script>
+		
+		<script type="text/javascript" src="/lloydsdemo/js/lloydsdemo.js"></script>
+	</body>
+</html>

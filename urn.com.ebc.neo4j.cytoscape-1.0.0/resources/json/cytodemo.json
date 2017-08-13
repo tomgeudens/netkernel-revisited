@@ -1,0 +1,34 @@
+[{
+"data": {
+	"id": "n1",
+	"name": "Tom Geudens",
+	"label": "Person"
+	},
+"group": "nodes"
+},
+{
+"data": {
+	"id": "n2",
+	"name": "Steven Lots",
+	"label": "Person"
+	},
+"group": "nodes"
+},
+{
+"data": {
+	"id": "n3",
+	"name": "Python",
+	"label": "ProgrammingLanguage"
+	},
+"group": "nodes"
+},
+{
+"data": {
+	"source": "n1",
+	"target": "n3",
+	"id":"e1",
+	"type": "KNOWS",
+	"years" : 8
+	},
+"group": "edges"
+}]

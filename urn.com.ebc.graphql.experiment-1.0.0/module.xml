@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:graphql:experiment</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / graphql / experiment</name>
+			<description>elephant bird consulting / graphql / experiment</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc graphql experiment"
+		public="true"
+		uri="urn:com:ebc:graphql:experiment">
+		
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+		
+		<accessor>
+			<id>com:ebc:graphql:experiment:java:hello:accessor</id>
+			<class>com.ebc.graphql.experiment.HelloAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:graphqlhello</identifier>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<import>
+			<uri>urn:com:ebc:graphql:experiment:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc graphql experiment import"
+		public="false"
+		uri="urn:com:ebc:graphql:experiment:import">
+		
+		<import>
+			<uri>urn:graphql</uri>
+			<version-min>3.0.0</version-min>
+		</import>
+	</rootspace>
+</module>

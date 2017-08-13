@@ -1,0 +1,1 @@
+MATCH (j:Journey) RETURN j.name AS name;
