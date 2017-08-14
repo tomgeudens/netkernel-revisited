@@ -88,6 +88,30 @@
 								<identifier>res:/resources/css/[[arg:cssfile]]</identifier>
 							</request>
 						</endpoint>
+						
+						<!-- /svg/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>svg/{svgfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>image/svg+xml</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:lloydsdemosvg</identifier>
+									<argument name="svgfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/svg/[[arg:svgfile]]</identifier>
+							</request>
+						</endpoint>
 
 						<!-- /img/* -->
 						<endpoint>
@@ -243,6 +267,11 @@
 		<fileset>
 			<!-- contains css resources -->
 			<regex>res:/resources/css/.*</regex>
+		</fileset>
+
+		<fileset>
+			<!-- contains svg resources -->
+			<regex>res:/resources/svg/.*</regex>
 		</fileset>
 		
 		<fileset>

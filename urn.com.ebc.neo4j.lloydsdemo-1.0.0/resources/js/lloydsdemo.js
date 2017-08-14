@@ -99,10 +99,81 @@ function reDraw() {
 	$("#cy").height($(window).innerHeight() - 170);
 	
 	cy.resize();
+
+	var layoutoptions = {
+			name: 'cose',
+
+			// Called on `layoutready`
+			ready: function(){},
+
+			// Called on `layoutstop`
+			stop: function(){},
+
+			// Whether to animate while running the layout
+			animate: true,
+
+			// The layout animates only after this many milliseconds
+			// (prevents flashing on fast runs)
+			animationThreshold: 250,
+
+			// Number of iterations between consecutive screen positions update
+			// (0 -> only updated on the end)
+			refresh: 20,
+
+			// Whether to fit the network view after when done
+			fit: true,
+
+			// Padding on fit
+			padding: 30,
+
+			// Constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
+			boundingBox: undefined,
+
+			// Excludes the label when calculating node bounding boxes for the layout algorithm
+			nodeDimensionsIncludeLabels: true,
+
+			// Randomize the initial positions of the nodes (true) or use existing positions (false)
+			randomize: false,
+
+			// Extra spacing between components in non-compound graphs
+			componentSpacing: 100,
+
+			// Node repulsion (non overlapping) multiplier
+			nodeRepulsion: function( node ){ return 400000; },
+
+			// Node repulsion (overlapping) multiplier
+			nodeOverlap: 10,
+
+			// Ideal edge (non nested) length
+			idealEdgeLength: function( edge ){ return 10; },
+
+			// Divisor to compute edge forces
+			edgeElasticity: function( edge ){ return 100; },
+
+			// Nesting factor (multiplier) to compute ideal edge length for nested edges
+			nestingFactor: 5,
+
+			// Gravity force (constant)
+			gravity: 80,
+
+			// Maximum number of iterations to perform
+			numIter: 1000,
+
+			// Initial temperature (maximum node displacement)
+			initialTemp: 200,
+
+			// Cooling factor (how the temperature is reduced between consecutive iterations
+			coolingFactor: 0.95,
+
+			// Lower temperature threshold (below this point the layout will end)
+			minTemp: 1.0,
+
+			// Pass a reference to weaver to use threads for calculations
+			weaver: false
+	};
+
 	
-	var layout = cy.elements().layout({
-		name: "cose"
-	});
+	var layout = cy.elements().layout(layoutoptions);
 	layout.run();	
 }
 
@@ -156,7 +227,7 @@ function visualizeJourney(journeyname) {
 		var output = {
 				id: "node_" + journeynode.identity.low,
 				local_id: journeynode.identity.low,
-				label: journeynode.labels[0]
+				label: journeynode.labels.join()
 		}
 
 		Object.keys(journeynode.properties).forEach(key => {
@@ -189,6 +260,7 @@ function showNode(node) {
 	
 	$("#expandnode").removeClass("invisible");
 	$("#removenode").removeClass("invisible");
+	$("#centernode").removeClass("invisible");
 	if (node.outdegree() != 0) {
 		$("#prunenode").removeClass("invisible");
 	}
@@ -196,6 +268,7 @@ function showNode(node) {
 	$("#expandnode").on("click", node.data(), expandNode);
 	$("#removenode").on("click", node.data(), removeNode);
 	$("#prunenode").on("click", node.data(), pruneNode);
+	$("#centernode").on("click", node.data(), centerNode);
 }
 
 //show content of the edge
@@ -220,9 +293,18 @@ function freeNode() {
 	$("#expandnode").addClass("invisible");
 	$("#removenode").addClass("invisible");
 	$("#prunenode").addClass("invisible");
+	$("#centernode").addClass("invisible");
 	$("#expandnode").off();
 	$("#prunenode").off();
 	$("#removenode").off();
+	$("#centernode").off();
+}
+
+
+// center on the node
+function centerNode(event) {
+	cy.center(cy.$id(event.data.id));
+	$("#centernode").blur();
 }
 
 // removing the node
@@ -270,7 +352,7 @@ function checkandaddNode(node) {
 		var output = {
 				id: "node_" + node.identity.low,
 				local_id: node.identity.low,
-				label: node.labels[0]
+				label: node.labels.join()
 		}
 
 		Object.keys(node.properties).forEach(key => {

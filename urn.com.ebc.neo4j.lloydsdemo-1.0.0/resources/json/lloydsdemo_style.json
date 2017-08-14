@@ -2,13 +2,28 @@
 	{
 		"selector": "node[label=\"Journey\"]",
 		"style": {
-			"content": "data(name)"
+			"content": "data(name)",
+			"background-fit": "cover",
+			"shape" : "roundrectangle",
+			"background-image": "/lloydsdemo/svg/journey.svg"
 		}
 	},
 	{
-		"selector": "node[label=\"Screen\"]",
+		"selector": "node[label*=\"Screen\"]",
 		"style": {
-			"content": "data(id)"
+			"content": "data(id)",
+			"background-fit": "cover",
+			"shape" : "roundrectangle",
+			"background-image": "/lloydsdemo/svg/screen.svg"
+		}
+	},
+	{
+		"selector": "node[label=\"DataItem\"]",
+		"style": {
+			"content": "data(id)",
+			"background-fit": "cover",
+			"shape" : "roundrectangle",
+			"background-image": "/lloydsdemo/svg/dataitem.svg"
 		}
 	},
 	{
