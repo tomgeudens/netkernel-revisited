@@ -2,7 +2,7 @@
 // setup connection to Neo4j database
 // todo : make this configurable
 var neo4j = window.neo4j.v1;
-var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "XXX"));
+var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "neo4j4ever"));
 var cy;
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -48,8 +48,17 @@ document.addEventListener("DOMContentLoaded", function() {
 			showNode(evt.target);
 		});
 		
+		// catch a tap on an edge
+		cy.on("select", "edge", function(evt){
+			showEdge(evt.target);
+		});
+		
 		cy.on("unselect", "node", function(evt){
 			freeNode();
+		});
+		
+		cy.on("unselect", "edge", function(evt){
+			freeEdge();
 		});
 		
 		// dummy data
@@ -87,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // (re)Drawing the visualization layer
 function reDraw() {
-	$("#cy").height($(window).innerHeight() - 150);
+	$("#cy").height($(window).innerHeight() - 170);
 	
 	cy.resize();
 	
@@ -187,6 +196,22 @@ function showNode(node) {
 	$("#expandnode").on("click", node.data(), expandNode);
 	$("#removenode").on("click", node.data(), removeNode);
 	$("#prunenode").on("click", node.data(), pruneNode);
+}
+
+//show content of the edge
+function showEdge(edge) {
+	$("#edgeview-thead").empty();
+	$("#edgeview-thead").append("<tr><th>property</th><th>value</th></tr>");
+	
+	$("#edgeview-tbody").empty();
+	Object.keys(edge.data()).forEach(key => {
+		$("#edgeview-tbody").append("<tr><td>" + key + "</td><td>" + edge.data()[key] + "</td></tr>");
+	});
+}
+
+function freeEdge() {
+	$("#edgeview-thead").empty();
+	$("#edgeview-tbody").empty();	
 }
 
 function freeNode() {
