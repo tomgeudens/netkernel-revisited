@@ -1,6 +1,6 @@
 [
 	{
-		"selector": "node[label=\"Journey\"]",
+		"selector": "node[neo4j_label=\"Journey\"]",
 		"style": {
 			"content": "data(name)",
 			"background-fit": "cover",
@@ -9,7 +9,7 @@
 		}
 	},
 	{
-		"selector": "node[label*=\"Screen\"]",
+		"selector": "node[neo4j_label*=\"Screen\"]",
 		"style": {
 			"content": "data(id)",
 			"background-fit": "cover",
@@ -18,7 +18,7 @@
 		}
 	},
 	{
-		"selector": "node[label=\"DataItem\"]",
+		"selector": "node[neo4j_label=\"DataItem\"]",
 		"style": {
 			"content": "data(id)",
 			"background-fit": "cover",
@@ -29,7 +29,7 @@
 	{
 		"selector": "edge",
 		"style": {
-			"content": "data(type)",
+			"content": "data(neo4j_type)",
 			"width" : 3,
 			"curve-style": "bezier",
 			"target-arrow-shape": "triangle"

@@ -204,6 +204,29 @@ fetch('/lloydsdemo/cypher/getjourneynames.cypher', {mode: 'no-cors'})
 	});
 }
 
+// getting the counts per journey
+function getJourneyCounts(journeyname, jn) {
+	var session = driver.session();
+	
+	return session.run('MATCH (j:Journey)-[:HAS_SCREEN]->(s:System)-[:CONTAINS]->(d:DataItem) WHERE j.name = "' + journeyname + '"WITH s.name AS sname, COUNT(DISTINCT d) AS dcount RETURN "DataDetails" as name, collect( { name: sname, count: dcount } ) as count ' + 
+			'UNION MATCH (j:Journey)-[:HAS_SCREEN]->(s:System)-[:CONTAINS]->(d:DataItem) WHERE j.name = "' + journeyname + '"WITH s.name AS sname, COUNT(DISTINCT d) AS dcount RETURN "MoreDetails" as name, collect( { name: sname, count: dcount } ) as count ')
+		.then(result => {
+			session.close();
+				
+			result.records.forEach(res => {
+				jn.data(res.get("name"), res.get("count"));
+			});
+				
+			reDraw();
+				
+			return {};		
+		})
+		.catch(error => {
+			console.log("error " + error);
+			session.close();
+		});	
+}
+
 // adding the Journey node to the visualization
 function visualizeJourney(journeyname) {
 	// clear everything first
@@ -226,20 +249,20 @@ function visualizeJourney(journeyname) {
 		
 		var output = {
 				id: "node_" + journeynode.identity.low,
-				local_id: journeynode.identity.low,
-				label: journeynode.labels.join()
+				neo4j_id: journeynode.identity.low,
+				neo4j_label: journeynode.labels.join()
 		}
 
 		Object.keys(journeynode.properties).forEach(key => {
 			output[key] = journeynode.properties[key];
 		});
 		
-		cy.add({
+		var jn = cy.add({
 			group: "nodes",
 			data: output
 		});
 		
-		reDraw();
+		getJourneyCounts(journeyname, jn);
 		
 		return output;
 	})
@@ -248,14 +271,50 @@ function visualizeJourney(journeyname) {
 	});
 }
 
+function addModal(key, data, id) {
+	
+	var html = "";
+	
+	html = html + "<div id='" + id + "' class='modal fade' role='dialog'>";
+	html = html + "<div class='modal-dialog'>"
+	html = html + "<div class='modal-content'>"
+	
+	html = html + "<div class='modal-header'>";
+	html = html + "<button type='button' class='close' data-dismiss='modal'>&times;</button>"
+	html = html + "<h4 class='modal-title'>Details - " + key + "</h4>"
+	html = html + "</div>"
+	
+	html = html + "<div class='modal-body'>"
+	for (var i = 0; i < data.length; i++) {
+		html = html + "<p>" + data[i]["name"] + " : " + data[i]["count"] + "</p>"
+	} 
+	html = html + "</div>"
+	
+	html = html + "<div class='modal-footer'>"
+	html = html + "<button type='button' class='btn btn-default' data-dismiss='modal'>Close</button>"
+	html = html + "</div>";
+	
+	html = html + "</div>"
+	html = html + "</div>"
+	html = html + "</div>"
+	
+	$("#modalview").append(html);
+}
+
 // show content of the node
 function showNode(node) {
 	$("#nodeview-thead").empty();
+	$("#modalview").empty();
 	$("#nodeview-thead").append("<tr><th>property</th><th>value</th></tr>");
 	
 	$("#nodeview-tbody").empty();
 	Object.keys(node.data()).forEach(key => {
-		$("#nodeview-tbody").append("<tr><td>" + key + "</td><td>" + node.data()[key] + "</td></tr>");
+		if (typeof node.data()[key] === "object") {
+			$("#nodeview-tbody").append("<tr><td>" + key + "</td><td><button type='button' class='btn' data-toggle='modal' data-target='#modal" + key + "'>open detail</button></td></tr>");
+			addModal(key, node.data()[key], "modal" + key);
+		} else {
+			$("#nodeview-tbody").append("<tr><td>" + key + "</td><td>" + node.data()[key] + "</td></tr>");
+		}
 	});
 	
 	$("#expandnode").removeClass("invisible");
@@ -288,6 +347,7 @@ function freeEdge() {
 }
 
 function freeNode() {
+	$("#modalview").empty();
 	$("#nodeview-thead").empty();
 	$("#nodeview-tbody").empty();
 	$("#expandnode").addClass("invisible");
@@ -319,7 +379,7 @@ function expandNode(event) {
 
 	var session = driver.session();
 	
-	return session.run('MATCH p=(i)-[]-(o) WHERE id(i) = ' + event.data.local_id + ' RETURN p;')
+	return session.run('MATCH p=(i)-[]-(o) WHERE id(i) = ' + event.data.neo4j_id + ' RETURN p;')
 	.then(result => {
 		session.close();
 		result.records.forEach(res => {
@@ -351,8 +411,8 @@ function checkandaddNode(node) {
 	if (found["length"] == 0) {
 		var output = {
 				id: "node_" + node.identity.low,
-				local_id: node.identity.low,
-				label: node.labels.join()
+				neo4j_id: node.identity.low,
+				neo4j_label: node.labels.join()
 		}
 
 		Object.keys(node.properties).forEach(key => {
@@ -375,8 +435,8 @@ function checkandaddEdge(edge) {
 	if (found["length"] == 0) {
 		var output = {
 				id: "edge_" + edge.identity.low,
-				local_id: edge.identity.low,
-				type: edge.type,
+				neo4j_id: edge.identity.low,
+				neo4j_type: edge.type,
 				source: "node_" + edge.start.low,
 				target: "node_" + edge.end.low
 		}
