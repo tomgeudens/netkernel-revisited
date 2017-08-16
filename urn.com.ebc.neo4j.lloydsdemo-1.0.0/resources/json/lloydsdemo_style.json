@@ -29,7 +29,6 @@
 	{
 		"selector": "edge",
 		"style": {
-			"content": "data(neo4j_type)",
 			"width" : 3,
 			"curve-style": "bezier",
 			"target-arrow-shape": "triangle"

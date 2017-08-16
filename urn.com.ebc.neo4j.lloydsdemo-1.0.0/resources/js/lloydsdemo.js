@@ -60,37 +60,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		cy.on("unselect", "edge", function(evt){
 			freeEdge();
 		});
-		
-		// dummy data
-		/*
-		event.cy.add({
-			group: "nodes",
-			data: {
-				id: "j1",
-				label: "Journey",
-				name: "journey 1"
-			}
-		});
-		
-		event.cy.add({
-			group: "nodes",
-			data: {
-				id: "s1",
-				label: "Screen",
-				name: "screen 1"
-			}
-		});
-		
-		event.cy.add({
-			group: "edges",
-			data: {
-				id: "e1",
-				source: "j1",
-				target: "s1",
-				type: "HAS"
-			}
-		});
-		*/	
 	});
 });
 
@@ -101,75 +70,50 @@ function reDraw() {
 	cy.resize();
 
 	var layoutoptions = {
-			name: 'cose',
+			name: 'cose-bilkent',
 
 			// Called on `layoutready`
-			ready: function(){},
-
+			ready: function () {
+			},
 			// Called on `layoutstop`
-			stop: function(){},
-
-			// Whether to animate while running the layout
-			animate: true,
-
-			// The layout animates only after this many milliseconds
-			// (prevents flashing on fast runs)
-			animationThreshold: 250,
-
-			// Number of iterations between consecutive screen positions update
-			// (0 -> only updated on the end)
-			refresh: 20,
-
+			stop: function () {
+			},
+			// number of ticks per frame; higher is faster but more jerky
+			refresh: 30, 
 			// Whether to fit the network view after when done
 			fit: true,
-
 			// Padding on fit
-			padding: 30,
-
-			// Constrain layout bounds; { x1, y1, x2, y2 } or { x1, y1, w, h }
-			boundingBox: undefined,
-
-			// Excludes the label when calculating node bounding boxes for the layout algorithm
-			nodeDimensionsIncludeLabels: true,
-
-			// Randomize the initial positions of the nodes (true) or use existing positions (false)
-			randomize: false,
-
-			// Extra spacing between components in non-compound graphs
-			componentSpacing: 100,
-
+			padding: 10,
+			// Whether to enable incremental mode
+			randomize: true,
 			// Node repulsion (non overlapping) multiplier
-			nodeRepulsion: function( node ){ return 400000; },
-
-			// Node repulsion (overlapping) multiplier
-			nodeOverlap: 10,
-
-			// Ideal edge (non nested) length
-			idealEdgeLength: function( edge ){ return 10; },
-
+			nodeRepulsion: 4500,
+			// Ideal (intra-graph) edge length
+			idealEdgeLength: 150,
 			// Divisor to compute edge forces
-			edgeElasticity: function( edge ){ return 100; },
-
-			// Nesting factor (multiplier) to compute ideal edge length for nested edges
-			nestingFactor: 5,
-
+			edgeElasticity: 0.45,
+			// Nesting factor (multiplier) to compute ideal edge length for inter-graph edges
+			nestingFactor: 0.1,
 			// Gravity force (constant)
-			gravity: 80,
-
+			gravity: 0.25,
 			// Maximum number of iterations to perform
-			numIter: 1000,
-
-			// Initial temperature (maximum node displacement)
-			initialTemp: 200,
-
-			// Cooling factor (how the temperature is reduced between consecutive iterations
-			coolingFactor: 0.95,
-
-			// Lower temperature threshold (below this point the layout will end)
-			minTemp: 1.0,
-
-			// Pass a reference to weaver to use threads for calculations
-			weaver: false
+			numIter: 2500,
+			// Whether to tile disconnected nodes
+			tile: true,
+			// Type of layout animation. The option set is {'during', 'end', false}
+			animate: 'end',
+			// Amount of vertical space to put between degree zero nodes during tiling (can also be a function)
+			tilingPaddingVertical: 10,
+			// Amount of horizontal space to put between degree zero nodes during tiling (can also be a function)
+			tilingPaddingHorizontal: 10,
+			// Gravity range (constant) for compounds
+			gravityRangeCompound: 1.5,
+			// Gravity force (constant) for compounds
+			gravityCompound: 1.0,
+			// Gravity range (constant)
+			gravityRange: 3.8,
+			// Initial cooling factor for incremental layout
+			initialEnergyOnIncremental:0.8
 	};
 
 	
@@ -272,7 +216,6 @@ function visualizeJourney(journeyname) {
 }
 
 function addModal(key, data, id) {
-	
 	var html = "";
 	
 	html = html + "<div id='" + id + "' class='modal fade' role='dialog'>";
@@ -328,10 +271,14 @@ function showNode(node) {
 	$("#removenode").on("click", node.data(), removeNode);
 	$("#prunenode").on("click", node.data(), pruneNode);
 	$("#centernode").on("click", node.data(), centerNode);
+	
+	$("#infopane").addClass("scrollClass");
 }
 
 //show content of the edge
 function showEdge(edge) {
+	$("#nodeview-thead").empty();
+	$("#modalview").empty();
 	$("#edgeview-thead").empty();
 	$("#edgeview-thead").append("<tr><th>property</th><th>value</th></tr>");
 	
