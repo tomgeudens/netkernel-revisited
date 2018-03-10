@@ -5,12 +5,12 @@
     var lib = {
 
         initAccordion: function () {
-            $('#explorer .api h4')
+            $('#explorer').find('.api h4')
                 .on('click', lib.toggleApi)
                 .each(function () {
                     // inject anchor
                     var type = $(this).parents('.api').attr('data-api');
-                    $('<a name="' + type + '"></a>').insertBefore($(this));
+                    $(this).before('<a name="' + type + '"></a>');
                     // expand
                     if (!$(this).parents('.api').is('.active') && (location.hash === '#' + type)) {
                         $(this).trigger('click');
@@ -34,6 +34,10 @@
                 api.addClass('active');
                 api.find('.form-area').animate({'height': h}, function () {
                     $(this).css('height', 'auto');
+                    var apiType = api.attr('data-api');
+                    if (apiType === 'sparql') {
+                        lib.initYasgui();
+                    }
                 });
             }
             // set state
@@ -45,8 +49,15 @@
             lib.injectSparqlExamples();
             lib.injectKWSExamples();
             $('#explorer .api select.samples').on('change', function () {
-                $(this).prev().val($(this).val().replace(/\&quot\;/, '-'));
-                $(this).val('');
+                var select = $(this);
+                var example = select.val().replace(/\&quot\;/g, '-');
+                var input = $(this).prev();
+                if (input.is('.yasqe')) {
+                    lib.yasqe.setValue(example);
+                } else {
+                    input.val(example);
+                }
+                select.val('');
             });
         },
 
@@ -79,7 +90,9 @@
                     if (value.match(/^##/)) {
                         // flush buffer
                         if (inQuery && title && query) {
-                            container.append('<option value="' + query.replace(/\"/g, '&quot;') + '">' + title + '</option>');
+                            var escapedTitle = lib.escapeString(title);
+                            var escapedQuery = lib.escapeString(query);
+                            container.append('<option value="' + escapedQuery + '">' + escapedTitle + '</option>');
                         }
                         // reset buffer
                         inQuery = true;
@@ -91,6 +104,14 @@
                     }
                 });
             });
+        },
+
+        escapeString: function (value) {
+            return value
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                ;
         },
 
         injectKWSExamples: function () {
@@ -107,8 +128,45 @@
             });
         },
 
+        loadYasgui: function () {
+            $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', lib.base + 'css/yasqe.min.css'));
+            var scripts = ["js/yasgui/codemirror.js", "js/yasgui/yasqe.min.js"];
+            var loadScript = function (index) {
+                $.ajax({
+                    url: lib.base + scripts[index],
+                    dataType: "script",
+                    cache: true,
+                    success: function () {
+                        if (index < scripts.length - 1) {
+                            loadScript(index + 1)
+                        }
+                    }
+                });
+            };
+            loadScript(0);
+        },
+
+        initYasgui: function () {
+            if (lib.yasqe) {
+                return; // already initialized
+            }
+            //noinspection JSUnresolvedVariable
+            if ((typeof YASQE === 'undefined'))  {// not loaded yet, try again later
+                return setTimeout(lib.initYasgui, 250);
+            }
+            // replace textarea
+            var element = document.querySelector('#explorer .api[data-api="sparql"] textarea');
+            var config = {
+                sparql: {
+                    showQueryButton: false
+                }
+            };
+            //noinspection JSUnresolvedVariable
+            lib.yasqe = YASQE.fromTextArea(element, config);
+        },
+
         initForms: function () {
-            $('#explorer .api form').on('submit', function (e) {
+            $('#explorer').find('.api form').on('submit', function (e) {
                 e.preventDefault();
                 var form = $(this);
                 var api = $(this).parents('.api').attr('data-api');
@@ -116,7 +174,8 @@
                     lib.submitLookup($(this).find('[name="identifier"]').val());
                 }
                 else if (api === 'sparql') {
-                    lib.submitSparql($(this).find('[name="query"]').val());
+                    var query = lib.yasqe ? lib.yasqe.getValue() : $(this).find('[name="query"]').val();
+                    lib.submitSparql(query);
                 }
                 else if (api === 'kws') {
                     lib.submitKWS($(this).find('[name="keyword"]').val());
@@ -127,8 +186,15 @@
                 ;
                 lib.pulsate.call(form.find('.status'));
             });
+            $('#explorer').find('.api form').on('reset', function () {
+                var form = $(this);
+                var api = $(this).parents('.api').attr('data-api');
+                if (api === 'sparql' && lib.yasqe) {
+                    lib.yasqe.setValue('');
+                }
+            });
             $(window).on("beforeunload", function () {
-                $('#explorer .api form .status').remove();
+                $('#explorer').find('.api form .status').remove();
             });
         },
 
@@ -147,20 +213,19 @@
 
         submitSparql: function (query) {
             var endpoint = window['milieuinfo-cbb-config']['sparqlEndpoint'];
-            var url = endpoint + '?query=' + encodeURIComponent(query);
-            location.href = url;
+            location.href = endpoint + '?query=' + encodeURIComponent(query);
         },
 
         submitKWS: function (keyword) {
             var endpoint = window['milieuinfo-cbb-config']['kwsEndpoint'];
-            var url = endpoint + '?search=' + encodeURIComponent(keyword);
-            location.href = url;
+            location.href = endpoint + '?search=' + encodeURIComponent(keyword);
         },
 
         init: function () {
             lib.base = $('base').attr('href') || '/';
             lib.initAccordion();
             lib.initExamples();
+            lib.loadYasgui();
             lib.initForms();
         }
     };

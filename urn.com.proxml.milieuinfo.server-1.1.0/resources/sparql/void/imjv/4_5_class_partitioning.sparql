@@ -1,7 +1,7 @@
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
 CONSTRUCT {
-  <http://id.milieuinfo.be/dataset/imjv#id>
+  <https://id.milieuinfo.be/dataset/imjv#id>
     <http://rdfs.org/ns/void#classPartition> [
       <http://rdfs.org/ns/void#class> ?type;
       <http://rdfs.org/ns/void#triples> ?totalNumberOfTriples;
@@ -94,7 +94,7 @@ WHERE
     {
       SELECT ?totalNumberOfDistinctObjects ?type {
         SELECT (COUNT(DISTINCT ?o) AS ?totalNumberOfDistinctObjects) ?type {
-          GRAPH ?g { # <http://id.milieuinfo.be/graph/conceptscheme/BO#id>
+          GRAPH ?g { # <https://id.milieuinfo.be/graph/conceptscheme/BO#id>
             ?s ?p ?o; a ?type . FILTER (!isLiteral(?o))
           }
         }

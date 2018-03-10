@@ -1,0 +1,28 @@
+[
+	{
+		"selector": "node[neo4j_label*=\"Entity\"]",
+		"style": {
+			"content": "data(name)",
+			"background-fit": "cover",
+			"shape" : "roundrectangle",
+			"background-image": "/ngademo/svg/user.svg"
+		}
+	},
+	{
+		"selector": "node[neo4j_label*=\"ArtWork\"]",
+		"style": {
+			"content": "data(title)",
+			"background-fit": "cover",
+			"shape" : "roundrectangle",
+			"background-image": "/ngademo/svg/painter-palette.svg"
+		}
+	},
+	{
+		"selector": "edge",
+		"style": {
+			"width" : 3,
+			"curve-style": "bezier",
+			"target-arrow-shape": "triangle"
+		}
+	}
+]

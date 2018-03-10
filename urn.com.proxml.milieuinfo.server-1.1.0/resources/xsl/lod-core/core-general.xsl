@@ -47,16 +47,17 @@
 			<xsl:copy-of select="fun:content-block-pre-inc($this-about)"/>
 			
 			<!-- incoming urls -->					
-			<xsl:if test="/descendant::rdf:Description[not(rdf:type)][not(@rdf:nodeID)]/*[@rdf:resource = $this-about]">
-				<h2 class="links-heading">Inkomende linken</h2>
+			<xsl:if test="/descendant::rdf:Description[not(rdf:type)]/*[not(self::foaf:primaryTopic)][@rdf:resource = $this-about]">
+				<h2 class="links-heading">Inkomende relaties</h2>
 				
 				<div class="links inbound">
 					<!-- loop through the unique predicates -->
-					<xsl:for-each-group select="/descendant::rdf:Description[not(rdf:type)][not(@rdf:nodeID)]/*[@rdf:resource = $this-about]" group-by="name()">
+					<xsl:for-each-group select="/descendant::rdf:Description[not(rdf:type)]/*[not(self::foaf:primaryTopic)][@rdf:resource = $this-about]" group-by="name()">
 						<div class="predicate">
-							<xsl:copy-of select="fun:set-label(current-group())"/>
-							<xsl:copy-of select="fun:set-outbound-content(current-group())"/>
-							
+							<xsl:copy-of select="fun:set-orig-label(current-group())"/>
+							<div class="objects">
+								<xsl:text>...</xsl:text>
+							</div>
 						</div>							
 					</xsl:for-each-group>
 				</div>
@@ -96,7 +97,7 @@
 	<xsl:function name="fun:content-block-post-inc">
 		<xsl:param name="this-about"/>
 		<xsl:copy-of select="fun:block-presentation($this-about, 'DOC', 'properties', 'Document linken')"/>
-		<xsl:copy-of select="fun:block-presentation($this-about, 'DATASET', 'properties', 'Dataset linken')"/>
+		<xsl:copy-of select="fun:block-presentation($this-about, 'DATASET', 'properties', 'Link naar kubus')"/>
 	</xsl:function>
 	
 	<!--

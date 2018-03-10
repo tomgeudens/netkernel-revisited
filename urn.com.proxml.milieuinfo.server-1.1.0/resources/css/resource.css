@@ -127,3 +127,26 @@
     height: 300px;
     width: 100%;
 }
+
+/* bnodes */
+
+#content .objects .bnode {
+    margin: 4px;
+    padding: 4px;
+    box-shadow: 0 0 4px #ccc;
+}
+
+#content .objects .bnode + .bnode {
+    margin-top: 8px;
+}
+
+#content .bnode .predicate,
+#content .bnode .predicate:nth-child(2) {
+    width: 100%;
+    margin: 0;
+    border-bottom: none;
+}
+
+#content .bnode .predicate + .predicate {
+    margin-top: 4px;
+}

@@ -57,31 +57,20 @@ else {
 }
 
 String aWith = null;
-if (vIsHTTPRequest) {
+if (aContext.getThisRequest().argumentExists("with")) {// with is an optional argument
 	try {
-		javax.servlet.http.HttpServletRequest vURL = (javax.servlet.http.HttpServletRequest)aContext.source("httpRequest:/advanced/HttpServletRequest", javax.servlet.http.HttpServletRequest.class);
-		aWith = vURL.getScheme() + "://" + vURL.serverName + ":" + vURL.serverPort.toString();		
+		aWith = (String)aContext.source("arg:with", String.class);
 	}
 	catch (Exception e) {
 		//
 	}
 }
 else {
-	if (aContext.getThisRequest().argumentExists("with")) {// with is an optional argument
-		try {
-			aWith = (String)aContext.source("arg:with", String.class);
-		}
-		catch (Exception e) {
-			//
-		}
+	try {
+		aWith = (String)aContext.source("milieuinfo:activeurl", String.class);
 	}
-	else {
-		try {
-			aWith = (String)aContext.source("milieuinfo:activeurl", String.class);
-		}
-		catch (Exception e) {
-			//
-		}
+	catch (Exception e) {
+		//
 	}
 }
 if (aWith == null || aWith == "") {

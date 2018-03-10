@@ -90,7 +90,9 @@
                     if (value.match(/^##/)) {
                         // flush buffer
                         if (inQuery && title && query) {
-                            container.append('<option value="' + query.replace(/\"/g, '&quot;') + '">' + title + '</option>');
+                            var escapedTitle = lib.escapeString(title);
+                            var escapedQuery = lib.escapeString(query);
+                            container.append('<option value="' + escapedQuery + '">' + escapedTitle + '</option>');
                         }
                         // reset buffer
                         inQuery = true;
@@ -102,6 +104,14 @@
                     }
                 });
             });
+        },
+
+        escapeString: function (value) {
+            return value
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+            ;
         },
 
         injectKWSExamples: function () {

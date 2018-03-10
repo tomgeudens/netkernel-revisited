@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sparql-catalog>
+<sparql-catalog>
+	<parameters>
+		<parameter name="toplevel"/>
+		<parameter name="format"/>
+	</parameters>
+	
+	<sparql uri="milieu/void_01.freemarker">
+	</sparql>
+	
+	<sparql uri="milieu/void_02.freemarker">
+	</sparql>
+</sparql-catalog>

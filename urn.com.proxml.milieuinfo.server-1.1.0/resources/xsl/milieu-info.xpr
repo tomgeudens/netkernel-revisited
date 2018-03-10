@@ -15,9 +15,11 @@
     </meta>
     <projectTree name="milieu-info.xpr">
         <folder masterFiles="true" name="Master Files">
-            <file name="rdfxml2htmlcbb.xsl"/>
-            <file name="rdfxml2htmlimjv.xsl"/>
-            <file name="rdfxml2htmlvocab.xsl"/>
+            <file name="homegeneric.xsl"/>
+            <file name="keywordsearchgeneric.xsl"/>
+            <file name="rdfxml2htmldefgeneric.xsl"/>
+            <file name="rdfxml2htmlgeneric.xsl"/>
+            <file name="rdfxml2htmlvocabgeneric.xsl"/>
         </folder>
         <folder path="."/>
     </projectTree>

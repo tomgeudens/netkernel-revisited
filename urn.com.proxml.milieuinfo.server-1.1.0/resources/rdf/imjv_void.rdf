@@ -1,0 +1,67 @@
+<rdf:RDF xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:void="http://rdfs.org/ns/void#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcat="http://www.w3.org/ns/dcat#" xmlns:vcard="http://www.w3.org/2006/vcard/ns#" xmlns:dbpedia="http://dbpedia.org/ontology/" xmlns:cube="http://purl.org/linked-data/cube#" xmlns:milieu="https://id.milieuinfo.be/def#" xmlns:locn="http://www.w3.org/ns/locn#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <void:Dataset rdf:about="https://id.milieuinfo.be/dataset/imjv#id" void:uriRegexPattern="^https://id\.milieuinfo\.be/imjv/(.*)#id$" dcat:keyword="IMJV">
+    <dcterms:description xml:lang="nl">RDF data gecreëerd op basis van de gearchiveerde IMJV rapporten in XML</dcterms:description>
+    <dcterms:license rdf:resource="http://creativecommons.org/publicdomain/zero/1.0" />
+    <dcterms:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2018-01-04</dcterms:modified>
+    <dcterms:publisher rdf:resource="http://data.kbodata.be/organisation/0316_380_841#id" />
+    <dcterms:title xml:lang="nl">De IMJV dataset</dcterms:title>
+    <void:classPartition rdf:parseType="Resource">
+      <void:class rdf:resource="http://dbpedia.org/ontology/Case" />
+      <void:entities rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">157596</void:entities>
+      <void:triples rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2169613</void:triples>
+    </void:classPartition>
+    <void:classPartition rdf:parseType="Resource">
+      <void:class rdf:resource="http://purl.org/linked-data/cube#Observation" />
+      <void:entities rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">485190</void:entities>
+      <void:triples rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">5092405</void:triples>
+    </void:classPartition>
+    <void:classPartition rdf:parseType="Resource">
+      <void:class rdf:resource="https://id.milieuinfo.be/def#Emissiepunt" />
+      <void:entities rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">4240</void:entities>
+      <void:triples rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">58097</void:triples>
+    </void:classPartition>
+    <void:classPartition rdf:parseType="Resource">
+      <void:class rdf:resource="https://id.milieuinfo.be/def#Lozingspunt" />
+      <void:entities rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1530</void:entities>
+      <void:triples rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">14056</void:triples>
+    </void:classPartition>
+    <void:classes rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">40</void:classes>
+    <void:distinctObjects rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2932128</void:distinctObjects>
+    <void:distinctSubjects rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2828123</void:distinctSubjects>
+    <void:entities rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2810842</void:entities>
+    <void:exampleResource rdf:resource="https://id.milieuinfo.be/imjv/dossier/2011_01749024006625#id" />
+    <void:exampleResource rdf:resource="https://id.milieuinfo.be/imjv/emissiepunt/6808#id" />
+    <void:exampleResource rdf:resource="https://id.milieuinfo.be/imjv/observatie/6808/em/8/obs/9/2011#id" />
+    <void:feature rdf:resource="http://www.w3.org/ns/formats/JSON-LD" />
+    <void:feature rdf:resource="http://www.w3.org/ns/formats/N-Triples" />
+    <void:feature rdf:resource="http://www.w3.org/ns/formats/N3" />
+    <void:feature rdf:resource="http://www.w3.org/ns/formats/RDF_XML" />
+    <void:feature rdf:resource="http://www.w3.org/ns/formats/Turtle" />
+    <void:properties rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">119</void:properties>
+    <void:sparqlEndpoint rdf:resource="https://id.milieuinfo.be/imjv/sparql" />
+    <void:triples rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">25434467</void:triples>
+    <void:vocabulary rdf:resource="http://dbpedia.org/ontology/" />
+    <void:vocabulary rdf:resource="http://purl.org/dc/elements/1.1/" />
+    <void:vocabulary rdf:resource="http://purl.org/dc/terms/" />
+    <void:vocabulary rdf:resource="http://purl.org/linked-data/cube#" />
+    <void:vocabulary rdf:resource="http://purl.org/spar/fabio/" />
+    <void:vocabulary rdf:resource="http://purl.org/vocab/frbr/core#" />
+    <void:vocabulary rdf:resource="http://purl.org/vocab/lifecycle/schema#" />
+    <void:vocabulary rdf:resource="http://qudt.org/schema/qudt#" />
+    <void:vocabulary rdf:resource="http://schema.org/" />
+    <void:vocabulary rdf:resource="http://www.w3.org/ns/dcat#" />
+    <void:vocabulary rdf:resource="http://www.w3.org/ns/locn#" />
+    <void:vocabulary rdf:resource="http://www.w3.org/ns/prov#" />
+    <void:vocabulary rdf:resource="http://xmlns.com/foaf/0.1/" />
+    <void:vocabulary rdf:resource="https://id.milieuinfo.be/def#" />
+    <dcat:contactPoint>
+      <vcard:Organization>
+        <vcard:hasName xml:lang="nl">Departement Omgeving</vcard:hasName>
+        <vcard:hasEmail rdf:resource="mailto:info@milieuinfo.be" />
+      </vcard:Organization>
+    </dcat:contactPoint>
+    <dcat:keyword>Integraal Milieu JaarVerslag</dcat:keyword>
+    <dcat:keyword>milieuinfo</dcat:keyword>
+    <dcat:theme rdf:resource="http://eurovoc.europa.eu/3140" />
+  </void:Dataset>
+</rdf:RDF>

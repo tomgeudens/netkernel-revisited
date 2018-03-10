@@ -5,6 +5,6 @@
 ## Een aantal installaties
 SELECT ?subject
 WHERE {
-	?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#GpbvInstallatie> . 
+	?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://id.milieuinfo.be/def#GpbvInstallatie> . 
 }
 LIMIT 5

@@ -1,0 +1,5 @@
+<config>
+	<url>${url}</url>
+	<username>${username}</username>
+	<password>${password}</password>
+</config>

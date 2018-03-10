@@ -1,5 +1,5 @@
 CONSTRUCT {
-  <http://id.milieuinfo.be/dataset/imjv#id>
+  <https://id.milieuinfo.be/dataset/imjv#id>
     <http://rdfs.org/ns/void#triples> ?totalNumberOfTriples;
     <http://rdfs.org/ns/void#entities> ?totalNumberOfEntities;
     <http://rdfs.org/ns/void#classes> ?totalNumberOfClasses;

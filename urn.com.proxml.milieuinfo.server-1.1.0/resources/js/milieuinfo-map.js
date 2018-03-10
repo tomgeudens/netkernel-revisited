@@ -16,9 +16,10 @@
             lib.base = $('base').attr('href') || '/';
             lib.rawCoordinates = lib.getRawCoordinates();
             if (!lib.hasCoordinates()) {
-                return;
+                lib.removeMapContainer();
+            } else {
+                lib.loadDependencies(lib.renderMap);
             }
-            lib.loadDependencies(lib.renderMap);
         },
 
         /**
@@ -29,6 +30,13 @@
         hasCoordinates: function () {
             var coords = lib.rawCoordinates;
             return ((coords.x && coords.y) || (coords.lat && coords.lon)) ? true : false;
+        },
+
+        removeMapContainer: function () {
+            var $map = document.querySelector('.geo-map');
+            if ($map) {
+                $map.parentNode.removeChild($map);
+            }
         },
 
         /**
@@ -108,6 +116,7 @@
             lib.triggerResize();
             lib.initMarkerLayer();
             lib.addMarker();
+            setTimeout(lib.triggerResize, 5000);
         },
 
         initProjection: function () {

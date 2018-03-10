@@ -1,0 +1,97 @@
+<#setting url_escaping_charset='UTF-8'>
+PREFIX pav: <http://purl.org/pav/>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX qb: <http://purl.org/linked-data/cube#>
+PREFIX frbr:   <http://purl.org/vocab/frbr/core#>
+PREFIX qudt: <http://qudt.org/schema/qudt#>
+PREFIX schema: <http://schema.org/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX locn: <http://www.w3.org/ns/locn#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX milieu: <https://id.milieuinfo.be/def#>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+PREFIX fabio: <http://purl.org/spar/fabio/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX org: <http://www.w3.org/ns/org#>
+PREFIX regorg: <http://www.w3.org/ns/regorg#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX state: <http://purl.org/vocab/lifecycle/schema#>
+PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX blazegeo: <http://www.proxml.be/blazegeo/wgs84_pos#>
+
+CONSTRUCT 
+	{
+		<${uri}#id> ?p ?v.
+
+		?p rdfs:label ?plbl.
+		?p skos:prefLabel ?pslbl.
+		?p rdf:type ?ptype.
+
+		?v rdfs:label ?vlbl.
+		?v skos:prefLabel ?vslbl.
+
+		<${uri}#id> ?bnp ?bn.
+		
+		?bn ?bnlvl2p ?bnlvl2o.
+
+		
+		?bnp rdfs:label ?bnplbl.
+		?bnp skos:prefLabel ?bnpslbl.
+		
+		?bnlvl2p rdfs:label ?bnlvl2plbl.
+		?bnlvl2p skos:prefLabel ?bnlvl2pslbl.
+		
+		?bnlvl2o rdfs:label ?bnlvl2olbl.
+		?bnlvl2o skos:prefLabel ?bnlvl2oslbl.
+	}
+	
+WHERE 
+{ 
+	GRAPH <urn:x-arq:UnionGraph> 
+	{
+		# select max date state and its properties (removing a few)
+		?emv	<http://purl.org/vocab/lifecycle/schema#stateOf> <${uri}#id>;
+	       	<http://purl.org/dc/terms/date> ?maxdate;
+	       	?p ?v.
+	  FILTER (?p != rdf:type && ?p != state:stateOf && ?p != rdfs:label && !(isBlank(?v)))
+	  
+	  OPTIONAL {?p rdfs:label ?plbl.}
+	  OPTIONAL {?p skos:prefLabel ?pslbl.}
+	  OPTIONAL {?p rdf:type ?ptype.
+               filter(regex(str(?ptype), 'http://purl.org/linked-data/cube')).}
+
+	  OPTIONAL {?v rdfs:label ?vlbl.}
+	  OPTIONAL {?v skos:prefLabel ?vslbl.}
+	  
+	  OPTIONAL {?emv ?bnp ?bn.
+		  				FILTER (isBlank(?bn))
+		  				?bn ?bnlvl2p ?bnlvl2o.}
+		  
+	  OPTIONAL {?bnp rdfs:label ?bnplbl.}
+	  OPTIONAL {?bnp skos:prefLabel ?bnpslbl.}
+
+	  OPTIONAL {?bnlvl2p rdfs:label ?bnlvl2plbl.}
+	  OPTIONAL {?bnlvl2p skos:prefLabel ?bnlvl2pslbl.}
+
+	  OPTIONAL {?bnlvl2o rdfs:label ?bnlvl2olbl.}
+	  OPTIONAL {?bnlvl2o skos:prefLabel ?bnlvl2oslbl.}
+	  
+	  {
+	    # select entity, state type en max date
+	    SELECT (max(?date) as ?maxdate)
+	    WHERE
+	    {
+	      ?emv <http://purl.org/vocab/lifecycle/schema#stateOf> <${uri}#id>.
+	      ?emv a ?vtype.
+	      ?emv <http://purl.org/dc/terms/date> ?date.
+	    }
+	    GROUP BY ?vtype
+	  }
+	}
+}

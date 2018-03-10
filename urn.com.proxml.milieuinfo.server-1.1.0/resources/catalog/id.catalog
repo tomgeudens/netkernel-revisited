@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sparql-catalog>
+<sparql-catalog>
+	<parameters>
+		<parameter name="uri"/>
+		<parameter name="domain"/>
+		<parameter name="format"/>
+	</parameters>
+	
+	<sparql uri="core/doc.freemarker">
+	</sparql>
+	
+	<sparql uri="milieu/blank-nodes.freemarker">
+	</sparql>
+	
+	<sparql uri="core/incoming.freemarker">
+		<condition parameter="format" has-not-value="html"/>
+		<condition parameter="domain" has-not-value="ets"/>
+	</sparql>
+</sparql-catalog>

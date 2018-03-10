@@ -1,3 +1,3 @@
 # one entry per line => {uri}{space}{label}
-http://id.milieuinfo.be/gpbv/installatie/bevla0002#id AGC Glass Europe
-http://id.milieuinfo.be/gpbv/adres/2400_mol_voortstraat_25#id Voortstraat 25, 2400 Mol
+https://id.milieuinfo.be/gpbv/installatie/bevla0002#id AGC Glass Europe
+https://id.milieuinfo.be/gpbv/adres/2400_mol_voortstraat_25#id Voortstraat 25, 2400 Mol

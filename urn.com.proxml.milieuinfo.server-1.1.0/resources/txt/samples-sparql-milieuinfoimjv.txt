@@ -2,24 +2,91 @@
 # The double-hashed line is used as query label
 
 ## Een aantal emissiepunten
-SELECT ?subject
-WHERE {
-  ?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Emissiepunt> .
-}
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX qb: <http://purl.org/linked-data/cube#>
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX lcy: <http://purl.org/vocab/lifecycle/schema#>
+PREFIX qudt: <http://qudt.org/schema/qudt#>
+PREFIX schema: <http://schema.org/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX locn: <http://www.w3.org/ns/locn#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX milieu: <https://id.milieuinfo.be/def#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX fabio: <http://purl.org/spar/fabio/> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX xkos: <http://rdf-vocabulary.ddialliance.org/xkos#>
+PREFIX org: <http://www.w3.org/ns/org#>
+PREFIX regorg: <http://www.w3.org/ns/regorg#>
+PREFIX sdmx-attr: <http://purl.org/linked-data/sdmx/2009/attribute#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?subject ?label
+WHERE { GRAPH <https://id.milieuinfo.be/graph/imjv#id>
+{ ?subject a <https://id.milieuinfo.be/def#Emissiepunt> ; rdfs:label ?label.
+}}
 LIMIT 5
 
 ## Een aantal lozingspunten
-SELECT ?subject
-WHERE {
-  ?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Lozingspunt> .
-}
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX qb: <http://purl.org/linked-data/cube#>
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX lcy: <http://purl.org/vocab/lifecycle/schema#>
+PREFIX qudt: <http://qudt.org/schema/qudt#>
+PREFIX schema: <http://schema.org/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX locn: <http://www.w3.org/ns/locn#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX milieu: <https://id.milieuinfo.be/def#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX fabio: <http://purl.org/spar/fabio/> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX xkos: <http://rdf-vocabulary.ddialliance.org/xkos#>
+PREFIX org: <http://www.w3.org/ns/org#>
+PREFIX regorg: <http://www.w3.org/ns/regorg#>
+PREFIX sdmx-attr: <http://purl.org/linked-data/sdmx/2009/attribute#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?subject ?label
+WHERE { GRAPH <https://id.milieuinfo.be/graph/imjv#id>{
+?subject a <https://id.milieuinfo.be/def#Lozingspunt> ; rdfs:label ?label.
+}}
 LIMIT 5
 
 ## Een aantal observaties/metingen op luchtemissiepunten
-SELECT ?subject ?refgebied
-WHERE {
-  ?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/linked-data/cube#Observation> .
-  ?subject <http://id.milieuinfo.be/def#referentiegebied> ?refgebied .
-  ?refgebied <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Emissiepunt> .
-}
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX qb: <http://purl.org/linked-data/cube#>
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX lcy: <http://purl.org/vocab/lifecycle/schema#>
+PREFIX qudt: <http://qudt.org/schema/qudt#>
+PREFIX schema: <http://schema.org/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX locn: <http://www.w3.org/ns/locn#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX milieu: <https://id.milieuinfo.be/def#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX fabio: <http://purl.org/spar/fabio/> 
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX xkos: <http://rdf-vocabulary.ddialliance.org/xkos#>
+PREFIX org: <http://www.w3.org/ns/org#>
+PREFIX regorg: <http://www.w3.org/ns/regorg#>
+PREFIX sdmx-attr: <http://purl.org/linked-data/sdmx/2009/attribute#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?meting ?refgebied ?label
+WHERE { GRAPH <https://id.milieuinfo.be/graph/imjv#id>
+{ ?meting <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://purl.org/linked-data/cube#Observation> .
+?meting <https://id.milieuinfo.be/def#referentiegebied> ?refgebied .
+?refgebied <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://id.milieuinfo.be/def#Emissiepunt> ; rdfs:label ?label.
+}}
 LIMIT 5

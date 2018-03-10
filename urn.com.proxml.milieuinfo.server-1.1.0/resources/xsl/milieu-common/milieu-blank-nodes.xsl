@@ -13,7 +13,7 @@
 	
 	xmlns:cube="http://purl.org/linked-data/cube#"
 	
-	xmlns:milieu="http://id.milieuinfo.be/def#"
+	xmlns:milieu="https://id.milieuinfo.be/def#"
 	
 	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
 	xmlns:qudt="http://qudt.org/schema/qudt#"
@@ -27,19 +27,20 @@
 	<!-- blank node processing - zeer specifiek -->
 	
 	<xsl:template match="*[rdf:value]" mode="blank-nodes">
-		<xsl:value-of select="rdf:value"/>
-		<xsl:text> </xsl:text>
-		<a>
-			<xsl:copy-of select="fun:set-domain-modified-href(sdmx-attribute:unitMeasure/@rdf:resource)"></xsl:copy-of>
-			<xsl:value-of select="
-				(
-				key('resource-by-about', sdmx-attribute:unitMeasure/@rdf:resource, $global-context)/qudt:symbol[normalize-space()][not(normalize-space() = '.')],
-				fun:set-property-label(key('resource-by-about', sdmx-attribute:unitMeasure/@rdf:resource, $global-context), sdmx-attribute:unitMeasure/@rdf:resource)
-				)[normalize-space()][1]
-				"/>
-		</a>
+		<p>
+			<xsl:value-of select="rdf:value"/>
+			<xsl:text> </xsl:text>
+			<a>
+				<xsl:copy-of select="fun:set-domain-modified-href(sdmx-attribute:unitMeasure/@rdf:resource)"></xsl:copy-of>
+				<xsl:value-of select="
+					(
+					key('resource-by-about', sdmx-attribute:unitMeasure/@rdf:resource, $global-context)/qudt:symbol[normalize-space()][not(normalize-space() = '.')],
+					fun:set-property-label(key('resource-by-about', sdmx-attribute:unitMeasure/@rdf:resource, $global-context), sdmx-attribute:unitMeasure/@rdf:resource)
+					)[normalize-space()][1]
+					"/>
+			</a>
+		</p>
 	</xsl:template>
 	
-	<xsl:template match="*[not(rdf:value)]" mode="blank-nodes"/>
 	
 </xsl:stylesheet>

@@ -107,13 +107,15 @@
             var controls = document.createElement('div');
             controls.classList.add('controls');
             widget.appendChild(controls);
+            // sorting
+            lib.injectSorter(controls);
             // filter
             var filter = document.createElement('input');
             filter.classList.add('filter');
             filter.setAttribute('type', 'text');
             filter.setAttribute('autocomplete', 'off');
             filter.setAttribute('data-value', '');
-            filter.setAttribute('placeholder', 'Linken filteren');
+            filter.setAttribute('placeholder', 'Filteren');
             controls.appendChild(filter);
             // info
             var info = document.createElement('span');
@@ -127,6 +129,19 @@
             var next = document.createElement('a');
             next.classList.add('next');
             controls.appendChild(next);
+        },
+
+        injectSorter: function (container) {
+            var sorter = document.createElement('select');
+            sorter.classList.add('sorter');
+            sorter.setAttribute('data-value', 'ASC(?label)');
+            sorter.innerHTML = '' +
+                '<option value="ASC(?label)">&#x2191; Titel</option>' +
+                '<option value="DESC(?label)">&#x2193; Titel</option>' +
+                //'<option value="ASC(?uri)">&#x2191; URI</option>' +
+                //'<option value="DESC(?uri)">&#x2193; URI</option>' +
+            '';
+            container.append(sorter);
         },
 
         /**
@@ -229,20 +244,31 @@
             var rdfsLabel = 'http://www.w3.org/2000/01/rdf-schema#label';
             var skosLabel = 'http://www.w3.org/2004/02/skos/core#prefLabel';
             var dctTitle = 'http://purl.org/dc/terms/title';
+            var graph = 'urn:x-arq:UnionGraph'; // dataset-agnostic
+            var sorter = widget.querySelector('select.sorter');
+            var sortOrder = (sorter && sorter.value) ? sorter.value : 'ASC(?label)';
+
             return "" +
                 (countOnly
                     ? 'SELECT (COUNT(DISTINCT ?uri) AS ?linkCount) '
                     : 'SELECT DISTINCT ?uri ?label '
                 ) +
+                'FROM <' + graph + '> ' +
                 'WHERE { ' +
-                '  ?uri <' + predicate + '> <' + lib.resourceUri + '> ; ' +
-                '       ?p ?label . ' +
-                '  FILTER(?p = <' + rdfsLabel + '> || ?p = <' + skosLabel + '> || ?p = <' + dctTitle + '>) ' +
+                '  ?uri <' + predicate + '> <' + lib.resourceUri + '> . ' +
+                '  OPTIONAL { ?uri <' + rdfsLabel + '> ?rdfsLabel } ' +
+                '  OPTIONAL { ?uri <' + skosLabel + '> ?skosLabel } ' +
+                '  OPTIONAL { ?uri <' + dctTitle + '> ?dctTitle } ' +
+                '  BIND(COALESCE(?rdfsLabel, ?skosLabel, ?dctTitle) AS ?label) ' +
                 lib.getFilterPattern(widget) +
                 '} ' +
                 (countOnly
                     ? ''
-                    : 'LIMIT ' + lib.pageSize + '  OFFSET ' + (page * lib.pageSize)
+                    : ' ORDER BY ' + sortOrder
+                ) +
+                (countOnly
+                    ? ''
+                    : ' LIMIT ' + lib.pageSize + ' OFFSET ' + (page * lib.pageSize)
                 )
             ;
         },
@@ -275,20 +301,20 @@
          */
         refreshList: function(widget) {
             var linkCount = parseInt(widget.getAttribute('data-link-count'));
-            // keep initial list if no pagination is needed
-            if (!widget.querySelector('.controls') && linkCount <= lib.pageSize) {
-                return;
-            }
-            // init controls
+
+            // inject controls
             if (!widget.querySelector('.controls')) {
                 lib.initControls(widget);
             }
-            // active pagination controls
+
+            // activate pagination and search controls
             widget.classList.add('with-controls');
+
             // reset page offset
             widget.setAttribute('data-page', '0');
             lib.updatePageInfo(widget);
-            // load first page
+
+            // load links
             lib.loadLinks(widget, lib.renderLinks);
         },
 
@@ -312,6 +338,9 @@
                 objects.appendChild(p);
                 contentHeight += p.offsetHeight + 3;// 2 px padding, 1px border
             });
+            if (!links.length) {
+                objects.innerHTML = '<em class="no-results">-</em>';
+            }
             // delay height rule for CSS transition to kick in
             setTimeout(function() {
                 objects.style.height = contentHeight;
@@ -357,6 +386,19 @@
                     lib.debounce(function() {
                         lib.loadLinks($widget[0], lib.renderLinks);
                     }, 500, 'load-links-for-' + $widget.attr('data-predicate'));
+                }
+            });
+            // sorter
+            // noinspection JSJQueryEfficiency
+            $('.links.inbound').on('change click', 'select.sorter', function () {
+                var prevValue = this.getAttribute('data-value');
+                var currentValue = this.value;
+                if (prevValue !== currentValue) {
+                    this.setAttribute('data-value', currentValue);
+                    $widget = $(this).closest('.predicate');
+                    lib.debounce(function() {
+                        lib.countLinks($widget[0], lib.refreshList);
+                    }, 250, 'count-links-for-' + $widget.attr('data-predicate'));
                 }
             });
             // filter

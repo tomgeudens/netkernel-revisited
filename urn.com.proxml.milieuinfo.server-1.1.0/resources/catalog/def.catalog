@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sparql-catalog>
+<sparql-catalog>
+	<parameters>
+		<parameter name="format"/>
+	</parameters>
+	
+	<sparql uri="milieu/def.freemarker">
+	</sparql>
+</sparql-catalog>

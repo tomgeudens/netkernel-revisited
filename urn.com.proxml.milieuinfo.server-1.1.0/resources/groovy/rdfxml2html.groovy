@@ -38,22 +38,11 @@ aContext.logRaw(INKFLocale.LEVEL_INFO, "RDFXML2HTMLAccessor: start of id - " + v
 Boolean vIsHTTPRequest = (Boolean)aContext.exists("httpRequest:/remote-host");
 
 String aWith = null;
-if (vIsHTTPRequest) {
-	try {
-		javax.servlet.http.HttpServletRequest vURL = (javax.servlet.http.HttpServletRequest)aContext.source("httpRequest:/advanced/HttpServletRequest", javax.servlet.http.HttpServletRequest.class);
-		aWith = vURL.getScheme() + "://" + vURL.serverName + ":" + vURL.serverPort.toString();
-	}
-	catch (Exception e) {
-		//
-	}
+try {
+	aWith = (String)aContext.source("milieuinfo:activeurl", String.class);
 }
-else {
-	try {
-		aWith = (String)aContext.source("milieuinfo:activeurl", String.class);
-	}
-	catch (Exception e) {
-		//
-	}
+catch (Exception e) {
+	//
 }
 if (aWith == null || aWith == "") {
 	// sensible default

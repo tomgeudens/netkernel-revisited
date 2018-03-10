@@ -1,7 +1,7 @@
 CONSTRUCT {
-  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#sparqlEndpoint> ?sparql .
+  <https://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#sparqlEndpoint> ?sparql .
 }
 WHERE {
-  SELECT (<http://id.milieuinfo.be/imjv/sparql> AS ?sparql)
+  SELECT (<https://id.milieuinfo.be/imjv/sparql> AS ?sparql)
   { ?s ?p ?o } LIMIT 1
 }

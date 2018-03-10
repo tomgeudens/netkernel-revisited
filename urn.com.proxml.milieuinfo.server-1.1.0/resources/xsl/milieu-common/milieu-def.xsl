@@ -13,7 +13,7 @@
 	
 	xmlns:cube="http://purl.org/linked-data/cube#"
 	
-	xmlns:milieu="http://id.milieuinfo.be/def#"
+	xmlns:milieu="https://id.milieuinfo.be/def#"
 	
 	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
 	xmlns:qudt="http://qudt.org/schema/qudt#"

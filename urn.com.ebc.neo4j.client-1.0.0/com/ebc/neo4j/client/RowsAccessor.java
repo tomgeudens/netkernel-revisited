@@ -33,6 +33,7 @@ import org.neo4j.driver.v1.*;
 import org.neo4j.driver.v1.types.Node;
 import org.neo4j.driver.v1.types.Path;
 import org.neo4j.driver.v1.types.Relationship;
+import org.neo4j.driver.v1.types.TypeSystem;
 import org.neo4j.driver.v1.util.Pair;
 
 
@@ -164,7 +165,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 				vMutator.pushNode("row");
 				
 			    for (Pair <String, Value> vListEntry : vRecord.fields()) {
-			    	process_listentry(vSession, vMutator, vListEntry.key(), vListEntry.value());
+			    	process_listentry(vSession.typeSystem(), vMutator, vListEntry.key(), vListEntry.value());
 			    }
 			    
 			    vMutator.popNode(); // row
@@ -201,7 +202,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 		//
 	}
 
-	private void process_listentry(Session vSession, IHDSMutator vMutator, String vKey, Object vValue) {		
+	private void process_listentry(TypeSystem vTS, IHDSMutator vMutator, String vKey, Object vValue) {		
 		if (vValue instanceof String) {
 			String vString = (String)vValue;
 			vMutator.addNode(vKey, vString);
@@ -236,7 +237,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 			}
 			for (String lKey : vNode.keys()) {
 				Value lValue = vNode.get(lKey);
-				process_listentry(vSession, vMutator, lKey, lValue);
+				process_listentry(vTS, vMutator, lKey, lValue);
 			}
     		vMutator.popNode();
 		}
@@ -246,7 +247,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 			@SuppressWarnings("rawtypes")
 			List vList = (List)vValue;
 			for (int i = 0; i < vList.size(); i++) {
-				process_listentry(vSession, vMutator, vKey +  "." + i , vList.get(i));
+				process_listentry(vTS, vMutator, vKey +  "." + i , vList.get(i));
 			}
 			vMutator.popNode();			
 		}
@@ -258,7 +259,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 			Iterator<Entry<String, Object>> vIterator = vMap.entrySet().iterator();
 			while (vIterator.hasNext()) {
 				Map.Entry<String, Object> vEntry = (Map.Entry<String, Object>)vIterator.next();
-				process_listentry(vSession, vMutator, vEntry.getKey(), vEntry.getValue());
+				process_listentry(vTS, vMutator, vEntry.getKey(), vEntry.getValue());
 			}
 			vMutator.popNode();			
 		}
@@ -271,7 +272,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 			vMutator.addNode("_type", vRelationship.type());
 			for (String lKey : vRelationship.keys()) {
 				Value lValue = vRelationship.get(lKey);
-				process_listentry(vSession, vMutator, lKey, lValue);
+				process_listentry(vTS, vMutator, lKey, lValue);
 			}			
 			vMutator.popNode();
 		}
@@ -280,12 +281,12 @@ public class RowsAccessor extends StandardAccessorImpl {
 			vMutator.pushNode(vKey);
 			Path vPath = (Path)vValue;
 			
-			process_listentry(vSession, vMutator, "_startnode", vPath.start());
+			process_listentry(vTS, vMutator, "_startnode", vPath.start());
 			
 			vMutator.pushNode("nodes");
 			int iNode = 0;
 			for (Node vNode : vPath.nodes()) {
-				process_listentry(vSession, vMutator, "node." + iNode, vNode);
+				process_listentry(vTS, vMutator, "node." + iNode, vNode);
 				iNode++;
 			}
 			vMutator.popNode();
@@ -293,12 +294,12 @@ public class RowsAccessor extends StandardAccessorImpl {
 			vMutator.pushNode("relationships");
 			int iRelationship = 0;
 			for (Relationship vRelationship : vPath.relationships()) {
-				process_listentry(vSession, vMutator, "relationship." + iRelationship, vRelationship);
+				process_listentry(vTS, vMutator, "relationship." + iRelationship, vRelationship);
 				iRelationship++;
 			}
 			vMutator.popNode();
 			
-			process_listentry(vSession, vMutator, "_endnode", vPath.end());
+			process_listentry(vTS, vMutator, "_endnode", vPath.end());
 			
 			vMutator.popNode();
 		}
@@ -308,42 +309,42 @@ public class RowsAccessor extends StandardAccessorImpl {
 		}
 	}
 	
-	private void process_listentry(Session vSession, IHDSMutator vMutator, String vKey, Value vValue) {
-		if (vValue.type().equals(vSession.typeSystem().STRING())) {
+	private void process_listentry(TypeSystem vTS, IHDSMutator vMutator, String vKey, Value vValue) {
+		if (vValue.hasType(vTS.STRING())) {
     		vMutator.addNode(vKey, vValue.asString());
     	}
 		
-		else if (vValue.type().equals(vSession.typeSystem().INTEGER())) {
+		else if (vValue.hasType(vTS.INTEGER())) {
     		vMutator.addNode(vKey, Integer.toString(vValue.asInt()));
     	}
 		
-		else if (vValue.type().equals(vSession.typeSystem().NUMBER())) {
+		else if (vValue.hasType(vTS.NUMBER())) {
     		vMutator.addNode(vKey, vValue.asNumber().toString());
     	}
 		
-		else if (vValue.type().equals(vSession.typeSystem().FLOAT())) {
+		else if (vValue.hasType(vTS.FLOAT())) {
     		vMutator.addNode(vKey, Float.toString(vValue.asFloat()));
     	}
 		
-		else if (vValue.type().equals(vSession.typeSystem().LIST())) {
+		else if (vValue.hasType(vTS.LIST())) {
 			vMutator.pushNode(vKey);
 			for (int i = 0; i < vValue.asList().size(); i++) {
-				process_listentry(vSession, vMutator, vKey +  "." + i , vValue.asList().get(i));
+				process_listentry(vTS, vMutator, vKey +  "." + i , vValue.asList().get(i));
 			}
 			vMutator.popNode();
     	}
 		
-		else if (vValue.type().equals(vSession.typeSystem().MAP())) {
+		else if (vValue.hasType(vTS.MAP())) {
 			vMutator.pushNode(vKey);
 			Iterator<Entry<String, Object>> vIterator = vValue.asMap().entrySet().iterator();
 			while (vIterator.hasNext()) {
 				Map.Entry<String, Object> vEntry = (Map.Entry<String, Object>)vIterator.next();
-				process_listentry(vSession, vMutator, vEntry.getKey(), vEntry.getValue());
+				process_listentry(vTS, vMutator, vEntry.getKey(), vEntry.getValue());
 			}
 			vMutator.popNode();
 		}
 		
-		else if (vValue.type().equals(vSession.typeSystem().NODE())){
+		else if (vValue.hasType(vTS.NODE())){
 			vMutator.pushNode(vKey);
 			vMutator.addNode("_id", Long.toString(vValue.asNode().id()));
 			for (String lLabel : vValue.asNode().labels()) {
@@ -351,32 +352,32 @@ public class RowsAccessor extends StandardAccessorImpl {
 			}
 			for (String lKey : vValue.asNode().keys()) {
 				Value lValue = vValue.asNode().get(lKey);
-				process_listentry(vSession, vMutator, lKey, lValue);
+				process_listentry(vTS, vMutator, lKey, lValue);
 			}
     		vMutator.popNode();
 		}
 		
-		else if (vValue.type().equals(vSession.typeSystem().RELATIONSHIP())){
+		else if (vValue.hasType(vTS.RELATIONSHIP())){
 			vMutator.pushNode(vKey);
 			vMutator.addNode("_startid", Long.toString(vValue.asRelationship().startNodeId()));
 			vMutator.addNode("_endid", Long.toString(vValue.asRelationship().endNodeId()));
 			vMutator.addNode("_type", vValue.asRelationship().type());
 			for (String lKey : vValue.asRelationship().keys()) {
 				Value lValue = vValue.asRelationship().get(lKey);
-				process_listentry(vSession, vMutator, lKey, lValue);
+				process_listentry(vTS, vMutator, lKey, lValue);
 			}			
 			vMutator.popNode();			
 		}
 		
-		else if (vValue.type().equals(vSession.typeSystem().PATH())){
+		else if (vValue.hasType(vTS.PATH())){
 			vMutator.pushNode(vKey);
 			
-			process_listentry(vSession, vMutator, "_startnode", vValue.asPath().start());
+			process_listentry(vTS, vMutator, "_startnode", vValue.asPath().start());
 			
 			vMutator.pushNode("nodes");
 			int iNode = 0;
 			for (Node vNode : vValue.asPath().nodes()) {
-				process_listentry(vSession, vMutator, "node." + iNode, vNode);
+				process_listentry(vTS, vMutator, "node." + iNode, vNode);
 				iNode++;
 			}
 			vMutator.popNode();
@@ -384,12 +385,12 @@ public class RowsAccessor extends StandardAccessorImpl {
 			vMutator.pushNode("relationships");
 			int iRelationship = 0;
 			for (Relationship vRelationship : vValue.asPath().relationships()) {
-				process_listentry(vSession, vMutator, "relationship." + iRelationship, vRelationship);
+				process_listentry(vTS, vMutator, "relationship." + iRelationship, vRelationship);
 				iRelationship++;
 			}
 			vMutator.popNode();
 			
-			process_listentry(vSession, vMutator, "_endnode", vValue.asPath().end());
+			process_listentry(vTS, vMutator, "_endnode", vValue.asPath().end());
 			
 			vMutator.popNode();
 		}

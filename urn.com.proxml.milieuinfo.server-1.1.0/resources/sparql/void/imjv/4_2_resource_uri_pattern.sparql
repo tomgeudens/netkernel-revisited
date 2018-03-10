@@ -1,7 +1,7 @@
 CONSTRUCT {
-  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#uriSpace> ?uriSpace .
+  <https://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#uriSpace> ?uriSpace .
 }
 WHERE {
-  SELECT ( "http://id.milieuinfo.be/" AS ?uriSpace)
+  SELECT ( "https://id.milieuinfo.be/" AS ?uriSpace)
   { ?s ?p ?o } LIMIT 1
 }

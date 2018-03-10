@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:neo4j:sgsstableau</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / neo4j / sgsstableau</name>
+			<description>elephant bird consulting / neo4j / sgsstableau</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+			
+	<rootspace
+		name="ebc neo4j sgsstableau"
+		public="true"
+		uri="urn:com:ebc:neo4j:sgsstableau">
+
+		<fileset>
+			<regex>res:/etc/system/(SimpleDynamicImportHook).xml</regex>
+		</fileset>
+
+		<!-- this endpoint makes sure no other /etc/system resource
+		     gets pulled in -->
+		<endpoint>
+			<prototype>Limiter</prototype>
+			<grammar>res:/etc/system<regex type="anything"/></grammar>
+		</endpoint>
+		
+		<overlay>
+			<prototype>RESTOverlay</prototype>
+			<config>
+				<basepath>/sgsstableau/</basepath>
+				<auto404/>
+			</config>
+			
+			<space>
+				<mapper>
+					<config>
+						<!-- / -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple></simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:sgsstableau</identifier>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/html/sgsstableau.html</identifier>
+							</request>
+						</endpoint>
+						
+						<!-- /html/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>html/{htmlfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/html</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:sgsstableauhtml</identifier>
+									<argument name="htmlfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/html/[[arg:htmlfile]]</identifier>
+							</request>
+						</endpoint>					
+						
+						<!-- /css/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>css/{cssfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/css</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:sgsstableaucss</identifier>
+									<argument name="cssfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/css/[[arg:cssfile]]</identifier>
+							</request>
+						</endpoint>
+
+						<!-- /js/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>js/{jsfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/plain</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:sgsstableaujs</identifier>
+									<argument name="jsfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/js/[[arg:jsfile]]</identifier>
+							</request>
+						</endpoint>
+
+						<!-- /cypher/* -->
+						<endpoint>
+							<meta>
+								<rest>
+									<simple>cypher/{cypherfile}</simple>
+									<method>GET</method>
+									<Etag>MD5</Etag>
+									<compress/>
+									<produces>text/plain</produces>
+								</rest>
+							</meta>
+							
+							<grammar>
+								<active>
+									<identifier>active:sgsstableaucypher</identifier>
+									<argument name="cypherfile"/>
+								</active>
+							</grammar>
+							
+							<request>
+								<identifier>res:/resources/cypher/[[arg:cypherfile]]</identifier>
+							</request>
+						</endpoint>
+					</config>
+
+					<space>
+						<import>
+							<!-- tools needed inside the RESTOverlay -->
+							<uri>urn:com:ebc:neo4j:sgsstableau:import:overlay</uri>
+							<private/>
+						</import>
+					</space>
+				</mapper>
+				
+				<import>
+					<!-- needed here as well if the RESTOverlay itself
+						 launches the request -->
+					<uri>urn:com:ebc:neo4j:sgsstableau:import:overlay</uri>
+					<private/>
+				</import>
+			</space>
+		</overlay>
+
+		<import>
+			<uri>urn:com:ebc:neo4j:sgsstableau:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc neo4j sgsstableau import"
+		public="false"
+		uri="urn:com:ebc:neo4j:sgsstableau:import">
+		
+		<import>
+			<!-- contains RESTOverlay prototype -->
+			<uri>urn:org:netkernel:tpt:http</uri>
+		</import>
+		
+		<import>
+			<!-- contains Limiter prototype -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc neo4j sgsstableau import overlay"
+		public="false"
+		uri="urn:com:ebc:neo4j:sgsstableau:import:overlay">
+		
+		<fileset>
+			<!-- contains js resources -->
+			<regex>res:/resources/js/.*</regex>
+		</fileset>
+		
+		<fileset>
+			<!-- contains html resources -->
+			<regex>res:/resources/html/.*</regex>
+		</fileset>
+		
+		<fileset>
+			<!-- contains css resources -->
+			<regex>res:/resources/css/.*</regex>
+		</fileset>
+		
+		<fileset>
+			<!-- contains cypher resources -->
+			<regex>res:/resources/cypher/.*</regex>
+		</fileset>
+	</rootspace>
+</module>

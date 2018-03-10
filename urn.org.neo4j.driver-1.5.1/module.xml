@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:org:neo4j:driver</uri>
+			<version>1.5.1</version>
+		</identity>
+		<info>
+			<name>neo4j / driver</name>
+			<description>neo4j / driver</description>
+		</info>
+	</meta>
+	
+	<system>
+		<dynamic/>
+		<classloader>
+			<exports>
+				<match>org\.neo4j\..*</match>
+			</exports>
+		</classloader>
+	</system>
+	
+	<rootspace
+		name="neo4j driver"
+		public="true"
+		uri="urn:org:neo4j:driver">
+	</rootspace>
+</module>

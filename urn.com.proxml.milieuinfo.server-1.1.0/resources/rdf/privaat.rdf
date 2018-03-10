@@ -1,8 +1,8 @@
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:purl="http://purl.org/dc/terms/" > 
-  <rdf:Description rdf:about="http://id.milieuinfo.be/privaat#id">
-    <rdf:type rdf:resource="http://id.milieuinfo.be/def#Privaat"/>
+  <rdf:Description rdf:about="https://id.milieuinfo.be/privaat#id">
+    <rdf:type rdf:resource="https://id.milieuinfo.be/def#Privaat"/>
     <purl:title>deze resource kan niet getoond omwille van privacy redenen</purl:title>
   </rdf:Description>
 </rdf:RDF>

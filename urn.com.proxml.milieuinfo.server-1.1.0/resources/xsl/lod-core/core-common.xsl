@@ -22,12 +22,11 @@
 	version="2.0">
 
 	<xsl:import href="core-html-skin.xsl"/>
+	<xsl:import href="core-blank-nodes.xsl"/>
 	
 	<xsl:param name="replace" as="xs:string" select="'#rep'"/><!-- void default waarde om geen inf. loops te hebben-->
 	<xsl:param name="with" as="xs:string" select="'#with'"/><!-- void default waarde om geen inf. loops te hebben-->
 
-	<xsl:param name="maximum-incoming-per-property">15</xsl:param>
-	
 	<xsl:variable name="global-context" select="."/>
 	
 	<!-- keys for efficient node retrieval (merk op dat sommige resources gesplitst worden over meerdere rdf:Description -->
@@ -43,7 +42,7 @@
 		<xsl:value-of select="if(matches($doc-about, '^http')) then(fun:domain-modify-uri($doc-about)) else(concat('/', $doc-about))" />
 	</xsl:function>
 	
-	<xsl:function name="fun:alternate-files" as="element(link)+">
+	<xsl:function name="fun:alternate-files" as="element(link)*">
 		<xsl:param name="doc-uri"/>
 		<xsl:variable name="doc-id" select="fun:get-alternate-file-ref($doc-uri)"/>
 		<link rel="alternate" type="application/rdf+xml" href="{$doc-id}.rdf"/>
@@ -52,7 +51,7 @@
 		<link rel="alternate" type="application/ld+json" href="{$doc-id}.jsonld"/>
 	</xsl:function>
 	
-	<xsl:function name="fun:export-options" as="element(div)">
+	<xsl:function name="fun:export-options" as="element(div)*">
 		<xsl:param name="doc-uri"/>
 		<xsl:variable name="doc-id" select="fun:get-alternate-file-ref($doc-uri)"/>
 		<div class="export-options">
@@ -91,8 +90,17 @@
 		<xsl:param name="nodes" as="element()*"/>
 		<xsl:variable name="namespace" select="concat(namespace-uri($nodes[1]),local-name($nodes[1]))"/>
 		<xsl:variable name="property-resource" select="key('resource-by-about', $namespace, $global-context)"/>
-		<a about="{$property-resource/@rdf:about}" class="label" >
+		<a about="{if(normalize-space($property-resource/@rdf:about)) then($property-resource/@rdf:about) else(fun:set-domain-modified-href($namespace))}" class="label" >
 			<xsl:copy-of select="fun:set-domain-modified-href($namespace)"/>
+			<xsl:value-of select="fun:set-property-label($property-resource, local-name($nodes[1]))"/>
+		</a>
+	</xsl:function>
+	
+	<xsl:function name="fun:set-orig-label">
+		<xsl:param name="nodes" as="element()*"/>
+		<xsl:variable name="namespace" select="concat(namespace-uri($nodes[1]),local-name($nodes[1]))"/>
+		<xsl:variable name="property-resource" select="key('resource-by-about', $namespace, $global-context)"/>
+		<a about="{$namespace}" class="label" href="{fun:set-domain-modified-href($namespace)}">
 			<xsl:value-of select="fun:set-property-label($property-resource, local-name($nodes[1]))"/>
 		</a>
 	</xsl:function>
@@ -140,29 +148,37 @@
 	<xsl:function name="fun:set-content">
 		<xsl:param name="nodes" as="element()*"/>
 		<div class="objects">
-			<xsl:variable name="unsorted-p-block" as="element(p)*">
-				<xsl:for-each select="$nodes">
-					<p>
+			<xsl:variable name="unsorted-p-block" as="element(block)">
+				<block>
+					<xsl:for-each select="$nodes">
 						<xsl:choose>
 							<xsl:when test="@rdf:resource">
 								<xsl:variable name="this-resource" select="normalize-space(@rdf:resource)"/>
-								<a>
-									<xsl:copy-of select="fun:set-domain-modified-href($this-resource)"></xsl:copy-of>
-									<xsl:value-of select="fun:set-property-label(key('resource-by-about', $this-resource), $this-resource)"/>
-								</a>
+								<p>
+									<a>
+										<xsl:copy-of select="fun:set-domain-modified-href($this-resource)"></xsl:copy-of>
+										<xsl:value-of select="fun:set-property-label(key('resource-by-about', $this-resource), $this-resource)"/>
+									</a>
+								</p>
 							</xsl:when>
 							<xsl:when test="@rdf:nodeID">
 								<xsl:variable name="this-node-id" select="normalize-space(@rdf:nodeID)"/>
 								<xsl:apply-templates select="key('resource-by-node-id', $this-node-id)" mode="blank-nodes"/>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:value-of select="."/>
+								<p>
+									<xsl:choose>
+										<xsl:when test=". = 'false'"><span class="false"><xsl:value-of select="."/></span></xsl:when>
+										<xsl:when test=". = 'true'"><span class="true"><xsl:value-of select="."/></span></xsl:when>
+										<xsl:otherwise><xsl:value-of select="."/></xsl:otherwise>
+									</xsl:choose>
+								</p>
 							</xsl:otherwise>
 						</xsl:choose>
-					</p>
-				</xsl:for-each>
+					</xsl:for-each>
+				</block>
 			</xsl:variable>
-			<xsl:for-each select="$unsorted-p-block">
+			<xsl:for-each select="$unsorted-p-block/*[self::div | self::p[not(deep-equal(., preceding-sibling::p))]]">
 				<xsl:sort select="normalize-space()" data-type="text" order="ascending"/>
 				<xsl:copy-of select="."/>
 			</xsl:for-each>
@@ -173,7 +189,7 @@
 		<xsl:param name="nodes" as="element()*"/>
 		<div class="objects">
 			<xsl:variable name="unsorted-p-block" as="element(p)*">
-				<xsl:for-each select="$nodes[position() &lt;= $maximum-incoming-per-property]">
+				<xsl:for-each select="$nodes">
 					<xsl:variable name="that-about" select="../@rdf:about"/>
 					<p about="{$that-about}">
 						<a>
@@ -201,6 +217,7 @@
 				<!-- loop through the unique predicates -->
 				<xsl:for-each-group select="key('resource-by-about', $about, $global-context)/*[fun:presentation-category(.) = $presentation-category]" group-by="name()">
 					<xsl:sort data-type="number" order="ascending" select="if(self::rdfs:label | self::skos:prefLabel) then(1) else(2)"/>
+					<xsl:sort data-type="text" order="ascending" select="fun:set-label(current-group())//text()"/>
 					<div class="predicate">
 						<xsl:copy-of select="fun:set-label(current-group())"/>
 						<xsl:copy-of select="fun:set-content(current-group())"/>

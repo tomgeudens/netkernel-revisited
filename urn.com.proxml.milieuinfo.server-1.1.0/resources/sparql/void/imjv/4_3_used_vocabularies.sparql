@@ -1,5 +1,5 @@
 CONSTRUCT {
-  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#vocabulary> ?namespace .
+  <https://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#vocabulary> ?namespace .
 }
 WHERE {
   SELECT DISTINCT (IRI(?namespaceString) AS ?namespace) {

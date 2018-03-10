@@ -44,81 +44,81 @@ Boolean vIsHTTPRequest = (Boolean)aContext.exists("httpRequest:/remote-host");
 //
 
 // processing
-int vHTTPResponseCode = 0;
-Object vJenaModel = null;
-Object vJenaSerializeResult = null;
-
-INKFRequest incacherequest = aContext.createRequest("pds:/dataset/imjv");
-incacherequest.setVerb(INKFRequestReadOnly.VERB_EXISTS);
-incacherequest.setRepresentationClass(Boolean.class);
-Boolean vInCache = (Boolean)aContext.issueRequest(incacherequest);
-
-if (vInCache) {
-	vJenaSerializeResult = aContext.source("pds:/dataset/imjv");
-	vHTTPResponseCode = 200;
-}
-else {
-	INKFRequest emptyrequest = aContext.createRequest("active:jRDFEmptyModel");
-	vJenaModel = aContext.issueRequest(emptyrequest);
-	
-	INKFRequest modulerequest = aContext.createRequest("active:modulelistquery");
-	modulerequest.addArgumentByValue("xpath", "/modules/module[id=\"urn:com:proxml:milieuinfo:server\"]/source");
-	modulerequest.setRepresentationClass(String.class);
-	
-	String vDirectory = (String) aContext.issueRequest(modulerequest);
-	
-	if (vDirectory.startsWith("file:/")) {
-		
-		IHDSDocument vFLSResult = null;
-		if (vDirectory.endsWith(".jar")) {
-			INKFRequest flsrequest = aContext.createRequest("active:flsjar");
-			flsrequest.addArgumentByValue("root", vDirectory);
-			flsrequest.addArgumentByValue("filter","resources/sparql/void/imjv/.*sparql");
-			flsrequest.setRepresentationClass(IHDSDocument.class);
-			vFLSResult = (IHDSDocument) aContext.issueRequest(flsrequest);
-		}
-		else {
-			INKFRequest flsrequest = aContext.createRequest("active:fls");
-			flsrequest.addArgumentByValue("operator", "<fls><root>" + vDirectory + "resources/sparql/void/imjv/" + "</root><uri/></fls>");
-			flsrequest.setRepresentationClass(IHDSDocument.class);
-			vFLSResult = (IHDSDocument) aContext.issueRequest(flsrequest);
-		}
-		
-		IHDSReader vHDSReader = vFLSResult.getReader();
-		for (IHDSReader vHDSLooper: vHDSReader.getNodes("//uri")) {
-			// processing each sparql resource
+int vHTTPResponseCode = 200;
+//Object vJenaModel = null;
+//Object vJenaSerializeResult = null;
+//
+//INKFRequest incacherequest = aContext.createRequest("pds:/dataset/imjv");
+//incacherequest.setVerb(INKFRequestReadOnly.VERB_EXISTS);
+//incacherequest.setRepresentationClass(Boolean.class);
+//Boolean vInCache = (Boolean)aContext.issueRequest(incacherequest);
+//
+//if (vInCache) {
+//	vJenaSerializeResult = aContext.source("pds:/dataset/imjv");
+//	vHTTPResponseCode = 200;
+//}
+//else {
+//	INKFRequest emptyrequest = aContext.createRequest("active:jRDFEmptyModel");
+//	vJenaModel = aContext.issueRequest(emptyrequest);
+//	
+//	INKFRequest modulerequest = aContext.createRequest("active:modulelistquery");
+//	modulerequest.addArgumentByValue("xpath", "/modules/module[id=\"urn:com:proxml:milieuinfo:server\"]/source");
+//	modulerequest.setRepresentationClass(String.class);
+//	
+//	String vDirectory = (String) aContext.issueRequest(modulerequest);
+//	
+//	if (vDirectory.startsWith("file:/")) {
+//		
+//		IHDSDocument vFLSResult = null;
+//		if (vDirectory.endsWith(".jar")) {
+//			INKFRequest flsrequest = aContext.createRequest("active:flsjar");
+//			flsrequest.addArgumentByValue("root", vDirectory);
+//			flsrequest.addArgumentByValue("filter","resources/sparql/void/imjv/.*sparql");
+//			flsrequest.setRepresentationClass(IHDSDocument.class);
+//			vFLSResult = (IHDSDocument) aContext.issueRequest(flsrequest);
+//		}
+//		else {
+//			INKFRequest flsrequest = aContext.createRequest("active:fls");
+//			flsrequest.addArgumentByValue("operator", "<fls><root>" + vDirectory + "resources/sparql/void/imjv/" + "</root><uri/></fls>");
+//			flsrequest.setRepresentationClass(IHDSDocument.class);
+//			vFLSResult = (IHDSDocument) aContext.issueRequest(flsrequest);
+//		}
+//		
+//		IHDSReader vHDSReader = vFLSResult.getReader();
+//		for (IHDSReader vHDSLooper: vHDSReader.getNodes("//uri")) {
+//			 processing each sparql resource
+//			
+//			INKFRequest sparqlrequest = aContext.createRequest("active:sparql");
+//			sparqlrequest.addArgument("database","milieuinfo:database-imjv");
+//			sparqlrequest.addArgument("expiry", "milieuinfo:expiry-imjv");
+//			sparqlrequest.addArgument("credentials","milieuinfo:credentials-imjv");
+//			sparqlrequest.addArgument("query", (String) vHDSLooper.getFirstValue("."));
+//			sparqlrequest.addArgumentByValue("accept","application/rdf+xml");
+//		
+//			INKFResponseReadOnly sparqlresponse = aContext.issueRequestForResponse(sparqlrequest);
+//			vHTTPResponseCode = sparqlresponse.getHeader("httpresponsecode");
+//			
+//			if (vHTTPResponseCode == 200) {
+//				INKFRequest jenaunionrequest = aContext.createRequest("active:jRDFModelUnion");
+//				jenaunionrequest.addArgumentByValue("model1", vJenaModel);
+//				jenaunionrequest.addArgumentByValue("model2", sparqlresponse.getRepresentation());
+//				
+//				vJenaModel = aContext.issueRequest(jenaunionrequest);
+//			}
 			
-			INKFRequest sparqlrequest = aContext.createRequest("active:sparql");
-			sparqlrequest.addArgument("database","milieuinfo:database-imjv");
-			sparqlrequest.addArgument("expiry", "milieuinfo:expiry-imjv");
-			sparqlrequest.addArgument("credentials","milieuinfo:credentials-imjv");
-			sparqlrequest.addArgument("query", (String) vHDSLooper.getFirstValue("."));
-			sparqlrequest.addArgumentByValue("accept","application/rdf+xml");
-		
-			INKFResponseReadOnly sparqlresponse = aContext.issueRequestForResponse(sparqlrequest);
-			vHTTPResponseCode = sparqlresponse.getHeader("httpresponsecode");
-			
-			if (vHTTPResponseCode == 200) {
-				INKFRequest jenaunionrequest = aContext.createRequest("active:jRDFModelUnion");
-				jenaunionrequest.addArgumentByValue("model1", vJenaModel);
-				jenaunionrequest.addArgumentByValue("model2", sparqlresponse.getRepresentation());
-				
-				vJenaModel = aContext.issueRequest(jenaunionrequest);
-			}
-			//
-		}
-	}
-	INKFRequest jenaserializerequest = aContext.createRequest("active:jRDFSerializeXML");
-	jenaserializerequest.addArgumentByValue("operand", vJenaModel);
-	vJenaSerializeResult = aContext.issueRequest(jenaserializerequest);
-	
-	aContext.sink("pds:/dataset/imjv", vJenaSerializeResult);
-	vHTTPResponseCode = 200;
-}
+//		}
+//	}
+//	INKFRequest jenaserializerequest = aContext.createRequest("active:jRDFSerializeXML");
+//	jenaserializerequest.addArgumentByValue("operand", vJenaModel);
+//	vJenaSerializeResult = aContext.issueRequest(jenaserializerequest);
+//	
+//	aContext.sink("pds:/dataset/imjv", vJenaSerializeResult);
+//	vHTTPResponseCode = 200;
+//}
 //
 
 // response
-INKFResponse vResponse = aContext.createResponseFrom(vJenaSerializeResult);
+INKFResponse vResponse = aContext.createResponseFrom(aContext.source("res:/resources/rdf/imjv_void.rdf"));
 vResponse.setHeader("httpresponsecode", vHTTPResponseCode);
 vResponse.setMimeType("text/xml");
 

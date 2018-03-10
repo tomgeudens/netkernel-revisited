@@ -39,38 +39,38 @@ Boolean vIsHTTPRequest = (Boolean)aContext.exists("httpRequest:/remote-host");
 //
 
 // processing
-INKFRequest incacherequest = aContext.createRequest("pds:/dataset/cbb");
-incacherequest.setVerb(INKFRequestReadOnly.VERB_EXISTS);
-incacherequest.setRepresentationClass(Boolean.class);
-Boolean vInCache = (Boolean)aContext.issueRequest(incacherequest);
+//INKFRequest incacherequest = aContext.createRequest("pds:/dataset/cbb");
+//incacherequest.setVerb(INKFRequestReadOnly.VERB_EXISTS);
+//incacherequest.setRepresentationClass(Boolean.class);
+//Boolean vInCache = (Boolean)aContext.issueRequest(incacherequest);
 
-int vHTTPResponseCode = 0;
-Object vSPARQLResult
+int vHTTPResponseCode = 200;
+//Object vSPARQLResult
 
-if (vInCache) {
-	vSPARQLResult = aContext.source("pds:/dataset/cbb");
-	vHTTPResponseCode = 200;
-}
-else {
-	INKFRequest sparqlrequest = aContext.createRequest("active:sparql");
-	sparqlrequest.addArgument("database","milieuinfo:database-cbb");
-	sparqlrequest.addArgument("expiry", "milieuinfo:expiry-cbb");
-	sparqlrequest.addArgument("credentials","milieuinfo:credentials-cbb");
-	sparqlrequest.addArgument("query", "res:/resources/sparql/milieuinfocbbvoid.sparql");
-	sparqlrequest.addArgumentByValue("accept","application/rdf+xml");
+//if (vInCache) {
+//	vSPARQLResult = aContext.source("pds:/dataset/cbb");
+//	vHTTPResponseCode = 200;
+//}
+//else {
+//	INKFRequest sparqlrequest = aContext.createRequest("active:sparql");
+//	sparqlrequest.addArgument("database","milieuinfo:database-cbb");
+//	sparqlrequest.addArgument("expiry", "milieuinfo:expiry-cbb");
+//	sparqlrequest.addArgument("credentials","milieuinfo:credentials-cbb");
+//	sparqlrequest.addArgument("query", "res:/resources/sparql/milieuinfocbbvoid.sparql");
+//	sparqlrequest.addArgumentByValue("accept","application/rdf+xml");
 
-	INKFResponseReadOnly sparqlresponse = aContext.issueRequestForResponse(sparqlrequest);
-	vHTTPResponseCode = sparqlresponse.getHeader("httpresponsecode");
-	vSPARQLResult = sparqlresponse.getRepresentation();
+//	INKFResponseReadOnly sparqlresponse = aContext.issueRequestForResponse(sparqlrequest);
+//	vHTTPResponseCode = sparqlresponse.getHeader("httpresponsecode");
+//	vSPARQLResult = sparqlresponse.getRepresentation();
 	
-	if (vHTTPResponseCode == 200) {
+//	if (vHTTPResponseCode == 200) {
 		//aContext.sink("pds:/dataset/cbb", vSPARQLResult);
-	}
-}
+//	}
+//}
 //
 
 // response
-INKFResponse vResponse = aContext.createResponseFrom(vSPARQLResult);
+INKFResponse vResponse = aContext.createResponseFrom(aContext.source("res:/resources/rdf/cbb_void.rdf"));
 vResponse.setHeader("httpresponsecode", vHTTPResponseCode);
 if (vHTTPResponseCode >= 400) {
 	vResponse.setMimeType("text/plain"); // best mimetype for an errormessage

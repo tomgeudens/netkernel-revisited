@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sparql-catalog>
+    <parameters>
+        <parameter name="uri"/>
+        <parameter name="domain"/>
+        <parameter name="format"/>
+    </parameters>
+
+    <sparql uri="lod-core/doc.freemarker">
+        <pass-parameter name="uri"/>
+        <condition parameter="domain" has-not-value="cbb"/>
+	</sparql>
+
+    <sparql uri="lod-core/created-with.freemarker">
+        <pass-parameter name="uri"/>
+        <condition parameter="domain" has-not-value="cbb"/>
+	</sparql>
+
+    <sparql uri="lod-core/value-properties.freemarker">
+        <pass-parameter name="uri"/>
+        <condition parameter="domain" has-not-value="cbb"/>
+	</sparql>
+
+	<!-- ter evaluatie: ontop issue met optionals... in principe opgelost in maart 2018, dan gelijk trekken -->
+    <sparql uri="milieu-common/cbb-id.freemarker">
+        <pass-parameter name="uri"/>
+        <condition parameter="domain" has-value="cbb"/>
+	</sparql>
+
+    <sparql uri="lod-core/object-properties.freemarker">
+        <pass-parameter name="uri"/>
+        <condition parameter="domain" has-not-value="cbb"/>
+	</sparql>
+
+    <sparql uri="milieu-common/dataset.freemarker">
+        <pass-parameter name="uri"/>
+        <pass-parameter name="domain"/>
+        <condition parameter="domain" has-not-value="cbb"/>
+	</sparql>
+
+    <sparql uri="milieu-common/dataset.freemarker">
+        <pass-parameter name="uri"/>
+        <pass-parameter name="domain"/>
+        <condition parameter="domain" has-not-value="cbb"/>
+	</sparql>
+
+    <sparql uri="milieu-common/blank-nodes.freemarker">
+        <pass-parameter name="uri"/>
+        <condition parameter="domain" has-not-value="cbb"/>
+	</sparql>
+
+    <!--<sparql uri="milieu-common/enrich-abstract-properties.freemarker">
+        <pass-parameter name="uri"/>
+        <condition parameter="domain" has-not-value="cbb"/>
+	</sparql>-->
+
+    <sparql uri="lod-core/incoming.freemarker">
+        <pass-parameter name="uri"/>
+        <condition parameter="domain" has-not-value="cbb"/>
+        <condition parameter="format" has-not-value="html"/>
+    </sparql>
+
+    <sparql uri="lod-core/incoming-restricted.freemarker">
+        <pass-parameter name="uri"/>
+        <condition parameter="domain" has-not-value="cbb"/>
+        <condition parameter="format" has-value="html"/>
+    </sparql>
+
+</sparql-catalog>

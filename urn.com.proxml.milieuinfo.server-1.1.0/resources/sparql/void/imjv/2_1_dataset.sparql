@@ -1,5 +1,5 @@
 CONSTRUCT {
-  <http://id.milieuinfo.be/dataset/imjv#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?dataset .
+  <https://id.milieuinfo.be/dataset/imjv#id> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?dataset .
 }
 WHERE {
   SELECT (<http://rdfs.org/ns/void#Dataset> AS ?dataset)

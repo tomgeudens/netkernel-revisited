@@ -93,6 +93,7 @@ else {
 	case "html":
 		INKFRequest rdfxml2htmlsaxonrequest = aContext.createRequest("active:rdfxml2htmlsaxon");
 		rdfxml2htmlsaxonrequest.addArgumentByValue("operand", vGPBVVOIDResult);
+		rdfxml2htmlsaxonrequest.addArgumentByValue("domain", "gpbv");
 		rdfxml2htmlsaxonrequest.addArgument("operator", "res:/resources/xsl/rdfxml2htmlgpbv.xsl");
 		vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(rdfxml2htmlsaxonrequest));
 		vResponse.setMimeType("text/html");

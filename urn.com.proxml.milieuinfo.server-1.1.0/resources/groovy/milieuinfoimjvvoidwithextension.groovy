@@ -93,7 +93,8 @@ else {
 	case "html":
 		INKFRequest rdfxml2htmlsaxonrequest = aContext.createRequest("active:rdfxml2htmlsaxon");
 		rdfxml2htmlsaxonrequest.addArgumentByValue("operand", vIMJVVOIDResult);
-		rdfxml2htmlsaxonrequest.addArgument("operator", "res:/resources/xsl/rdfxml2htmlimjv.xsl");
+		rdfxml2htmlsaxonrequest.addArgumentByValue("domain", "imjv");
+		rdfxml2htmlsaxonrequest.addArgument("operator", "res:/resources/xsl/rdfxml2htmlgeneric.xsl");
 		vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(rdfxml2htmlsaxonrequest));
 		vResponse.setMimeType("text/html");
 		break;

@@ -6,7 +6,10 @@ PREFIX purl: <http://purl.org/dc/terms/>
 
 SELECT distinct ?id ?score ?label
 { 
-  (?id ?score) text:query ('${search}' ${limit}) .
-  ?id (rdfs:label|skos:prefLabel|skos:altLabel|purl:title) ?label .
+	graph ?g 
+	{
+		(?id ?score ?lit) text:query ('${search}' ${limit}) .
+		?id (rdfs:label|skos:prefLabel|skos:altLabel|purl:title) ?label .
+	}
 }
 ORDER BY DESC(?score)

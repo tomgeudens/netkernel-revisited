@@ -37,23 +37,23 @@ aContext.logRaw(INKFLocale.LEVEL_INFO, "RDFXML2HTMLSaxonAccessor: start of id - 
 // arguments
 Boolean vIsHTTPRequest = (Boolean)aContext.exists("httpRequest:/remote-host");
 
-String aWith = null;
-if (vIsHTTPRequest) {
-	try {
-		javax.servlet.http.HttpServletRequest vURL = (javax.servlet.http.HttpServletRequest)aContext.source("httpRequest:/advanced/HttpServletRequest", javax.servlet.http.HttpServletRequest.class);
-		aWith = vURL.getScheme() + "://" + vURL.serverName + ":" + vURL.serverPort.toString();
-	}
-	catch (Exception e) {
-		//
-	}
+String aDomain = null;
+try {
+	aDomain = aContext.source("arg:domain", String.class);
 }
-else {
-	try {
-		aWith = (String)aContext.source("milieuinfo:activeurl", String.class);
-	}
-	catch (Exception e) {
-		//
-	}
+catch (Exception e) {
+	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "RDFXML2HTMLSaxonAccessor: ("
+		+ vId
+		+ ") - argument domain : invalid");
+	throw new Exception("RDFXML2HTMLSaxonAccessor: no valid - domain - argument");
+}
+
+String aWith = null;
+try {
+	aWith = (String)aContext.source("milieuinfo:activeurl", String.class);
+}
+catch (Exception e) {
+	//
 }
 if (aWith == null || aWith == "") {
 	// sensible default
@@ -90,6 +90,7 @@ else {
 }
 xslt2request.addArgument("operator","arg:operator");
 xslt2request.addArgumentByValue("replace", aReplace);
+xslt2request.addArgumentByValue("domain", aDomain);
 xslt2request.addArgumentByValue("with", aWith);
 
 INKFRequest serializerequest = aContext.createRequest("active:saxonSerialize");

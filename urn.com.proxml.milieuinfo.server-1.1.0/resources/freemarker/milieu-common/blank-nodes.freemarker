@@ -1,0 +1,42 @@
+<#setting url_escaping_charset='UTF-8'>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+CONSTRUCT {
+	<${uri}#id> ?bnp ?bn.
+	
+	?bn ?bnlvl2p ?bnlvl2o.
+
+	?bnlvl2o ?bnlvl3p ?bnlvl3o.
+	
+	?bnp rdfs:label ?bnplbl.
+	?bnp skos:prefLabel ?bnpslbl.
+	
+	?bnlvl2p rdfs:label ?bnlvl2plbl.
+	?bnlvl2p skos:prefLabel ?bnlvl2pslbl.
+	
+	?bnlvl2o rdfs:label ?bnlvl2olbl.
+	?bnlvl2o skos:prefLabel ?bnlvl2oslbl.
+
+}
+
+WHERE { GRAPH <urn:x-arq:UnionGraph> {
+	 {
+		  <${uri}#id> ?bnp ?bn.
+		  FILTER (isBlank(?bn))
+		  ?bn ?bnlvl2p ?bnlvl2o.
+		  
+		  OPTIONAL {?bnp rdfs:label ?bnplbl.}
+		  OPTIONAL {?bnp skos:prefLabel ?bnpslbl.}
+
+		  OPTIONAL {?bnlvl2p rdfs:label ?bnlvl2plbl.}
+		  OPTIONAL {?bnlvl2p skos:prefLabel ?bnlvl2pslbl.}
+
+		  OPTIONAL {?bnlvl2o rdfs:label ?bnlvl2olbl.}
+		  OPTIONAL {?bnlvl2o skos:prefLabel ?bnlvl2oslbl.}
+		  
+		  OPTIONAL {?bnlvl2o ?bnlvl3p ?bnlvl3o.}
+	 }
+ }
+}

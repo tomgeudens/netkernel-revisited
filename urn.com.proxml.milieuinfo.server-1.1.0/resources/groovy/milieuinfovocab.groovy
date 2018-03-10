@@ -42,72 +42,80 @@ try {
 	aOwner = aContext.source("arg:owner", String.class);
 }
 catch (Exception e) {
-	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoVocabAccessor: invalid - owner - argument");
+	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoVocabAccessor: ("
+		+ vId
+		+ ") - argument owner : invalid");
 	throw new Exception("MilieuinfoVocabAccessor: no valid - owner - argument");
 }
+aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoVocabAccessor: ("
+	+ vId
+	+ ") - argument owner : "
+	+ aOwner);
 
 String aID = null;
 try {
 	aID = aContext.source("arg:id", String.class);
 }
 catch (Exception e) {
-	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoVocabAccessor: invalid - id - argument");
+	aContext.logRaw(INKFLocale.LEVEL_SEVERE, "MilieuinfoVocabAccessor: ("
+		+ vId
+		+ ") - argument id : invalid");
 	throw new Exception("MilieuinfoVocabAccessor: no valid - id - argument");
 }
+aContext.logRaw(INKFLocale.LEVEL_INFO, "MilieuinfoVocabAccessor: ("
+	+ vId
+	+ ") - argument id : "
+	+ aID);
 //
 
 // processing
-INKFRequest incacherequest = aContext.createRequest("pds:/" +aOwner + "/" + aID.replaceAll("/", "_"));
-incacherequest.setVerb(INKFRequestReadOnly.VERB_EXISTS);
-incacherequest.setRepresentationClass(Boolean.class);
-Boolean vInCache = (Boolean)aContext.issueRequest(incacherequest);
-
-int vHTTPResponseCode = 0;
-Object vSPARQLResult
-
-if (vInCache) {
-	vSPARQLResult = aContext.source("pds:/" +aOwner + "/" + aID.replaceAll("/", "_"));
-	vHTTPResponseCode = 200;
-}
-else {
-	INKFRequest freemarkerrequest = aContext.createRequest("active:freemarker");
-	freemarkerrequest.addArgument("operator", "res:/resources/freemarker/constructvocab.freemarker");
-	freemarkerrequest.addArgumentByValue("owner", aOwner);
-	freemarkerrequest.addArgumentByValue("id", aID);
-	freemarkerrequest.setRepresentationClass(String.class);
-	String vQuery = (String)aContext.issueRequest(freemarkerrequest);
-	
-	INKFRequest sparqlrequest = aContext.createRequest("active:sparql");
-	sparqlrequest.addArgument("database","milieuinfo:database-vocab");
-	sparqlrequest.addArgument("expiry", "milieuinfo:expiry-vocab");
-	sparqlrequest.addArgument("credentials","milieuinfo:credentials-vocab");
-	sparqlrequest.addArgumentByValue("query", vQuery);
-	sparqlrequest.addArgumentByValue("accept","application/rdf+xml");
-
-	INKFResponseReadOnly sparqlresponse = aContext.issueRequestForResponse(sparqlrequest);
-	vHTTPResponseCode = sparqlresponse.getHeader("httpresponsecode");
-	vSPARQLResult = sparqlresponse.getRepresentation();
-	
-	if (vHTTPResponseCode == 200) {
-		//aContext.sink("pds:/" +aOwner + "/" + aID.replaceAll("/", "_"), vSPARQLResult);
+String vExtension = "rdf";
+if (vIsHTTPRequest) {
+	String vAccept = aContext.source("httpRequest:/accept/preferred",String.class);
+	switch (vAccept) {
+	case "text/turtle":
+		vExtension = "ttl";
+		break;
+	case "text/plain":
+		vExtension = "nt";
+		break;
+	case "application/ld+json":
+		vExtenstion = "jsonld";
+		break;
+	case "application/json":
+		vExtenstion = "jsonld";
+		break;
+	case "text/html":
+		vExtension = "html";
+		break;
+	case "text/xml":
+		vExtension = "rdf";
+		break;
+	case "application/xml":
+		vExtension = "rdf";
+		break;
+	case "application/rdf+xml":
+		vExtension = "rdf";
+		break;
+	default:
+		vExtension = "rdf";
+		break;
 	}
 }
+
+
+INKFRequest vocabwithextensionrequest = aContext.createRequest("active:milieuinfovocabwithextension");
+vocabwithextensionrequest.addArgument("owner","arg:owner");
+vocabwithextensionrequest.addArgument("id","arg:id");
+vocabwithextensionrequest.addArgumentByValue("extension",vExtension);
 //
 
 // response
-INKFResponse vResponse = aContext.createResponseFrom(vSPARQLResult);
-vResponse.setHeader("httpresponsecode", vHTTPResponseCode);
-if (vHTTPResponseCode >= 400) {
-	vResponse.setMimeType("text/plain"); // best mimetype for an errormessage
-	vResponse.setExpiry(INKFResponse.EXPIRY_ALWAYS); // we don't want to cache this
-}
-else {
-	vResponse.setMimeType("text/xml");
-}
+INKFResponse vResponse = aContext.createResponseFrom(aContext.issueRequestForResponse(vocabwithextensionrequest));
 
 if (vIsHTTPRequest) {
 	// pass the code on
-	vResponse.setHeader("httpResponse:/code", vHTTPResponseCode);
+	vResponse.setHeader("httpResponse:/code", 200);
 
 	String vCORSOrigin = null;
 	try {

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sparql-catalog>
+    <parameters>
+        <parameter name="uri"/>
+        <parameter name="domain"/>
+        <parameter name="format"/>
+    </parameters>
+
+    <sparql uri="lod-core/doc.freemarker">
+        <pass-parameter name="uri"/>
+	</sparql>
+
+    <sparql uri="lod-core/created-with.freemarker">
+        <pass-parameter name="uri"/>
+	</sparql>
+
+    <sparql uri="lod-core/value-properties.freemarker">
+        <pass-parameter name="uri"/>
+	</sparql>
+
+    <sparql uri="lod-core/object-properties.freemarker">
+        <pass-parameter name="uri"/>
+	</sparql>
+
+    <sparql uri="milieu-common/dataset.freemarker">
+        <pass-parameter name="uri"/>
+        <pass-parameter name="domain"/>
+	</sparql>
+
+    <sparql uri="lod-core/incoming.freemarker">
+        <pass-parameter name="uri"/>
+        <condition parameter="format" has-not-value="html"/>
+    </sparql>
+
+    <sparql uri="lod-core/incoming-restricted.freemarker">
+        <pass-parameter name="uri"/>
+        <condition parameter="format" has-value="html"/>
+    </sparql>
+
+</sparql-catalog>

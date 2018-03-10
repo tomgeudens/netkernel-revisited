@@ -5,7 +5,7 @@
 ## Een aantal exploitaties
 SELECT ?subject
 WHERE {
-	?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Exploitatie> . 
+	?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://id.milieuinfo.be/def#Exploitatie> . 
 }
 LIMIT 5
 
@@ -13,6 +13,6 @@ LIMIT 5
 ## Een aantal exploitanten
 SELECT ?subject
 WHERE {
-	?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://id.milieuinfo.be/def#Exploitant> . 
+	?subject <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://id.milieuinfo.be/def#Exploitant> . 
 }
 LIMIT 5

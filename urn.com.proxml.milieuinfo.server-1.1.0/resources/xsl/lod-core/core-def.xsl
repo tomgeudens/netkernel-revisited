@@ -36,28 +36,28 @@
 	
 	<xsl:function name="fun:get-type-specific-content">
 		<xsl:param name="context"/>
-		<xsl:for-each-group select="$context/*[rdf:type/@rdf:resource = $definition-types]" group-by="rdf:type[@rdf:resource = $definition-types]/@rdf:resource">
-			<xsl:sort select="index-of($definition-types, current-grouping-key())" order="ascending" data-type="number"/>
-			<xsl:apply-templates select="current-group()" mode="def-nodes">
-				<xsl:sort select="@rdf:about"/>
-			</xsl:apply-templates>
-		</xsl:for-each-group>
+		<table class="pure-table pure-table-bordered">
+			<xsl:for-each-group select="$context/*[rdf:type/@rdf:resource = $definition-types]" group-by="rdf:type[@rdf:resource = $definition-types]/@rdf:resource">
+				<xsl:sort select="index-of($definition-types, current-grouping-key())" order="ascending" data-type="number"/>
+				<xsl:apply-templates select="current-group()" mode="def-nodes">
+					<xsl:sort select="@rdf:about"/>
+				</xsl:apply-templates>
+			</xsl:for-each-group>
+		</table>
 	</xsl:function>
 	
 	
 	<xsl:template match="*[@rdf:about]" mode="def-nodes">
-
-		<h2 id="{substring-after(@rdf:about,'#')}">
-			<xsl:text>Identifier: </xsl:text>
-			<a href="{fun:domain-modify-uri(@rdf:about)}">
-			<xsl:value-of select="@rdf:about"/>
-			</a>
-		</h2>
-		
-		<table class="pure-table pure-table-bordered">
-			<xsl:apply-templates select="*[not(@rdf:resource)]" mode="def-nodes-row"/>
-			<xsl:apply-templates select="*[@rdf:resource]" mode="def-nodes-row"/>
-		</table>
+		<tr>
+			<th colspan="2" class="h2" id="{substring-after(@rdf:about,'#')}">
+				<xsl:text>Identifier: </xsl:text>
+				<a href="{fun:domain-modify-uri(@rdf:about)}">
+					<xsl:value-of select="@rdf:about"/>
+				</a>
+			</th>
+		</tr>
+		<xsl:apply-templates select="*[not(@rdf:resource)]" mode="def-nodes-row"/>
+		<xsl:apply-templates select="*[@rdf:resource]" mode="def-nodes-row"/>
 	</xsl:template>
 	
 	<xsl:template match="*" mode="def-nodes-row">

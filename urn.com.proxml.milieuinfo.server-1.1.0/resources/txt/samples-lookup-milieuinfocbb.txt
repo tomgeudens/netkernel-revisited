@@ -1,4 +1,4 @@
 # one entry per line => {uri}{space}{label}
-http://id.milieuinfo.be/cbb/exploitant/01749024000056#id EXXONMOBIL PETROLEUM & CHEMICAL
-http://id.milieuinfo.be/cbb/exploitatie/01749024006625#id EXXONMOBIL CHEMICAL BELGIUM
-http://id.milieuinfo.be/cbb/adres/176923#id Canadastraat 20, 2070 Zwijndrecht, België
+https://id.milieuinfo.be/cbb/exploitant/01749024000056#id EXXONMOBIL PETROLEUM & CHEMICAL
+https://id.milieuinfo.be/cbb/exploitatie/01749024006625#id EXXONMOBIL PETROLEUM & CHEMICAL - ANTWERP POLYMERS PLANT
+https://id.milieuinfo.be/cbb/adres/176923#id Canadastraat 20, 2070 Zwijndrecht, België

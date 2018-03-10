@@ -1,0 +1,8 @@
+/* ngademo.css */
+body { /* necessary to keep header at the top*/
+	padding-top: 5rem;
+}
+
+.scrollClass {
+	overflow-y: auto;
+}

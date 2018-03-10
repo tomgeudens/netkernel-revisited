@@ -12,8 +12,8 @@
         init: function () {
             lib.base = $('base').attr('href') || '/';// mainly just needed for proxy during development
             lib.resourceUri = document.querySelector('body').getAttribute('about');
-            lib.uriBase = lib.resourceUri.replace(/^(.+:\/\/[^\/]+)\/.*$/, '$1');// e.g. http://id.milieuinfo.be
-            lib.serverBase = location.href.replace(/^(.+:\/\/[^\/]+)\/.*$/, '$1');// e.g. http://id-ontwikkel.milieuinfo.be
+            lib.uriBase = lib.resourceUri.replace(/^(.+:\/\/[^\/]+)\/.*$/, '$1');// e.g. https://id.milieuinfo.be
+            lib.serverBase = location.href.replace(/^(.+:\/\/[^\/]+)\/.*$/, '$1');// e.g. https://id-ontwikkel.milieuinfo.be, http://localhost:8891
             // check if this is a concept page
             lib.isConcept = lib.hasType('http://www.w3.org/2004/02/skos/core#Concept');
             lib.isScheme = lib.hasType('http://www.w3.org/2004/02/skos/core#ConceptScheme');
@@ -251,9 +251,12 @@
          */
         loadNarrowerConcepts: function (uri, callback) {
             var skos = 'http://www.w3.org/2004/02/skos/core#';
+            var graph = 'urn:x-arq:UnionGraph'; // dataset-agnostic
             var query = "".concat(
                 'PREFIX skos: <' + skos + '> ',
-                'SELECT ?concept ?label WHERE {',
+                'SELECT ?concept ?label ',
+                'FROM <' + graph + '> ',
+                'WHERE {',
                 '   <' + uri + '> skos:narrower ?concept .',
                 '   ?concept skos:prefLabel ?label .',
                 '}'
@@ -313,9 +316,12 @@
          */
         loadBroaderConcept: function (uri, callback) {
             var skos = 'http://www.w3.org/2004/02/skos/core#';
+            var graph = 'urn:x-arq:UnionGraph'; // dataset-agnostic
             var query = "".concat(
                 'PREFIX skos: <' + skos + '> ',
-                'SELECT ?concept ?label WHERE {',
+                'SELECT ?concept ?label ',
+                'FROM <' + graph + '> ',
+                'WHERE {',
                 '   <' + uri + '> skos:broader ?concept .',
                 '   ?concept skos:prefLabel ?label .',
                 '}'
@@ -371,9 +377,12 @@
          */
         loadTopConcepts: function (uri, callback) {
             var skos = 'http://www.w3.org/2004/02/skos/core#';
+            var graph = 'urn:x-arq:UnionGraph'; // dataset-agnostic
             var query = "".concat(
                 'PREFIX skos: <' + skos + '> ',
-                'SELECT ?concept ?label WHERE {',
+                'SELECT ?concept ?label ',
+                'FROM <' + graph + '> ',
+                'WHERE {',
                 '   ?concept skos:topConceptOf <' + uri + '> ; ',
                 '            skos:prefLabel ?label .',
                 '}'

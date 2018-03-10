@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:neo4j:client</uri>
+			<version>2.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / neo4j / client</name>
+			<description>elephant bird consulting / neo4j / client</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+			
+	<rootspace
+		name="ebc neo4j client rows"
+		public="true"
+		uri="urn:com:ebc:neo4j:client:rows">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+
+		<accessor>
+			<id>com:ebc:neo4j:client:java:rows:accessor</id>
+			<class>com.ebc.neo4j.client.RowsAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:rows</identifier>
+					<argument name="databaseconfiguration" desc="database configuration" max="1" min="0"/>
+					<argument name="expiry" desc="expiry of the response in milliseconds" max="1" min="1"/>
+					<argument name="cypher" desc="cypher query" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<transreptor>
+			<class>com.ebc.neo4j.client.ConfigToNeo4jConnectionTransreptor</class>
+		</transreptor>
+
+		<mapper>
+			<config>
+				<endpoint>
+					<grammar>neo4j:databaseconfiguration</grammar>
+					<request>
+						<identifier>active:freemarker</identifier>
+						<argument name="operator">res:/resources/freemarker/neo4jDatabaseConfiguration.freemarker</argument>
+						<argument name="url">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="neo4j_databaseurl"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="username">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="neo4j_databaseuser"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<argument name="password">
+							<request>
+								<identifier>active:environment</identifier>
+								<argument method="as-string" name="variable">/environment/os-properties/property[name="neo4j_databasepassword"]/value</argument>
+								<representation>java.lang.String</representation>
+							</request>
+						</argument>
+						<representation>org.netkernel.mod.hds.IHDSDocument</representation>
+					</request>
+				</endpoint>
+			</config>
+			
+			<space>
+				<import>
+					<uri>urn:com:ebc:neo4j:client:import:mapper</uri>
+					<private/>
+				</import>
+			</space>
+		</mapper>		
+
+		<import>
+			<uri>urn:com:ebc:neo4j:client:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+
+
+	<rootspace
+		name="ebc neo4j client import"
+		public="false"
+		uri="urn:com:ebc:neo4j:client:import">
+		<import>
+			<!-- contains neo4j java driver library -->
+			<uri>urn:org:neo4j:driver</uri>
+			<version-min>1.5.1</version-min>
+		</import>
+		
+		<import>
+			<!-- contains IHDSDocument -->
+			<uri>urn:org:netkernel:mod:hds</uri>
+		</import>
+
+		<import>
+			<!-- contains mapper overlay -->
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+	</rootspace>
+
+
+	<rootspace
+		name="ebc neo4j client import mapper"
+		public="false"
+		uri="urn:com:ebc:neo4j:client:import:mapper">
+		<fileset>
+			<!-- contains freemarker resources -->
+			<regex>res:/resources/freemarker/.*</regex>
+		</fileset>
+		
+		<import>
+			<!-- contains active:environment -->
+			<uri>urn:com:ebc:tool:system</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+		
+		<import>
+			<!-- contains IHDSDocument -->
+			<uri>urn:org:netkernel:mod:hds</uri>
+		</import>
+		
+		<import>
+			<!-- contains active:freemarker -->
+			<uri>urn:org:netkernel:lang:freemarker</uri>
+		</import>
+	</rootspace>
+</module>

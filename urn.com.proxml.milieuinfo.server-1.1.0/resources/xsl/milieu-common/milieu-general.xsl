@@ -13,7 +13,7 @@
 	
 	xmlns:cube="http://purl.org/linked-data/cube#"
 	
-	xmlns:milieu="http://id.milieuinfo.be/def#"
+	xmlns:milieu="https://id.milieuinfo.be/def#"
 	
 	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
 	xmlns:qudt="http://qudt.org/schema/qudt#"
@@ -52,11 +52,12 @@
 	
 	<xsl:function name="fun:content-block-post-inc">
 		<xsl:param name="this-about"/>
-		<xsl:copy-of select="fun:block-presentation($this-about, 'DOC', 'properties', 'De beschrijvende documenten')"/>
-		<xsl:copy-of select="fun:block-presentation($this-about, 'DATASET', 'properties', 'Dataset linken')"/>
+		<xsl:copy-of select="fun:block-presentation($this-about, 'DOC', 'properties', 'Linken naar de beschrijvende documenten')"/>
+		<xsl:copy-of select="fun:block-presentation($this-about, 'DATASET', 'properties', 'Link naar kubus')"/>
 		
 		<xsl:variable name="doc-about" select="substring-before($this-about, '#id')"/>
-		<xsl:copy-of select="fun:block-presentation($doc-about, 'OBJECT', 'properties', concat('Document &lt;', $doc-about, '&gt; eigenschappen'))"/>
+		<!-- <xsl:copy-of select="fun:block-presentation($doc-about, 'OBJECT', 'properties', concat('Document &lt;', $doc-about, '&gt; eigenschappen'))" />-->
+		<xsl:copy-of select="fun:block-presentation($doc-about, 'OBJECT', 'properties', 'Document eigenschappen')" />
 	</xsl:function>
 	
 	
@@ -70,6 +71,10 @@
 				<xsl:text>NULL</xsl:text>
 			</xsl:when>
 			<xsl:when test="$node/self::skos:hiddenLabel">
+				<xsl:text>NULL</xsl:text>
+			</xsl:when>
+			<!-- key = lookup in skos -->
+			<xsl:when test="$node/self::milieu:key">
 				<xsl:text>NULL</xsl:text>
 			</xsl:when>
 			<!--  -->

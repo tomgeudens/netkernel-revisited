@@ -1,6 +1,6 @@
 
 CONSTRUCT {
-  <http://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?example .
+  <https://id.milieuinfo.be/dataset/imjv#id> <http://rdfs.org/ns/void#exampleResource> ?example .
 }
 WHERE {
   SELECT (SAMPLE(?s) as ?example) ?type {
@@ -19,7 +19,7 @@ WHERE {
             <http://www.w3.org/2002/07/owl#Ontology>
           )
           && isIRI(?s)
-          && (STRSTARTS(STR(?s), 'http://id.milieuinfo.be/') )
+          && (STRSTARTS(STR(?s), 'https://id.milieuinfo.be/') )
         )
     }
   }

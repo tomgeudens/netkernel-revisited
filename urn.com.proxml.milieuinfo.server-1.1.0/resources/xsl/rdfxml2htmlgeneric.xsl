@@ -15,7 +15,7 @@
 	
 	xmlns:cube="http://purl.org/linked-data/cube#"
 	
-	xmlns:milieu="http://id.milieuinfo.be/def#"
+	xmlns:milieu="https://id.milieuinfo.be/def#"
 	
 	xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
 	xmlns:qudt="http://qudt.org/schema/qudt#"
@@ -27,9 +27,33 @@
 	
 	<xsl:import href="milieu-common/milieu-general.xsl"/>
 	
+	<xsl:param name="domain" select="'imjv'"></xsl:param>
+	
 	<xsl:variable name="skin-html-head-title">
-		<xsl:text>Data</xsl:text>
+		<xsl:choose>
+			<xsl:when test="$domain = 'imjv'">
+				<xsl:text>Data Integraal Milieu Jaarverslag</xsl:text>
+			</xsl:when>
+			<xsl:when test="$domain = 'cbb'">
+				<xsl:text>Data Centraal Bedrijven Bestand</xsl:text>
+			</xsl:when>
+			<xsl:when test="$domain = 'gpbv'">
+				<xsl:text>Data GPBV</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>Data</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:variable>
 	
-		
+	<!-- application specific JS, includes configuration of sparql endpoints -->
+	<xsl:function name="fun:build-javascript-references-application">
+		<!-- config -->
+		<xsl:copy-of select="fun:domain-specific-config($domain)"/>
+		<!-- inbound links specific -->
+		<script src="/js/milieuinfo-inbound-links.js">_</script>
+	</xsl:function>
+	
+	
+	
 </xsl:stylesheet>
