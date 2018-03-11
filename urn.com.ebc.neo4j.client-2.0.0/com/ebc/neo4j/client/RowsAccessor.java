@@ -64,10 +64,10 @@ public class RowsAccessor extends StandardAccessorImpl {
 		//
 		
 		// arguments
-		IHDSDocument aDatabaseConfig = null;
+		ConnectionPoolRepresentation vCPR = null;
 		if (aContext.getThisRequest().argumentExists("databaseconfiguration")) {// databaseconfiguration is an optional argument
 			try {
-				aDatabaseConfig = aContext.source("arg:databaseconfiguration", IHDSDocument.class);
+				vCPR = aContext.source("arg:databaseconfiguration", ConnectionPoolRepresentation.class);
 			}
 			catch (Exception e) {
 				throw new Exception("RowsAccessor: no valid - databaseconfiguration - argument");
@@ -75,25 +75,12 @@ public class RowsAccessor extends StandardAccessorImpl {
 		}
 		else {// neo4j:databaseconfiguration is the default
 			try {
-				aDatabaseConfig = aContext.source("neo4j:databaseconfiguration", IHDSDocument.class);
+				vCPR = aContext.source("neo4j:databaseconfiguration", ConnectionPoolRepresentation.class);
 			}
 			catch (Exception e) {
 				throw new Exception("RowsAccessor: no valid - neo4j:databaseconfiguration - resource");
 			}					
 		}
-//		IHDSReader aDatabaseConfigReader = aDatabaseConfig.getReader();
-//		aContext.logRaw(INKFLocale.LEVEL_INFO, "RowsAccessor: (" 
-//				+ vId 
-//				+ ") - argument databaseurl : " 
-//				+ aDatabaseConfigReader.getFirstValue("/config/url"));
-//		aContext.logRaw(INKFLocale.LEVEL_INFO, "RowsAccessor: (" 
-//				+ vId 
-//				+ ") - argument databaseuser : " 
-//				+ aDatabaseConfigReader.getFirstValue("/config/username"));
-//		aContext.logRaw(INKFLocale.LEVEL_INFO, "RowsAccessor: (" 
-//				+ vId 
-//				+ ") - argument databasepassword : " 
-//				+ aDatabaseConfigReader.getFirstValue("/config/password"));
 
 		Long aExpiry = null;
 		try {
@@ -138,7 +125,6 @@ public class RowsAccessor extends StandardAccessorImpl {
 		Session vSession = null;
 		
 		try {
-			ConnectionPoolRepresentation vCPR = aContext.transrept(aDatabaseConfig, ConnectionPoolRepresentation.class);
 			vSession = vCPR.getSession();
 			
 			StatementResult vResult = vSession.run(aCypher);
@@ -211,6 +197,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 		
 		else if (vValue instanceof Node) {
 			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "node");
 			Node vNode = (Node)vValue;
 			vMutator.addNode("_id", Long.toString(vNode.id()));
 			for (String lLabel : vNode.labels()) {
@@ -221,6 +208,20 @@ public class RowsAccessor extends StandardAccessorImpl {
 				process_listentry(vTS, vMutator, lKey, lValue);
 			}
     		vMutator.popNode();
+		}
+		
+		else if (vValue instanceof Relationship) {
+			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "relationship");
+			Relationship vRelationship = (Relationship)vValue;
+			vMutator.addNode("_startid", Long.toString(vRelationship.startNodeId()));
+			vMutator.addNode("_endid", Long.toString(vRelationship.endNodeId()));
+			vMutator.addNode("_type", vRelationship.type());
+			for (String lKey : vRelationship.keys()) {
+				Value lValue = vRelationship.get(lKey);
+				process_listentry(vTS, vMutator, lKey, lValue);
+			}			
+			vMutator.popNode();
 		}
 		
 		else if (vValue instanceof List) {
@@ -243,19 +244,6 @@ public class RowsAccessor extends StandardAccessorImpl {
 				process_listentry(vTS, vMutator, vEntry.getKey(), vEntry.getValue());
 			}
 			vMutator.popNode();			
-		}
-		
-		else if (vValue instanceof Relationship) {
-			vMutator.pushNode(vKey);
-			Relationship vRelationship = (Relationship)vValue;
-			vMutator.addNode("_startid", Long.toString(vRelationship.startNodeId()));
-			vMutator.addNode("_endid", Long.toString(vRelationship.endNodeId()));
-			vMutator.addNode("_type", vRelationship.type());
-			for (String lKey : vRelationship.keys()) {
-				Value lValue = vRelationship.get(lKey);
-				process_listentry(vTS, vMutator, lKey, lValue);
-			}			
-			vMutator.popNode();
 		}
 		
 		else if (vValue instanceof Path) {
@@ -306,6 +294,33 @@ public class RowsAccessor extends StandardAccessorImpl {
 		else if (vValue.hasType(vTS.FLOAT())) {
     		vMutator.addNode(vKey, Float.toString(vValue.asFloat()));
     	}
+
+		else if (vValue.hasType(vTS.NODE()) && vValue.hasType(vTS.MAP())){
+			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "node");
+			vMutator.addNode("_id", Long.toString(vValue.asNode().id()));
+			for (String lLabel : vValue.asNode().labels()) {
+				vMutator.addNode("_label", lLabel);
+			}
+			for (String lKey : vValue.asNode().keys()) {
+				Value lValue = vValue.asNode().get(lKey);
+				process_listentry(vTS, vMutator, lKey, lValue);
+			}
+    		vMutator.popNode();
+		}
+		
+		else if (vValue.hasType(vTS.RELATIONSHIP()) && vValue.hasType(vTS.MAP())){
+			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "relationship");
+			vMutator.addNode("_startid", Long.toString(vValue.asRelationship().startNodeId()));
+			vMutator.addNode("_endid", Long.toString(vValue.asRelationship().endNodeId()));
+			vMutator.addNode("_type", vValue.asRelationship().type());
+			for (String lKey : vValue.asRelationship().keys()) {
+				Value lValue = vValue.asRelationship().get(lKey);
+				process_listentry(vTS, vMutator, lKey, lValue);
+			}			
+			vMutator.popNode();			
+		}
 		
 		else if (vValue.hasType(vTS.LIST())) {
 			vMutator.pushNode(vKey);
@@ -323,31 +338,6 @@ public class RowsAccessor extends StandardAccessorImpl {
 				process_listentry(vTS, vMutator, vEntry.getKey(), vEntry.getValue());
 			}
 			vMutator.popNode();
-		}
-		
-		else if (vValue.hasType(vTS.NODE())){
-			vMutator.pushNode(vKey);
-			vMutator.addNode("_id", Long.toString(vValue.asNode().id()));
-			for (String lLabel : vValue.asNode().labels()) {
-				vMutator.addNode("_label", lLabel);
-			}
-			for (String lKey : vValue.asNode().keys()) {
-				Value lValue = vValue.asNode().get(lKey);
-				process_listentry(vTS, vMutator, lKey, lValue);
-			}
-    		vMutator.popNode();
-		}
-		
-		else if (vValue.hasType(vTS.RELATIONSHIP())){
-			vMutator.pushNode(vKey);
-			vMutator.addNode("_startid", Long.toString(vValue.asRelationship().startNodeId()));
-			vMutator.addNode("_endid", Long.toString(vValue.asRelationship().endNodeId()));
-			vMutator.addNode("_type", vValue.asRelationship().type());
-			for (String lKey : vValue.asRelationship().keys()) {
-				Value lValue = vValue.asRelationship().get(lKey);
-				process_listentry(vTS, vMutator, lKey, lValue);
-			}			
-			vMutator.popNode();			
 		}
 		
 		else if (vValue.hasType(vTS.PATH())){
