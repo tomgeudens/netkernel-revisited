@@ -1,0 +1,23 @@
+{endpoint}org.netkernel.rdf.jena.rep.IRepJenaModel{/endpoint}
+
+The tools and services of this RDF/Jena library use the IRepJenaModel as the common representation type.
+
+It is a wrapper over the Jena [http://jena.sourceforge.net/javadoc/com/hp/hpl/jena/rdf/model/Model.html|Model].
+It ensures that the underlying Model is marked to be used only in a readonly immutable manner (getReadOnly)
+or is safely cloned if mutation is to be performed (getModel).
+
+{java}
+public interface IRepJenaModel
+{ /**
+   * Get the RDF Model - this must be for readonly operations
+   * it is not safe to modify this model.
+   */
+  Model getModelReadOnly();
+
+  /**
+   * Get a clone of the RDF Model - the returned model is
+   * mutable and safe for updates.
+   */
+  Model getModel();
+}
+{/java}

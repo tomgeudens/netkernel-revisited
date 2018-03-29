@@ -1,0 +1,17 @@
+{endpoint}org.netkernel.rdf.jena.rep.IRepJenaDataset{/endpoint}
+
+Some tools and services of this RDF/Jena library use the IRepJenaDataset as the representation type for a Collection of Models.
+
+It is a wrapper over the Jena [http://jena.sourceforge.net/javadoc/com/hp/hpl/jena/rdf/model/Dataset.html|Dataset].
+It ensures that the underlying Model is marked to be used only in a readonly immutable manner (getReadOnly).
+
+{java}
+public interface IRepJenaDataset
+{	/**
+	 * Get the DataSet - this must be for readonly operations 
+	 * it is not safe to modify this DataSet.
+	 */
+	Dataset getDatasetReadOnly();
+}
+
+{/java}

@@ -1,0 +1,8 @@
+<addTriple>
+	<resource>${resource}</resource>
+	<property>
+		<namespace>${namespace}</namespace>
+		<name>${name}</name>
+	</property>
+	<value type="${valuetype}">${value}</value>
+</addTriple>

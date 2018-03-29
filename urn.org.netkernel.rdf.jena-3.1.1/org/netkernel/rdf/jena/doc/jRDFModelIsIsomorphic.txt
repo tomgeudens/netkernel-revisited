@@ -1,0 +1,6 @@
+{endpoint}jena.RDFBooleanIsIsomorphic{/endpoint}		
+
+The ''jRDFModelIsIsomorphic'' accessor is used to determine if the first model is isomorphically equal
+to the second model.
+
+Returns a ''java.lang.Boolean''.

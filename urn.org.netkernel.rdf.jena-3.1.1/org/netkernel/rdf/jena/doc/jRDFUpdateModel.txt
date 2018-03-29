@@ -1,0 +1,64 @@
+{endpoint}jena.RDFUpdate{/endpoint}
+
+The ''jRDFUpdateModel'' accessor takes a declarative XML structured update and
+applies it to the specified model.  Returns the updated model.
+
+
+==operator==
+
+The '''operator''' is an XML document of the following form...
+
+{xml}
+<jRDFUpdateModel>
+		<addTriple>
+			<resource>http://www.1060.org/forum/</resource>
+			<property>
+				<namespace>http://www.1060.org/descriptive/terms/</namespace>
+				<name>colour</name>
+			</property>
+			<value type="xs:string">purple</value>
+		</addTriple>
+		<removeAllMatching>
+			<property>
+				<namespace>http://www.1060.org/descriptive/terms/</namespace>
+				<name>distinctiveness</name>
+			</property>
+		</removeAllMatching>
+</jRDFUpdateModel>
+{/xml}
+
+Operations are expressed as first-child elements of the root node "jRDFUpdateModel".  Any number of
+operations may be specified. <b>Note</b> The model is updated atomically, the order of operations is significant.
+The following operations are supported:
+
+'''addTriple''' - adds a new triple to the RDF model. Arguments for this operation are:
+<ul>
+	<li><b>resource</b> The URI of the resource</li>
+	<li><b>property</b> The URI of the property describing the resource which is expressed in two parts:
+		<ul>
+			<li><b>namespace</b> - the namespace URI base</li>
+			<li><b>name</b> - the name to append to the namespace base</li>
+		</ul>
+	</li>
+	<li><b>value</b> - this is the value to associate with the resource.  By default this is a URI.  If 
+	the optional "@type" attribute is specified it may specify an XML Schema data type (for example "xs:string")
+	</li>
+</ul>
+
+'''removeAllMatching''' - removes all resources from the Model which match a defined selection criterion - all 
+selection criterion are optional and in each case if no argument is supplied then all resources will be match for that
+criterion.
+<ul>
+	<li><b>resource</b> The URI of the resource</li>
+	<li><b>property</b> The URI of the property describing the resource which is expressed in two parts:
+		<ul>
+			<li><b>namespace</b> - the namespace URI base</li>
+			<li><b>name</b> - the name to append to the namespace base</li>
+		</ul>
+	</li>
+	<li><b>value</b> - this is the value to associate with the resource.  By default this is a URI.  If 
+	the optional "@type" attribute is specified it may specify an XML Schema data type (for example "xs:string")
+	</li>
+</ul>
+
+

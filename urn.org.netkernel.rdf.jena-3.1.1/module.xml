@@ -1,0 +1,387 @@
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:org:netkernel:rdf:jena</uri>
+			<version>3.1.1</version>
+		</identity>
+		<info>
+			<name>RDF / Jena</name>
+			<description>An RDF resource model based on Jena</description>
+			<icon>res:/org/netkernel/rdf/jena/doc/icon.png</icon>
+		</info>
+	</meta>
+	<system>
+		<classloader>
+			<exports>
+				<match>org\.netkernel\.rdf\.jena\..*</match>
+				<match>org\.apache\.jena\..*</match>
+				<match>org\.slf4j\..*</match>
+			</exports>
+		</classloader>
+	</system>
+	<rootspace>
+		<accessor>
+			<id>jena.RDFParseAny</id>
+			<description>Parse a RDF resource to a Jena RDF Model using mimetype inference</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFParse</identifier>
+					<argument name="operand" desc="resource to parse"/>
+					<argument name="base" min="0" desc="base URI from which to resolve relatives"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.RDFParserAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFParseXML</id>
+			<description>Parse an RDF/XML resource to a Jena RDF Model</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFParseXML</identifier>
+					<argument name="operand" desc="resource to parse"/>
+					<argument name="base" min="0" desc="base URI from which to resolve relatives"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.RDFParserAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFParseN3</id>
+			<description>Parse an N3 resource to a Jena RDF Model</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFParseN3</identifier>
+					<argument name="operand" desc="resource to parse"/>
+					<argument name="base" min="0" desc="base URI from which to resolve relatives"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.RDFParserAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFParseN-TRIPLE</id>
+			<description>Parse an N-TRIPLE resource to a Jena RDF Model</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFParseN-TRIPLE</identifier>
+					<argument name="operand" desc="resource to parse"/>
+					<argument name="base" min="0" desc="base URI from which to resolve relatives"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.RDFParserAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFParseTURTLE</id>
+			<description>Parse a TURTLE resource to a Jena RDF Model</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFParseTURTLE</identifier>
+					<argument name="operand" desc="resource to parse"/>
+					<argument name="base" min="0" desc="base URI from which to resolve relatives"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.RDFParserAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFParseJSONLD</id>
+			<description>Parse a JSON-LD resource to a Jena RDF Model</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFParseJSONLD</identifier>
+					<argument name="operand" desc="resource to parse"/>
+					<argument name="base" min="0" desc="base URI from which to resolve relatives"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.RDFParserAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFParseTRIG</id>
+			<description>Parse a TRIG resource to a Jena RDF Model</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFParseTRIG</identifier>
+					<argument name="operand" desc="resource to parse"/>
+					<argument name="base" min="0" desc="base URI from which to resolve relatives"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.RDFParserAccessor</class>
+		</accessor>		
+		
+		<accessor>
+			<id>jena.RDFSerializeXML</id>
+			<description>serialize a IRepJenaModel to XML/RDF format</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFSerializeXML</identifier>
+					<argument name="operand" desc="Jena model to serialize"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.RDFSerializerAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFSerializeN3</id>
+			<description>serialize a IRepJenaModel to N3 format</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFSerializeN3</identifier>
+					<argument name="operand" desc="Jena model to serialize"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.RDFSerializerAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFSerializeN-TRIPLE</id>
+			<description>serialize a IRepJenaModel to N-Triple format</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFSerializeN-TRIPLE</identifier>
+					<argument name="operand" desc="Jena model to serialize"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.RDFSerializerAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFSerializeTURTLE</id>
+			<description>serialize a IRepJenaModel to TURTLE format</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFSerializeTURTLE</identifier>
+					<argument name="operand" desc="Jena model to serialize"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.RDFSerializerAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFSerializeJSONLD</id>
+			<description>serialize a IRepJenaModel to JSON-LD format</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFSerializeJSONLD</identifier>
+					<argument name="operand" desc="Jena model to serialize"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.RDFSerializerAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFSerializeTRIG</id>
+			<description>serialize a IRepJenaModel to TRIG format</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFSerializeTRIG</identifier>
+					<argument name="operand" desc="Jena model to serialize"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.RDFSerializeDatasetAccessor</class>
+		</accessor>
+
+		<accessor>
+			<id>jena.RDFSetUnion</id>
+			<description>Obtain the union of two RDF models</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFModelUnion</identifier>
+					<argument name="model1" desc="The first model"/>
+					<argument name="model2" desc="The second model"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.ModelSetOperationsAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFSetIntersection</id>
+			<description>Obtain the intersection of two RDF models</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFModelIntersection</identifier>
+					<argument name="model1" desc="The first model"/>
+					<argument name="model2" desc="The second model"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.ModelSetOperationsAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFSetDifference</id>
+			<description>Obtain the difference of two RDF models</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFModelDifference</identifier>
+					<argument name="model1" desc="The first model"/>
+					<argument name="model2" desc="The second model"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.ModelSetOperationsAccessor</class>
+		</accessor>
+		
+		
+		<accessor>
+			<id>jena.RDFBooleanContainsAny</id>
+			<description>determine if the first model contains any members of the second model</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFModelContainsAny</identifier>
+					<argument name="model1" desc="The first model"/>
+					<argument name="model2" desc="The second model"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.BooleanOperationsAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFBooleanContainsAll</id>
+			<description>determine if the first model contains all members of the second model</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFModelContainsAll</identifier>
+					<argument name="model1" desc="The first model"/>
+					<argument name="model2" desc="The second model"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.BooleanOperationsAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFBooleanIsIsomorphic</id>
+			<description>determine if the first model is isomorphically equal to the second model</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFModelIsIsomorphic</identifier>
+					<argument name="model1" desc="The first model"/>
+					<argument name="model2" desc="The second model"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.BooleanOperationsAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFBooleanIsEmpty</id>
+			<description>determine if a model is the empty model</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFModelIsEmpty</identifier>
+					<argument name="operand" desc="RDF model to test"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.BooleanOperationsAccessor</class>
+		</accessor>
+		
+		
+		
+		
+		<accessor>
+			<id>jena.RDFSelect</id>
+			<description>Select from a Jena RDF Model using a simple XML selection declaration</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFSelectFromModel</identifier>
+					<argument name="operand" desc="model to select from"/>
+					<argument name="operator" desc="declarative selection"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.SelectModelAccessor</class>
+		</accessor>
+		
+		<accessor>
+			<id>jena.RDFUpdate</id>
+			<description>Update a Jena RDF Model with a simple structured XML language</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFUpdateModel</identifier>
+					<argument name="operand" desc="model to update"/>
+					<argument name="operator" desc="declarative updates"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.UpdateModelAccessor</class>
+		</accessor>
+		
+		<accessor>
+			<id>jena.RDFEmptyModel</id>
+			<grammar>
+				<active>
+					<identifier>active:jRDFEmptyModel</identifier>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.EmptyModelAccessor</class>
+		</accessor>
+		
+		<accessor>
+			<id>jena.RDFQueryModelCONSTRUCT</id>
+			<description>performs an SPARQL CONSTRUCT query on a Jena model</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFQueryModelCONSTRUCT</identifier>
+					<argument name="operand" desc="Model to select from" min="0" max="1"/>
+					<argument name="operator" desc="SPARQL CONSTRUCT statement"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.QueryModelAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFQueryModelASK</id>
+			<description>performs an SPARQL ASK query on a Jena model</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFQueryModelASK</identifier>
+					<argument name="operand" desc="Model to select from" min="0" max="1"/>
+					<argument name="operator" desc="SPARQL ASK statement"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.QueryModelAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFQueryModelSELECT</id>
+			<description>performs an RDQL query on a Jena model</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFQueryModelSELECT</identifier>
+					<argument name="operand" desc="Model to select from" min="0" max="1"/>
+					<argument name="operator" desc="SPARQL SELECT statement"/>
+					<argument name="model" min="0" desc="flag to indicate return a model rather than XML/RDF"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.QueryModelAccessor</class>
+		</accessor>
+		<accessor>
+			<id>jena.RDFQueryModelDESCRIBE</id>
+			<description>performs an SPARQL DESCRIBE query on a Jena model</description>
+			<grammar>
+				<active>
+					<identifier>active:jRDFQueryModelDESCRIBE</identifier>
+					<argument name="operand" desc="Model to select from" min="0" max="1"/>
+					<argument name="operator" desc="SPARQL DESCRIBE statement"/>
+				</active>
+			</grammar>
+			<class>org.netkernel.rdf.jena.endpoint.QueryModelAccessor</class>
+		</accessor>
+		
+		
+		
+		<transreptor>
+			<class>org.netkernel.rdf.jena.endpoint.DefaultModelSerializer</class>
+		</transreptor>
+		<transreptor>
+			<class>org.netkernel.rdf.jena.endpoint.DefaultModelParser</class>
+		</transreptor>
+		<transreptor>
+			<class>org.netkernel.rdf.jena.endpoint.QueryTransreptor</class>
+		</transreptor>
+		<representation>
+			<name>Jena Model</name>
+			<description>Jena RDF object model</description>
+			<class>org.netkernel.rdf.jena.rep.IRepJenaModel</class>
+		</representation>
+		<representation>
+			<name>Jena Dataset</name>
+			<description>Jena RDF Dataset object model</description>
+			<class>org.netkernel.rdf.jena.rep.IRepJenaDataset</class>
+		</representation>
+		
+		<fileset>
+			<regex>res:/etc/system/(Docs|Books|CDEPalette).xml</regex>
+		</fileset>
+		<fileset>
+			<regex>res:/org/netkernel/rdf/jena/doc/.*</regex>
+		</fileset>
+		<import>
+			<private/>
+			<uri>urn:org:netkernel:xml:core</uri>
+		</import>
+		<import>
+			<private/>
+			<uri>urn:org:netkernel:ext:layer1</uri>
+		</import>
+	</rootspace>
+</module>

@@ -1,0 +1,55 @@
+<books>
+  <book>
+    <id>book:mod:rdf:jena</id>
+    <title>RDF / Jena</title>
+    <desc>Documentation for the RDF / Jena library</desc>
+    <author/>
+    <publisher/>
+    <date/>
+    <modified/>
+    <icon type="fa">fa-link</icon>
+    <keywords/>
+    <toc>
+      <item id="doc:mod:rdf:jena:title">
+      	<item id="doc:mod:rdf:jena:jRDFParse"/>
+      	<item id="doc:mod:rdf:jena:jRDFParseXML"/>
+      	<item id="doc:mod:rdf:jena:jRDFParseN3"/>
+      	<item id="doc:mod:rdf:jena:jRDFParseTURTLE"/>
+      	<item id="doc:mod:rdf:jena:jRDFParseN-TRIPLE"/>
+      	<item id="doc:mod:rdf:jena:jRDFParseJSONLD"/>
+      	<item id="doc:mod:rdf:jena:jRDFParseTRIG"/>
+      	<separator/>
+      	<item id="doc:mod:rdf:jena:jRDFSerializeXML"/>
+      	<item id="doc:mod:rdf:jena:jRDFSerializeN3"/>
+      	<item id="doc:mod:rdf:jena:jRDFSerializeTURTLE"/>
+      	<item id="doc:mod:rdf:jena:jRDFSerializeN-TRIPLE"/>
+      	<item id="doc:mod:rdf:jena:jRDFSerializeJSONLD"/>
+      	<item id="doc:mod:rdf:jena:jRDFSerializeTRIG"/>
+      	<separator/>
+      	<item id="doc:mod:rdf:jena:jRDFEmptyModel"/>
+      	<item id="doc:mod:rdf:jena:jRDFModelIsEmpty"/>
+      	<item id="doc:mod:rdf:jena:jRDFModelUnion"/>
+      	<item id="doc:mod:rdf:jena:jRDFModelIntersection"/>
+      	<item id="doc:mod:rdf:jena:jRDFModelDifference"/>
+      	<item id="doc:mod:rdf:jena:jRDFModelContainsAny"/>
+      	<item id="doc:mod:rdf:jena:jRDFModelContainsAll"/>
+      	<item id="doc:mod:rdf:jena:jRDFModelIsIsomorphic"/>
+      	<separator/>
+      	<item id="doc:mod:rdf:jena:jRDFUpdateModel"/>
+      	<item id="doc:mod:rdf:jena:jRDFSelectFromModel"/>
+      	<separator/>
+      	<item id="doc:mod:rdf:jena:jRDFQueryModelSELECT"/>
+      	<item id="doc:mod:rdf:jena:jRDFQueryModelCONSTRUCT"/>
+      	<item id="doc:mod:rdf:jena:jRDFQueryModelDESCRIBE"/>
+      	<item id="doc:mod:rdf:jena:jRDFQueryModelASK"/>
+      	<separator/>
+      	<item id="doc:mod:rdf:jena:IRepJenaModel"/>
+      	<item id="doc:mod:rdf:jena:IRepJenaDataset"/>
+      	<separator/>
+      	<item id="doc:mod:rdf:jena:xml:cherrypick"/>
+      	<separator/>
+        <item id="doc:mod:rdf:jena:license"/>
+      </item>
+    </toc>
+  </book>
+</books>

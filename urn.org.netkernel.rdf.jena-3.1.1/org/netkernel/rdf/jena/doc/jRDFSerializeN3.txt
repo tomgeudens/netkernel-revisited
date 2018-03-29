@@ -1,0 +1,6 @@
+{endpoint}jena.RDFSerializeN3{/endpoint}
+
+The <i>jRDFSerializerN3</i> serializes a [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]]
+to N3 format.
+
+The response is a [[doc:coremeta:rep:irbsr|IReadableBinaryStreamRepresentation]].

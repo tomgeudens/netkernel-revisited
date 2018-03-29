@@ -1,0 +1,6 @@
+{endpoint}jena.RDFSerializeXML{/endpoint}
+
+The <i>jRDFSerializerXML</i> serializes a [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]]
+to XML/RDF format.
+
+The response is a [[doc:coremeta:rep:irbsr|IReadableBinaryStreamRepresentation]].

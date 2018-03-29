@@ -27,6 +27,10 @@
         <pass-parameter name="domain"/>
 	</sparql>
 
+    <sparql uri="milieu-common/blank-nodes.freemarker">
+        <pass-parameter name="uri"/>
+	</sparql>
+
     <sparql uri="lod-core/incoming.freemarker">
         <pass-parameter name="uri"/>
         <condition parameter="format" has-not-value="html"/>

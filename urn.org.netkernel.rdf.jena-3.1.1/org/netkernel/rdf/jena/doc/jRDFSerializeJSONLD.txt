@@ -1,0 +1,6 @@
+{endpoint}jena.RDFSerializeJSONLD{/endpoint}
+
+The <i>jRDFSerializerJSONLD</i> serializes a [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]]
+to JSON-LD format.
+
+The response is a [[doc:coremeta:rep:irbsr|IReadableBinaryStreamRepresentation]].

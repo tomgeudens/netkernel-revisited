@@ -1,0 +1,5 @@
+{endpoint}jena.RDFParseXML{/endpoint}
+
+The ''jRDFParseXML'' accessor parses RDF/XML serialized RDF.
+
+The response representation of this accessor is an [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]].

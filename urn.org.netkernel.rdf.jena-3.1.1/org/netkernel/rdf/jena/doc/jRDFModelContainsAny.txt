@@ -1,0 +1,6 @@
+{endpoint}jena.RDFBooleanContainsAny{/endpoint}		
+
+The ''jRDFModelContainsAny'' accessor is used to determine if the first model contains '''any'''
+members of the second model.
+
+Returns a ''java.lang.Boolean''.

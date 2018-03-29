@@ -1,0 +1,3 @@
+{endpoint}jena.RDFEmptyModel{/endpoint}
+
+The <i>jRDFEmptyModel</i> accessor returns an empty [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]].

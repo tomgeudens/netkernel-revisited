@@ -1,0 +1,6 @@
+{endpoint}jena.RDFSetUnion{/endpoint}
+
+The ''jRDFModelUnion'' accessor is used to obtain the union of two RDF models.  
+Resources common to both sets are normalized.
+
+The response of this accessor is an [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]].

@@ -1263,6 +1263,21 @@
 						</active>
 					</grammar>
 				</accessor>
+				
+				<accessor>
+					<id>com:proxml:milieuinfo:server:genericdata:groovy:accessor</id>
+					<prototype>GroovyPrototype</prototype>
+					<script>res:/resources/groovy/milieuinfogenericdata.groovy</script>
+					<grammar>
+						<active>
+							<identifier>active:milieuinfogenericdata</identifier>
+							<argument name="domain" desc="domain" max="1" min="1"/>
+							<argument name="query" desc="query" max="1" min="0"/>
+							<argument name="format" desc="format" max="1" min="0"/>
+							<argument name="accept" desc="accept header" max="1" min="0"/>
+						</active>
+					</grammar>
+				</accessor>
 			</space>
 		</overlay>
 

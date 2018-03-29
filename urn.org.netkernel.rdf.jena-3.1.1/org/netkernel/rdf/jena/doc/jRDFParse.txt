@@ -1,0 +1,11 @@
+{endpoint}jena.RDFParseAny{/endpoint}
+
+The ''jRDFParse'' accessor attempts to parse all serializations of RDF.
+
+The appropriate parser is selected based upon type inferencing for the '''operand''' resource.
+
+The inference first attempts to identify the type from the MimeType/ContentType of the resource.  If this is not
+known then file extension matching will be attempted.  If both of these cannot resolve the type
+then it will be assumed to be XML/RDF.
+
+The response representation of this accessor is an [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]].

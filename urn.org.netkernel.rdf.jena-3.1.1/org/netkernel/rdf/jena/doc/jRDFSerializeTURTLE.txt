@@ -1,0 +1,6 @@
+{endpoint}jena.RDFSerializeTURTLE{/endpoint}
+
+The <i>jRDFSerializerTURTLE</i> serializes a [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]]
+to Turtle format.
+
+The response is a [[doc:coremeta:rep:irbsr|IReadableBinaryStreamRepresentation]].

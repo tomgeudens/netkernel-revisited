@@ -1,0 +1,5 @@
+{endpoint}jena.RDFSetIntersection{/endpoint}
+
+The ''jRDFModelIntersection'' accessor is used to obtain the Intersection of two RDF models.  
+
+The response of this accessor is an [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]].

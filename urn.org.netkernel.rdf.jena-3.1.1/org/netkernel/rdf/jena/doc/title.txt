@@ -1,0 +1,103 @@
+=RDF Jena Library Guide=
+
+==Introduction==
+The RDF Jena Library is a library for parsing, serializing and processing RDF models.
+It is based on the Apache [https://jena.apache.org/|Jena] library.
+
+This library provides a toolset for working with RDF models.  It consists of
+utility services for parsing and serializing the RDF serializations including XML/RDF, JSONLD, N3, Turtle and N-Triple syntax.
+Once parsed the RDF models are represented as Jena Models wrapped by with an ROC-safe immutable NetKernel representation
+[[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]].  A range of tools are provide for manipulating models - these are divided
+into Set operations and Query/update operations.
+
+==Parsing RDF==
+
+There are at least four serialized forms of RDF, this library provides parsers for XML/RDF, N3, Turtle and N-Triple syntaxes.
+
+*[[doc:mod:rdf:jena:jRDFParse|jRDFParse]] parses RDF and attempts to use type inference to determine the representation type (see below).
+
+If the RDF representation is already known then each parser can be used explicitly...
+
+*[[doc:mod:rdf:jena:jRDFParseXML|jRDFParseXML]] parses XML/RDF
+*[[doc:mod:rdf:jena:jRDFParseN3|jRDFParseN3]] parses N3
+*[[doc:mod:rdf:jena:jRDFParseTURTLE|jRDFParseTURTLE]] parses Turtle
+*[[doc:mod:rdf:jena:jRDFParseN-TRIPLE|jRDFParseN-TRIPLE]] parses N-Triple
+
+Each parser produces an in-memory Jena Model contained in a [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]].
+
+==Serializing RDF Models==
+The library provides serializers which can serialize a resource with a[[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]]
+to XML/RDF, N3, TURTLE and N-Triple syntaxes.
+
+*[[doc:mod:rdf:jena:jRDFSerializeXML|jRDFSerializeXML]] Serializes XML/RDF
+*[[doc:mod:rdf:jena:jRDFSerializeN3|jRDFSerializeN3]] Serializes N3
+*[[doc:mod:rdf:jena:jRDFSerializeTURTLE|jRDFSerializeTURTLE]] Serializes Turtle
+*[[doc:mod:rdf:jena:jRDFSerializeN-TRIPLE|jRDFSerializeN-TRIPLE]] Serializes N-Triple
+
+==Type Inference Parsing/Transreption==
+
+Internally the active:jRDFXXXX accessors use [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]] as the representation.
+
+By default the RDF binary stream parser (transreptor) will attempt to do type inferencing
+on an RDF resource to determine the serialisation format.
+
+The inference first attempts to identify the type from the MimeType/ContentType of the resource.  If this is not
+known then file extension matching will be attempted.  If both of these cannot resolve the type
+then it will be assumed to be XML/RDF.
+
+==Default Parser/Serializer==
+
+If an IRepJenaModel is to be serialized  then the library will default to an XML/RDF serialization.  Defaults can be avoided
+by using the appropriate parse/serialize accessors discussed above.
+
+==Set Operations==
+The library provides a set of accessors for performing set operations on Jena models.  The results of a set operation is another
+Jena Model resource.
+
+*[[doc:mod:rdf:jena:jRDFModelUnion|jRDFModelUnion]] obtain the the union of two models
+*[[doc:mod:rdf:jena:jRDFModelIntersection|jRDFModelIntersection]] obtain the the intersection of two models
+*[[doc:mod:rdf:jena:jRDFModelDifference|jRDFModelDifference]] obtain the the difference of two models
+
+
+Set comparisons are provided by the following accessors which each return a boolean aspect.
+
+*[[doc:mod:rdf:jena:jRDFModelContainsAny|jRDFModelContainsAny]] determine if one model contains any members of another model
+*[[doc:mod:rdf:jena:jRDFModelContainsAll|jRDFModelContainsAll]] determine if one model contains all of another model
+*[[doc:mod:rdf:jena:jRDFModelIsIsomorphic|jRDFModelIsIsomporphic]] determine if two models are isomorphically equivalent
+*[[doc:mod:rdf:jena:jRDFModelIsEmpty|jRDFModelIsEmpty]] determine if a model is empty
+
+
+==Updating Models==
+We have created a simple accessor [[doc:mod:rdf:jena:jRDFUpdateModel|jRDFUpdateModel]] which enables declarative updates, both additions and deletions,
+to be applied to a model.  Updates can add new triples or simply add new properties to an existing resource as well as removing from the model. 
+
+An alternative approach to using this accessor is to perform separate additions or deletions using the union and difference set operations.
+In this case simply create a new model containing the changes and perform the Union or Difference operation to modify the model.
+
+==Querying Models==
+
+Queries can be performed on a model using the SPARQL query language. 
+
+*[[doc:mod:rdf:jena:jRDFQueryModelSELECT|jRDFQueryModelSELECT]]
+*[[doc:mod:rdf:jena:jRDFQueryModelDESCRIBE|jRDFQueryModelDESCRIBE]]
+*[[doc:mod:rdf:jena:jRDFQueryModelCONSTRUCT|jRDFQueryModelCONSTRUCT]]
+*[[doc:mod:rdf:jena:jRDFQueryModelASK|jRDFQueryModelASK]]
+
+
+As an alternative a simple query accessor is provided which takes a declarative XML query syntax to perform queries to the model.  See the
+[[doc:mod:rdf:jena:jRDFSelectFromModel|jRDFSelectFromModel]] accessor.
+
+==Future Work==
+<ul>
+	<li>
+		Currently the library works exclusively with RDF models future versions will add support for OWL ontologies.
+	</li>
+	<li>
+		RDBMS persistence mechanisms are not supported yet.  All RDF model resources are in-memory.
+	</li>
+</ul>
+
+==Acknowledgements==
+Our thanks go to the [http://library.lanl.gov/|Los Alamos National Laboratories Digital Library] team for inspiration and
+feedback whilst developing this library.  Thanks also to our former colleagues in the HP Semantic Web team for their work in
+producing the [https://jena.apache.org/|Jena] library.

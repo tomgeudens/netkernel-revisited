@@ -1,0 +1,5 @@
+{endpoint}jena.RDFParseJSONLD{/endpoint}
+
+The ''jRDFParseJSONLD'' accessor parses JSON-LD serialized RDF.
+
+The response representation of this accessor is an [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]].

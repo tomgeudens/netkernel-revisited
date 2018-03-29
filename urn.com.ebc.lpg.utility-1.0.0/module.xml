@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:lpg:utility</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / lpg / utility</name>
+			<description>elephant bird consulting / lpg / utility</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc lpg utility"
+		public="true"
+		uri="urn:com:ebc:lpg:utility">
+
+		<fileset>
+			<regex>res:/etc/system/(LogConfig).xml</regex>
+		</fileset>
+		
+		<accessor>
+			<id>com:ebc:lpg:utility:java:lpgtojenamodel:accessor</id>
+			<class>com.ebc.lpg.utility.LPGToJenaModelAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:lpgtojenamodel</identifier>
+					<argument name="operand" desc="incoming hds with lpg data" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<accessor>
+			<id>com:ebc:lpg:utility:java:jenaserialize:accessor</id>
+			<class>com.ebc.lpg.utility.JenaSerializeAccessor</class>
+			<grammar>
+				<active>
+					<identifier>active:jena2rdfxml</identifier>
+					<identifier>active:jena2turtle</identifier>
+					<identifier>active:jena2ntriple</identifier>
+					<identifier>active:jena2jsonld</identifier>
+					<argument name="operand" desc="incoming jena model" max="1" min="1"/>
+				</active>
+			</grammar>
+		</accessor>
+		
+		<import>
+			<uri>urn:com:ebc:lpg:utility:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc lpg utility import"
+		public="false"
+		uri="urn:com:ebc:lpg:utility:import">
+		<fileset>
+			<!-- contains freemarker resources -->
+			<regex>res:/resources/freemarker/.*</regex>
+		</fileset>
+		
+		<import>
+			<!-- contains                                                 -->
+			<!-- active:jRDFEmptyModel, active:jRDFModelIsEmpty,          -->
+			<!-- active:jRDFSerializeXML, active:jRDFSerializeTURTLE,     -->
+			<!-- active:jRDFSerializeN-TRIPLE, active:jRDFSerializeJSONLD -->
+			<uri>urn:org:netkernel:rdf:jena</uri>
+		</import>
+		
+		<import>
+			<!-- contains IHDSDocument -->
+			<uri>urn:org:netkernel:mod:hds</uri>
+		</import>
+
+		<import>
+			<!-- contains active:freemarker -->
+			<uri>urn:org:netkernel:lang:freemarker</uri>
+		</import>
+	</rootspace>
+</module>

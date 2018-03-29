@@ -1,0 +1,26 @@
+<palette>
+	<group name="RDF" id="rdf" order="10"/>
+	<endpoint id="jena.RDFEmptyModel" name="RDF Empty Model" group="rdf"/>
+	<endpoint id="jena.RDFParseXML" group="rdf" name="RDF Parse XML"/>
+	<endpoint id="jena.RDFParseN3" group="rdf" name="RDF Parse N3"/>
+	<endpoint id="jena.RDFParseN-TRIPLE" group="rdf"  name="RDF Parse N-Triple"/>
+	<endpoint id="jena.RDFParseTURTLE" group="rdf" name="RDF Parse Turtle"/>
+	<endpoint id="jena.RDFSerializeXML" group="rdf" name="RDF Serialize XML"/>
+	<endpoint id="jena.RDFSerializeN3" group="rdf" name="RDF Serialize N3"/>
+	<endpoint id="jena.RDFSerializeN-TRIPLE" group="rdf" name="RDF Serialize N-Triple"/>
+	<endpoint id="jena.RDFSerializeTURTLE" group="rdf" name="RDF Serialize Turtle"/>
+	<endpoint id="jena.RDFSetUnion" group="rdf" name="RDF Union"/>
+	<endpoint id="jena.RDFSetIntersection" group="rdf" name="RDF Intersection"/>
+	<endpoint id="jena.RDFSetDifference" group="rdf" name="RDF Difference"/>
+	<endpoint id="jena.RDFBooleanContainsAny" group="rdf" name="RDF Contains Any"/>
+	<endpoint id="jena.RDFBooleanContainsAll" group="rdf" name="RDF Contains All"/>
+	<endpoint id="jena.RDFBooleanIsIsomorphic" group="rdf" name="RDF Is Isomorphic"/>
+	<endpoint id="jena.RDFBooleanIsEmpty" group="rdf" name="RDF Is Empty"/>
+	<endpoint id="jena.RDFSelect" group="rdf" name="RDF Select"/>
+	<endpoint id="jena.RDFUpdate" group="rdf" name="RDF Update"/>
+	
+	<endpoint id="jena.RDFQueryModelCONSTRUCT" group="rdf" name="RDF Query Construt"/>
+	<endpoint id="jena.RDFQueryModelASK" group="rdf" name="RDF Query Ask"/>
+	<endpoint id="jena.RDFQueryModelSELECT" group="rdf" name="RDF Query Select"/>
+	<endpoint id="jena.RDFQueryModelDESCRIBE" group="rdf" name="RDF Query Describe"/>
+</palette>

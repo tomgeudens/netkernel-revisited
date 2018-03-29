@@ -1,0 +1,9 @@
+{endpoint}jena.RDFBooleanIsEmpty{/endpoint}		
+
+The ''jRDFModelIsEmpty'' accessor is used to determine if a model is the empty model.
+
+Returns a ''java.lang.Boolean''.
+
+
+
+

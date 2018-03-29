@@ -67,6 +67,27 @@
 			<argument name="domain" method="as-string">${root}</argument>
 		</request>
 	</endpoint>
+	
+	<!-- /${root}/data -->
+	<endpoint>
+		<meta>
+			<rest>
+				<simple>data</simple>
+				<method>GET,POST</method>
+				<Etag>MD5</Etag>
+				<compress/>
+			</rest>
+		</meta>
+		<grammar>
+			<active>
+				<identifier>active:milieuinfo${root}datarestoverlay</identifier>
+			</active>
+		</grammar>
+		<request>
+			<identifier>active:milieuinfogenericdata</identifier>
+			<argument name="domain" method="as-string">${root}</argument>
+		</request>
+	</endpoint>
 
 	<!-- /${root}/def.(rdf|ttl|nt|jsonld|html) -->
 	<endpoint>

@@ -1,0 +1,43 @@
+{endpoint}jena.RDFSelect{/endpoint}
+
+The ''jRDFSelectFromModel'' accessor takes a declarative XML structured selection criteria and
+uses it to select a subset of the specified model.  Returns the selected model.
+
+==operator==
+The '''operator''' is an XML document of the following form...
+
+{xml}
+<jRDFSelectFromModel>
+			<selector>
+				<resource>http://www.1060.org/forum/</resource>
+				<property>
+					<namespace>http://mydescriptive/namespace</namespace>
+					<name>property</name>
+				</property>
+				<value type="xs:string">some value</value>
+			</selector>
+			<selector>
+				<resource>http://www.1060research.com</resource>
+			</selector>
+		</jRDFSelectFromModel>
+{/xml}
+Selection criterion are expressed as first-child elements of the root node "jRDFSelectFromModel".  Any number of
+selections may be specified. <b>Note</b> the order of selections is not significant. The selector is specified as follows:
+
+'''selector''' - selects all resources from the Model which match the defined selection criteria - all 
+selection criteria are optional and in each case if no argument is supplied then all resources will match for that
+criterion.  Criteria are:
+<ul>
+	<li><b>resource</b> The URI of the resource</li>
+	<li><b>property</b> The URI of the property describing the resource which is expressed in two parts:
+		<ul>
+			<li><b>namespace</b> - the namespace URI base</li>
+			<li><b>name</b> - the name to append to the namespace base</li>
+		</ul>
+	</li>
+	<li><b>value</b> - this is the value to associate with the resource.  By default this is a URI.  If 
+	the optional "@type" attribute is specified it may specify an XML Schema data type (for example "xs:string")
+	</li>
+</ul>
+
+

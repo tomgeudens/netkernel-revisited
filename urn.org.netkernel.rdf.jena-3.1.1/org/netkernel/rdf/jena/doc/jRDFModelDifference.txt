@@ -1,0 +1,5 @@
+{endpoint}jena.RDFSetDifference{/endpoint}
+
+The ''jRDFModelDifference'' accessor is used to obtain the Difference of two RDF models.  
+
+The response of this accessor is an [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]].

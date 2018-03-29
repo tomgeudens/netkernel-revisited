@@ -30,8 +30,8 @@
     <void:distinctSubjects rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2828123</void:distinctSubjects>
     <void:entities rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2810842</void:entities>
     <void:exampleResource rdf:resource="https://id.milieuinfo.be/imjv/dossier/2011_01749024006625#id" />
-    <void:exampleResource rdf:resource="https://id.milieuinfo.be/imjv/emissiepunt/6808#id" />
-    <void:exampleResource rdf:resource="https://id.milieuinfo.be/imjv/observatie/6808/em/8/obs/9/2011#id" />
+    <void:exampleResource rdf:resource="https://id.milieuinfo.be/imjv/emissiepunt/00069987000163/8664#id" />
+    <void:exampleResource rdf:resource="https://id.milieuinfo.be/imjv/observatie/01749024006625/6808/em/8/obs/9/2011#id" />
     <void:feature rdf:resource="http://www.w3.org/ns/formats/JSON-LD" />
     <void:feature rdf:resource="http://www.w3.org/ns/formats/N-Triples" />
     <void:feature rdf:resource="http://www.w3.org/ns/formats/N3" />

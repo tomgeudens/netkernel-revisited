@@ -1,0 +1,5 @@
+{endpoint}jena.RDFParseTRIG{/endpoint}
+
+The ''jRDFParseTRIG'' accessor parses TRIG.
+
+The response representation of this accessor is an [[doc:mod:rdf:jena:IRepJenaDataset|IRepJenaDataset]].

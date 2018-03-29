@@ -1,0 +1,15 @@
+{endpoint}jena.RDFQueryModelCONSTRUCT{/endpoint}
+
+The ''jRDFQueryModelCONSTRUCT'' accessor performs an SPARQL CONSTRUCT query on a Jena model.
+
+The results is returned as a [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]].
+
+The '''operator''' specifies the SPARQL CONSTRUCT query.
+
+==Optional Operand Argument==
+
+If the ''operand'' argument is provided the query will be made against the operand model.
+
+If the operand argument is omitted it is assumed that the query references a resource in the FROM part of the query statement.
+Referenced resources will be SOURCEd from the ROC domain so that querys can be made from ROC domain resources, as well as external HTTP
+resources (if the http client module is resolvable in context). 

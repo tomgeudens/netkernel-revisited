@@ -1,0 +1,6 @@
+{endpoint}jena.RDFSerializeTRIG{/endpoint}
+
+The <i>jRDFSerializerTRIG</i> serializes a [[doc:mod:rdf:jena:IRepJenaDataset|IRepJenaDataset]]
+to TRIG format.
+
+The response is a [[doc:coremeta:rep:irbsr|IReadableBinaryStreamRepresentation]].

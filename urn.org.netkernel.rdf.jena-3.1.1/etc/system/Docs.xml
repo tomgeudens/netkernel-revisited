@@ -1,0 +1,234 @@
+<docs>
+  
+  <doc>
+    <id>doc:mod:rdf:jena:title</id>
+    <title>RDF Jena</title>
+    <desc>Documentation of RDF Jena library</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/title.txt</uri>
+  </doc>
+  
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFParse</id>
+    <title>jRDFParse</title>
+    <desc>Parse RDF using type inference</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFParse.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFParseXML</id>
+    <title>jRDFParseXML</title>
+    <desc>Parse XML/RDF</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFParseXML.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFParseN3</id>
+    <title>jRDFParseN3</title>
+    <desc>Parse N3</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFParseN3.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFParseTURTLE</id>
+    <title>jRDFParseTURTLE</title>
+    <desc>Parse Turtle</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFParseTURTLE.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFParseN-TRIPLE</id>
+    <title>jRDFParseN-TRIPLE</title>
+    <desc>Parse N-TRIPLE</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFParseN-TRIPLE.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFParseJSONLD</id>
+    <title>jRDFParseJSONLD</title>
+    <desc>Parse JSONLD</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFParseJSONLD.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFParseTRIG</id>
+    <title>jRDFParseTRIG</title>
+    <desc>Parse TRIG</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFParseTRIG.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFSerializeXML</id>
+    <title>jRDFSerializeXML</title>
+    <desc>Serialize to XML/RDF</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFSerializeXML.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFSerializeN3</id>
+    <title>jRDFSerializeN3</title>
+    <desc>Serialize to N3</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFSerializeN3.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFSerializeN-TRIPLE</id>
+    <title>jRDFSerializeN-TRIPLE</title>
+    <desc>Serialize to N-TRIPLE</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFSerializeN-TRIPLE.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFSerializeTURTLE</id>
+    <title>jRDFSerializeTURTLE</title>
+    <desc>Serialize to TURTLE</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFSerializeTURTLE.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFSerializeJSONLD</id>
+    <title>jRDFSerializeJSONLD</title>
+    <desc>Serialize to JSONLD</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFSerializeJSONLD.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFSerializeTRIG</id>
+    <title>jRDFSerializeTRIG</title>
+    <desc>Serialize to TRIG</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFSerializeTRIG.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFEmptyModel</id>
+    <title>jRDFEmptyModel</title>
+    <desc>Source an empty model</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFEmptyModel.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFModelUnion</id>
+    <title>jRDFModelUnion</title>
+    <desc>Source the Union of two models</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFModelUnion.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFModelDifference</id>
+    <title>jRDFModelDifference</title>
+    <desc>Source the Difference of two models</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFModelDifference.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFModelIntersection</id>
+    <title>jRDFModelIntersection</title>
+    <desc>Source the Intersection of two models</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFModelIntersection.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFModelContainsAny</id>
+    <title>jRDFModelContainsAny</title>
+    <desc>Determine if one model contains any of another model</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFModelContainsAny.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFModelContainsAll</id>
+    <title>jRDFModelContainsAll</title>
+    <desc>Determine if one model contains all of another model</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFModelContainsAll.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFModelIsEmpty</id>
+    <title>jRDFModelIsEmpty</title>
+    <desc>Determine if one model contains all of another model</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFModelIsEmpty.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFModelIsIsomorphic</id>
+    <title>jRDFModelIsIsomorphic</title>
+    <desc>Determine if one model contains all of another model</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFModelIsIsomorphic.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFUpdateModel</id>
+    <title>jRDFUpdateModel</title>
+    <desc>Declaratively update a model</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFUpdateModel.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFSelectFromModel</id>
+    <title>jRDFSelectFromModel</title>
+    <desc>Declaratively perform a simple selection from a model</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFSelectFromModel.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFQueryModelSELECT</id>
+    <title>jRDFQueryModelSELECT</title>
+    <desc>Perform a SELECT SPARQL query</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFQueryModelSELECT.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFQueryModelCONSTRUCT</id>
+    <title>jRDFQueryModelCONSTRUCT</title>
+    <desc>Perform a CONSTRUCT SPARQL query</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFQueryModelCONSTRUCT.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFQueryModelASK</id>
+    <title>jRDFQueryModelASK</title>
+    <desc>Perform a ASK SPARQL query</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFQueryModelASK.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:jRDFQueryModelDESCRIBE</id>
+    <title>jRDFQueryModelDESCRIBE</title>
+    <desc>Perform a DESCRIBE SPARQL query</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/jRDFQueryModelDESCRIBE.txt</uri>
+    <category>doc accessor</category>
+  </doc>
+  
+  <doc>
+    <id>doc:mod:rdf:jena:IRepJenaModel</id>
+    <title>IRepJenaModel</title>
+    <desc>The IRepJenamodel Represntation</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/IRepJenaModel.txt</uri>
+    <category>doc representation</category>
+  </doc>
+  <doc>
+    <id>doc:mod:rdf:jena:IRepJenaDataset</id>
+    <title>IRepJenaDataset</title>
+    <desc>The IRepJenaDataset Represntation</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/IRepJenaDataset.txt</uri>
+    <category>doc representation</category>
+  </doc>
+  
+  <doc>
+    <id>doc:mod:rdf:jena:xml:cherrypick</id>
+    <title>Xerces CherryPick</title>
+    <desc>Xerces Cherry Pick Classpath Readme</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/xml-cherrypick.txt</uri>
+  </doc>
+  
+  <doc>
+    <id>doc:mod:rdf:jena:license</id>
+    <title>License</title>
+    <desc>License information for RDF Jena library</desc>
+    <uri>res:/org/netkernel/rdf/jena/doc/license.txt</uri>
+  </doc>
+
+</docs>

@@ -1,0 +1,50 @@
+{endpoint}jena.RDFQueryModelSELECT{/endpoint}
+
+The ''jRDFQueryModel'' accessor performs an RDQL query on a Jena model and
+returns the results as an XML results set.  If a '''model''' argument is provided (with an arbitrary
+value) then the results will be returned as a  [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]].
+
+The '''operator''' specifies the SPARQL SELECT query, for example
+
+{literal}
+SELECT ?x
+WHERE { ?x <http:/some/property> "value" }
+{/literal}
+
+The XML form of the results looks like...
+
+{xml}
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+  <head>
+    <variable name="x"/>
+  </head>
+  <results>
+    <result>
+      <binding name="x">
+        <uri>http://www.1060.org/bugxter/</uri>
+      </binding>
+    </result>
+    <result>
+      <binding name="x">
+        <uri>http://www.1060.org/forum/</uri>
+      </binding>
+    </result>
+  </results>
+</sparql>
+{/xml}
+
+==Optional Operand Argument==
+
+If the ''operand'' argument is provided the query will be made against the operand model.
+
+If the operand argument is omitted it is assumed that the query references a resource in the FROM part of the query statement.
+Referenced resources will be SOURCEd from the ROC domain so that querys can be made from ROC domain resources, as well as external HTTP
+resources (if the http client module is resolvable in context). 
+
+For example, active resources are supported like this:
+
+{literal}
+SELECT ?s ?p ?o
+FROM <active:myDynamicRDFService+foo@baa>
+WHERE { ?x <http:/some/property> "value" }
+{/literal}

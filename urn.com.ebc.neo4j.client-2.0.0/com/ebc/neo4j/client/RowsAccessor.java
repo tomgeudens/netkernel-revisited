@@ -172,27 +172,56 @@ public class RowsAccessor extends StandardAccessorImpl {
 	private void process_listentry(TypeSystem vTS, IHDSMutator vMutator, String vKey, Object vValue) {		
 		if (vValue instanceof String) {
 			String vString = (String)vValue;
-			vMutator.addNode(vKey, vString);
+			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "property");
+			vMutator.addNode("_type", "String");
+			vMutator.addNode("value", vString);
+			vMutator.popNode();
 		}
 		
 		else if (vValue instanceof Integer) {
 			Integer vInteger = (Integer)vValue;
-			vMutator.addNode(vKey, Integer.toString(vInteger));
+			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "property");
+			vMutator.addNode("_type", "Integer");
+			vMutator.addNode("value", Integer.toString(vInteger));
+			vMutator.popNode();
 		}
 		
 		else if (vValue instanceof Long) {
 			Long vLong = (Long)vValue;
-			vMutator.addNode(vKey, Long.toString(vLong));
+			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "property");
+			vMutator.addNode("_type", "Long");
+			vMutator.addNode("value", Long.toString(vLong));
+			vMutator.popNode();
 		}
 		
 		else if (vValue instanceof Float) {
 			Float vFloat = (Float)vValue;
-			vMutator.addNode(vKey, Float.toString(vFloat));
+			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "property");
+			vMutator.addNode("_type", "Float");
+			vMutator.addNode("value", Float.toString(vFloat));
+			vMutator.popNode();
 		}
 		
 		else if (vValue instanceof Number) {
 			Number vNumber = (Number)vValue;
-			vMutator.addNode(vKey, vNumber.toString());
+			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "property");
+			vMutator.addNode("_type", "Number");
+			vMutator.addNode("value", vNumber.toString());
+			vMutator.popNode();
+		}
+		
+		else if (vValue instanceof Boolean) {
+			Boolean vBoolean = (Boolean)vValue;
+			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "property");
+			vMutator.addNode("_type", "Boolean");
+			vMutator.addNode("value", vBoolean.toString());
+			vMutator.popNode();
 		}
 		
 		else if (vValue instanceof Node) {
@@ -214,6 +243,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 			vMutator.pushNode(vKey);
 			vMutator.addNode("_ontologyobject", "relationship");
 			Relationship vRelationship = (Relationship)vValue;
+			vMutator.addNode("_id", Long.toString(vRelationship.id()));
 			vMutator.addNode("_startid", Long.toString(vRelationship.startNodeId()));
 			vMutator.addNode("_endid", Long.toString(vRelationship.endNodeId()));
 			vMutator.addNode("_type", vRelationship.type());
@@ -226,6 +256,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 		
 		else if (vValue instanceof List) {
 			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "list");
 			@SuppressWarnings("rawtypes")
 			List vList = (List)vValue;
 			for (int i = 0; i < vList.size(); i++) {
@@ -236,6 +267,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 		
 		else if (vValue instanceof Map) {
 			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "map");
 			@SuppressWarnings("unchecked")
 			Map<String, Object> vMap = (Map<String, Object>)vValue;
 			Iterator<Entry<String, Object>> vIterator = vMap.entrySet().iterator();
@@ -248,6 +280,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 		
 		else if (vValue instanceof Path) {
 			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "path");
 			Path vPath = (Path)vValue;
 			
 			process_listentry(vTS, vMutator, "_startnode", vPath.start());
@@ -280,19 +313,43 @@ public class RowsAccessor extends StandardAccessorImpl {
 	
 	private void process_listentry(TypeSystem vTS, IHDSMutator vMutator, String vKey, Value vValue) {
 		if (vValue.hasType(vTS.STRING())) {
-    		vMutator.addNode(vKey, vValue.asString());
+			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "property");
+			vMutator.addNode("_type", "String");
+			vMutator.addNode("value", vValue.asString());
+			vMutator.popNode();
     	}
 		
 		else if (vValue.hasType(vTS.INTEGER())) {
-    		vMutator.addNode(vKey, Integer.toString(vValue.asInt()));
+			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "property");
+			vMutator.addNode("_type", "Integer");
+			vMutator.addNode("value", Integer.toString(vValue.asInt()));
+			vMutator.popNode();
     	}
 		
 		else if (vValue.hasType(vTS.NUMBER())) {
-    		vMutator.addNode(vKey, vValue.asNumber().toString());
+			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "property");
+			vMutator.addNode("_type", "Number");
+			vMutator.addNode("value", vValue.asNumber().toString());
+			vMutator.popNode();
     	}
 		
 		else if (vValue.hasType(vTS.FLOAT())) {
-    		vMutator.addNode(vKey, Float.toString(vValue.asFloat()));
+			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "property");
+			vMutator.addNode("_type", "Float");
+			vMutator.addNode("value", Float.toString(vValue.asFloat()));
+			vMutator.popNode();
+    	}
+		
+		else if (vValue.hasType(vTS.BOOLEAN())) {
+			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "property");
+			vMutator.addNode("_type", "Boolean");
+			vMutator.addNode("value", Boolean.toString(vValue.asBoolean()));
+			vMutator.popNode();
     	}
 
 		else if (vValue.hasType(vTS.NODE()) && vValue.hasType(vTS.MAP())){
@@ -312,6 +369,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 		else if (vValue.hasType(vTS.RELATIONSHIP()) && vValue.hasType(vTS.MAP())){
 			vMutator.pushNode(vKey);
 			vMutator.addNode("_ontologyobject", "relationship");
+			vMutator.addNode("_id", Long.toString(vValue.asRelationship().id()));
 			vMutator.addNode("_startid", Long.toString(vValue.asRelationship().startNodeId()));
 			vMutator.addNode("_endid", Long.toString(vValue.asRelationship().endNodeId()));
 			vMutator.addNode("_type", vValue.asRelationship().type());
@@ -324,6 +382,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 		
 		else if (vValue.hasType(vTS.LIST())) {
 			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "list");
 			for (int i = 0; i < vValue.asList().size(); i++) {
 				process_listentry(vTS, vMutator, vKey +  "." + i , vValue.asList().get(i));
 			}
@@ -332,6 +391,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 		
 		else if (vValue.hasType(vTS.MAP())) {
 			vMutator.pushNode(vKey);
+			vMutator.addNode("_ontologyobject", "map");
 			Iterator<Entry<String, Object>> vIterator = vValue.asMap().entrySet().iterator();
 			while (vIterator.hasNext()) {
 				Map.Entry<String, Object> vEntry = (Map.Entry<String, Object>)vIterator.next();
@@ -342,7 +402,7 @@ public class RowsAccessor extends StandardAccessorImpl {
 		
 		else if (vValue.hasType(vTS.PATH())){
 			vMutator.pushNode(vKey);
-			
+			vMutator.addNode("_ontologyobject", "path");
 			process_listentry(vTS, vMutator, "_startnode", vValue.asPath().start());
 			
 			vMutator.pushNode("nodes");

@@ -1,0 +1,5 @@
+{endpoint}jena.RDFParseTURTLE{/endpoint}
+
+The ''jRDFParseTURTLE'' accessor parses TURTLE serialized RDF.
+
+The response representation of this accessor is an [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]].

@@ -1,0 +1,5 @@
+{endpoint}jena.RDFParseN-TRIPLE{/endpoint}
+
+The <i>jRDFParseN3</i> accessor parses N3 serialized RDF.
+
+The response representation of this accessor is an [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]].

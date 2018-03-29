@@ -1,0 +1,6 @@
+{endpoint}jena.RDFSerializeN-TRIPLE{/endpoint}
+
+The <i>jRDFSerializerN-TRIPLE</i> serializes a [[doc:mod:rdf:jena:IRepJenaModel|IRepJenaModel]]
+to N-Triple format.
+
+The response is a [[doc:coremeta:rep:irbsr|IReadableBinaryStreamRepresentation]].
