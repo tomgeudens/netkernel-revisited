@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module>
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:com:ebc:neo4j:rdf:demo</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>ebc / neo4j / rdf / demo</name>
+			<description>elephant bird consulting / neo4j / resource description framework / demo</description>
+		</info>
+	</meta>
+		
+	<system>
+		<dynamic/>
+	</system>
+	
+	<rootspace
+		name="ebc neo4j rdf demo"
+		public="true"
+		uri="urn:com:ebc:neo4j:rdf:demo">
+		
+		<import>
+			<uri>urn:com:ebc:neo4j:rdf:demo:import</uri>
+			<private/>
+		</import>
+	</rootspace>
+	
+	<rootspace
+		name="ebc neo4j rdf demo import"
+		public="false"
+		uri="urn:com:ebc:neo4j:rdf:demo:import">
+
+		<import>
+			<!-- contains active:rows -->
+			<uri>urn:com:ebc:neo4j:client:rows</uri>
+			<version-min>2.0.0</version-min>
+		</import>
+
+		<import>
+			<!-- contains active:lpgtojenamodel          -->
+			<!-- active:jena2rdfxml, active:jena2turtle  -->
+			<!-- active:jena2ntriple, active:jena2jsonld -->
+			<uri>urn:com:ebc:lpg:utility</uri>
+			<version-min>1.0.0</version-min>
+		</import>
+
+	</rootspace>
+</module>

@@ -42,14 +42,17 @@ public class UpdateModelAccessor extends StandardAccessorImpl
 					if(roi.isTrue("value/@type"))
 					{	valueType=roi.getText("value/@type", true);
 					}
+
 					Resource r=m.createResource(resource);
 					Property p=m.createProperty(propertyNS, propertyName);
+					
 					if(valueType==null)
 					{	r.addProperty(p, value);
 					}
 					else if(valueType.equals("resource")) 
 					{	Resource o=m.createResource(value);
 						r.addProperty(p,o);
+
 					}
 					else
 					{	XSDDatatype type=new XSDDatatype(valueType.substring(3));

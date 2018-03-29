@@ -69,6 +69,7 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 		IRepJenaModel vResultJenaModel = (IRepJenaModel)aContext.issueRequest(emptymodelrequest);
 		
 		HashMap<String, String> vNodes = new HashMap<String, String>(); // we need to save the nodes
+		HashMap<Integer, String> vTriples = new HashMap<Integer, String>();
 		IHDSMutator vNewTriples = HDSFactory.newDocument(); // one document to hold them all
 		vNewTriples.pushNode("jRDFUpdateModel");
 				
@@ -78,6 +79,7 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 					vNode.getFirstValue("_label").toString().toLowerCase() + "/" +
 					vNode.getFirstValue("_id").toString() + "#id";
 			
+			// node type triple
 			INKFRequest freemarkernoderequest = aContext.createRequest("active:freemarker");
 			freemarkernoderequest.addArgument("operator", "res:/resources/freemarker/triple.freemarker");
 			freemarkernoderequest.addArgumentByValue("resource", vNodeResource);
@@ -90,10 +92,14 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 			freemarkernoderequest.setRepresentationClass(IHDSDocument.class);
 			
 			IHDSDocument freemarkernoderesult = (IHDSDocument)aContext.issueRequest(freemarkernoderequest);
-			vNewTriples.appendChildren(freemarkernoderesult.getReader());
 			
-			vNodes.put(vNode.getFirstValue("_id").toString(), vNodeResource);
+			if (! vTriples.containsKey(freemarkernoderesult.hashCode())) {
+				vTriples.put(freemarkernoderesult.hashCode(), "");
+				vNewTriples.appendChildren(freemarkernoderesult.getReader());
+				vNodes.put(vNode.getFirstValue("_id").toString(), vNodeResource);
+			}
 			
+			// node properties triples
 			for (IHDSReader vProperty: vNode.getNodes("*[_ontologyobject='property']")) {
 				
 				IHDSDocument propertyresult = handleProperty(vProperty.getFirstValue("name()").toString(),
@@ -104,10 +110,14 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 						"randomdomain",
 						aContext
 				);
-				
-				vNewTriples.appendChildren(propertyresult.getReader());
+
+				if (! vTriples.containsKey(propertyresult.hashCode())) {
+					vTriples.put(propertyresult.hashCode(), "");
+					vNewTriples.appendChildren(propertyresult.getReader());
+				}
 			}
 			
+			// node list properties triples
 			for (IHDSReader vList: vNode.getNodes("*[_ontologyobject='list']")) {
 				String vPropertyName = vList.getFirstValue("name()").toString();
 				for (IHDSReader vProperty: vList.getNodes("*[_ontologyobject='property']")) {
@@ -120,7 +130,10 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 							aContext
 					);
 					
-					vNewTriples.appendChildren(propertyresult.getReader());					
+					if (! vTriples.containsKey(propertyresult.hashCode())) {
+						vTriples.put(propertyresult.hashCode(), "");
+						vNewTriples.appendChildren(propertyresult.getReader());
+					}			
 				}
 			}
 		}
@@ -133,6 +146,7 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 			String vStartnodeResource = vNodes.get(vRelationship.getFirstValue("_startid").toString());
 			String vEndnodeResource = vNodes.get(vRelationship.getFirstValue("_endid").toString());;
 			
+			// relationship type triple
 			INKFRequest freemarkerrelationshiprequest = aContext.createRequest("active:freemarker");
 			freemarkerrelationshiprequest.addArgument("operator", "res:/resources/freemarker/triple.freemarker");
 			freemarkerrelationshiprequest.addArgumentByValue("resource", vRelationshipResource);
@@ -145,8 +159,12 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 			freemarkerrelationshiprequest.setRepresentationClass(IHDSDocument.class);
 			
 			IHDSDocument freemarkerrelationshipresult = (IHDSDocument)aContext.issueRequest(freemarkerrelationshiprequest);
-			vNewTriples.appendChildren(freemarkerrelationshipresult.getReader());
+			if (! vTriples.containsKey(freemarkerrelationshipresult.hashCode())) {
+				vTriples.put(freemarkerrelationshipresult.hashCode(), "");
+				vNewTriples.appendChildren(freemarkerrelationshipresult.getReader());
+			}
 			
+			// relationship link triple
 			INKFRequest freemarkerlinkrequest = aContext.createRequest("active:freemarker");
 			freemarkerlinkrequest.addArgument("operator", "res:/resources/freemarker/triple.freemarker");
 			freemarkerlinkrequest.addArgumentByValue("resource", vStartnodeResource);
@@ -157,8 +175,12 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 			freemarkerlinkrequest.setRepresentationClass(IHDSDocument.class);
 			
 			IHDSDocument freemarkerlinkresult = (IHDSDocument)aContext.issueRequest(freemarkerlinkrequest);
-			vNewTriples.appendChildren(freemarkerlinkresult.getReader());
+			if (! vTriples.containsKey(freemarkerlinkresult.hashCode())) {
+				vTriples.put(freemarkerlinkresult.hashCode(), "");
+				vNewTriples.appendChildren(freemarkerlinkresult.getReader());
+			}
 			
+			// relationship properties triples
 			for (IHDSReader vProperty: vRelationship.getNodes("*[_ontologyobject='property']")) {
 				IHDSDocument propertyresult = handleProperty(vProperty.getFirstValue("name()").toString(),
 						vProperty.getFirstValue("value").toString(),
@@ -168,10 +190,14 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 						"randomdomain",
 						aContext
 				);
-				
-				vNewTriples.appendChildren(propertyresult.getReader());
+
+				if (! vTriples.containsKey(propertyresult.hashCode())) {
+					vTriples.put(propertyresult.hashCode(), "");
+					vNewTriples.appendChildren(propertyresult.getReader());
+				}
 			}
 
+			// relationship list properties triples
 			for (IHDSReader vList: vRelationship.getNodes("*[_ontologyobject='list']")) {
 				String vPropertyName = vList.getFirstValue("name()").toString();
 				for (IHDSReader vProperty: vList.getNodes("*[_ontologyobject='property']")) {
@@ -183,8 +209,10 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 							"randomdomain",
 							aContext
 					);
-					
-					vNewTriples.appendChildren(propertyresult.getReader());					
+					if (! vTriples.containsKey(propertyresult.hashCode())) {
+						vTriples.put(propertyresult.hashCode(), "");
+						vNewTriples.appendChildren(propertyresult.getReader());
+					}									
 				}
 			}
 		}
@@ -197,6 +225,7 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 						vNode.getFirstValue("_label").toString().toLowerCase() + "/" +
 						vNode.getFirstValue("_id").toString() + "#id";
 				
+				// node type triple
 				INKFRequest freemarkernoderequest = aContext.createRequest("active:freemarker");
 				freemarkernoderequest.addArgument("operator", "res:/resources/freemarker/triple.freemarker");
 				freemarkernoderequest.addArgumentByValue("resource", vNodeResource);
@@ -209,10 +238,14 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 				freemarkernoderequest.setRepresentationClass(IHDSDocument.class);
 				
 				IHDSDocument freemarkernoderesult = (IHDSDocument)aContext.issueRequest(freemarkernoderequest);
-				vNewTriples.appendChildren(freemarkernoderesult.getReader());
 				
-				vNodes.put(vNode.getFirstValue("_id").toString(), vNodeResource);
+				if (! vTriples.containsKey(freemarkernoderesult.hashCode())) {
+					vTriples.put(freemarkernoderesult.hashCode(), "");
+					vNewTriples.appendChildren(freemarkernoderesult.getReader());
+					vNodes.put(vNode.getFirstValue("_id").toString(), vNodeResource);
+				}
 				
+				// node properties triples
 				for (IHDSReader vProperty: vNode.getNodes("*[_ontologyobject='property']")) {
 					
 					IHDSDocument propertyresult = handleProperty(vProperty.getFirstValue("name()").toString(),
@@ -223,10 +256,14 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 							"randomdomain",
 							aContext
 					);
-					
-					vNewTriples.appendChildren(propertyresult.getReader());
+
+					if (! vTriples.containsKey(propertyresult.hashCode())) {
+						vTriples.put(propertyresult.hashCode(), "");
+						vNewTriples.appendChildren(propertyresult.getReader());
+					}
 				}
 				
+				// node list properties triples
 				for (IHDSReader vList: vNode.getNodes("*[_ontologyobject='list']")) {
 					String vPropertyName = vList.getFirstValue("name()").toString();
 					for (IHDSReader vProperty: vList.getNodes("*[_ontologyobject='property']")) {
@@ -239,7 +276,10 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 								aContext
 						);
 						
-						vNewTriples.appendChildren(propertyresult.getReader());					
+						if (! vTriples.containsKey(propertyresult.hashCode())) {
+							vTriples.put(propertyresult.hashCode(), "");
+							vNewTriples.appendChildren(propertyresult.getReader());
+						}			
 					}
 				}
 			}
@@ -251,6 +291,7 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 				String vStartnodeResource = vNodes.get(vRelationship.getFirstValue("_startid").toString());
 				String vEndnodeResource = vNodes.get(vRelationship.getFirstValue("_endid").toString());;
 				
+				// relationship type triple
 				INKFRequest freemarkerrelationshiprequest = aContext.createRequest("active:freemarker");
 				freemarkerrelationshiprequest.addArgument("operator", "res:/resources/freemarker/triple.freemarker");
 				freemarkerrelationshiprequest.addArgumentByValue("resource", vRelationshipResource);
@@ -263,8 +304,12 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 				freemarkerrelationshiprequest.setRepresentationClass(IHDSDocument.class);
 				
 				IHDSDocument freemarkerrelationshipresult = (IHDSDocument)aContext.issueRequest(freemarkerrelationshiprequest);
-				vNewTriples.appendChildren(freemarkerrelationshipresult.getReader());
+				if (! vTriples.containsKey(freemarkerrelationshipresult.hashCode())) {
+					vTriples.put(freemarkerrelationshipresult.hashCode(), "");
+					vNewTriples.appendChildren(freemarkerrelationshipresult.getReader());
+				}
 				
+				// relationship link triple
 				INKFRequest freemarkerlinkrequest = aContext.createRequest("active:freemarker");
 				freemarkerlinkrequest.addArgument("operator", "res:/resources/freemarker/triple.freemarker");
 				freemarkerlinkrequest.addArgumentByValue("resource", vStartnodeResource);
@@ -275,8 +320,12 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 				freemarkerlinkrequest.setRepresentationClass(IHDSDocument.class);
 				
 				IHDSDocument freemarkerlinkresult = (IHDSDocument)aContext.issueRequest(freemarkerlinkrequest);
-				vNewTriples.appendChildren(freemarkerlinkresult.getReader());
+				if (! vTriples.containsKey(freemarkerlinkresult.hashCode())) {
+					vTriples.put(freemarkerlinkresult.hashCode(), "");
+					vNewTriples.appendChildren(freemarkerlinkresult.getReader());
+				}
 				
+				// relationship properties triples
 				for (IHDSReader vProperty: vRelationship.getNodes("*[_ontologyobject='property']")) {
 					IHDSDocument propertyresult = handleProperty(vProperty.getFirstValue("name()").toString(),
 							vProperty.getFirstValue("value").toString(),
@@ -286,10 +335,14 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 							"randomdomain",
 							aContext
 					);
-					
-					vNewTriples.appendChildren(propertyresult.getReader());
+
+					if (! vTriples.containsKey(propertyresult.hashCode())) {
+						vTriples.put(propertyresult.hashCode(), "");
+						vNewTriples.appendChildren(propertyresult.getReader());
+					}
 				}
 
+				// relationship list properties triples
 				for (IHDSReader vList: vRelationship.getNodes("*[_ontologyobject='list']")) {
 					String vPropertyName = vList.getFirstValue("name()").toString();
 					for (IHDSReader vProperty: vList.getNodes("*[_ontologyobject='property']")) {
@@ -301,10 +354,13 @@ public class LPGToJenaModelAccessor extends StandardAccessorImpl {
 								"randomdomain",
 								aContext
 						);
-						
-						vNewTriples.appendChildren(propertyresult.getReader());					
+						if (! vTriples.containsKey(propertyresult.hashCode())) {
+							vTriples.put(propertyresult.hashCode(), "");
+							vNewTriples.appendChildren(propertyresult.getReader());
+						}									
 					}
 				}
+
 			}
 		}
 		vNewTriples.popNode();

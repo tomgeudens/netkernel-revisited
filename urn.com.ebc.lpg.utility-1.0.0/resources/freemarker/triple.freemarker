@@ -4,5 +4,5 @@
 		<namespace>${namespace}</namespace>
 		<name>${name}</name>
 	</property>
-	<value type="${valuetype}">${value}</value>
+	<value type="${valuetype}">${value?xml}</value>
 </addTriple>
